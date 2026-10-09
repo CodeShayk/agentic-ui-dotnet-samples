@@ -1,0 +1,18 @@
+# Let git normalise text files, but never touch the bytes of media and other binary files:
+# the Chapter 17 tests fingerprint the sample PDF, image and audio.
+* text=auto
+*.pdf binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.wav binary
+*.mp3 binary
+*.mp4 binary
+*.ttf binary
+*.otf binary
+*.woff binary
+*.woff2 binary
+*.pb binary
+*.zip binary
