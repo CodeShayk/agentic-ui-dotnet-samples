@@ -40,14 +40,11 @@ jobs:
       - name: Install the .NET MAUI workload
         run: dotnet workload install maui-windows
 
-      - name: Restore
-        run: dotnet restore ${{ env.SOLUTION }}
-
       - name: Build
-        run: dotnet build ${{ env.SOLUTION }} --no-restore --configuration Release
+        run: dotnet build ${{ env.SOLUTION }}
 
       - name: Test
-        run: dotnet test --solution ${{ env.SOLUTION }} --no-build --configuration Release --report-xunit-trx --results-directory ${{ github.workspace }}/TestResults
+        run: dotnet test --solution ${{ env.SOLUTION }} --no-build --report-xunit-trx --results-directory ${{ github.workspace }}/TestResults
 
       - name: Upload test results
         if: always()
