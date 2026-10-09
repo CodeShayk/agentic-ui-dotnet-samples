@@ -1,9 +1,9 @@
 # Chapter 26: Beacon's test pyramid in CI.
 #
 # Three jobs, one per layer of cost:
-#   fast       every push to main, and pull requests that touch Beacon's code: unit tests, then the in-memory integration layer
+#   fast       every push to main or master, and pull requests that touch Beacon's code: unit tests, then the in-memory integration layer
 #              (recorded models, wire assertions, golden files, protocol conformance, offline evaluation)
-#   end-to-end pull requests to main and pushes to main: Playwright against the running agent and Desk
+#   end-to-end pull requests and pushes to main or master: Playwright against the running agent and Desk
 #   evaluate   weeknights and on demand: the same evaluation cases against a live model and a judge
 #
 # This file assumes the companion code is the repository root (sample-code/ in the book's repository).
@@ -14,7 +14,7 @@ name: Chapter 26 - test pyramid
 
 on:
   push:
-    branches: [main]
+    branches: [main, master]
   pull_request:
     paths:
       - "Chapter26-Testing/**"
@@ -72,7 +72,7 @@ jobs:
   end-to-end:
     name: End to end (Playwright, Microsoft Edge)
     needs: fast
-    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.base_ref == 'main')
+    if: github.event_name == 'push' || (github.event_name == 'pull_request' && (github.base_ref == 'main' || github.base_ref == 'master'))
     # Windows runners have Microsoft Edge installed, so Channel = "msedge" needs no browser download.
     runs-on: windows-latest
     timeout-minutes: 20
