@@ -1,0 +1,74 @@
+@*
+    Beacon Desk's chat, driven by the conversation's view state. While Beacon waits for an approval the
+    dialog sits under the transcript and the composer is disabled: the thread can't move on until the
+    approval is answered.
+*@
+@{
+    var view = Conversation.View;
+    var transcript = Project(view);
+    var approval = ApprovalRequest.Current(view, Refusals.Latest);
+}
+<ChatPanel @ref="_panel"
+           Messages="transcript.Messages"
+           Streaming="transcript.Streaming"
+           Status="StatusOf(view)"
+           ThreadId="@view.ThreadId"
+           RunId="@view.CurrentRun?.RunId"
+           Error="@ErrorOf(view)"
+           Disabled="@(!RendererInfo.IsInteractive || approval is not null)"
+           Placeholder="@(approval is null ? "Ask Beacon a question" : "Answer the approval request first")"
+           OnSend="SendAsync"
+           OnStop="Conversation.Stop"
+           OnNewChat="NewChat">
+    <HeaderContent>
+        @if (approval is not null)
+        {
+            <span class="bd-badge ch14-badge--waiting">Waiting for your approval</span>
+        }
+    </HeaderContent>
+    <EmptyContent>
+        <p>Ask Beacon about WO-1001, or try one of these:</p>
+        <ul class="bd-suggestions">
+            @foreach (var prompt in Suggestions)
+            {
+                <li>
+                    <button type="button"
+                            class="bd-button bd-suggestion"
+                            disabled="@(!RendererInfo.IsInteractive)"
+                            @onclick="() => SendAsync(prompt)">@prompt</button>
+                </li>
+            }
+        </ul>
+    </EmptyContent>
+    <AfterMessages>
+        @* The dialog stays while an answer is on its way: an approval is answered only once its run starts. *@
+        @if (approval is not null)
+        {
+            <ApprovalDialog @key="approval.Id" Request="approval" OnDecided="decision => DecideAsync(approval, decision)"
+                            OnNewChat="StartOverAsync" />
+        }
+    </AfterMessages>
+    <MessageTemplate Context="message">
+        @if (transcript.ToolLines.TryGetValue(message.Id, out var calls))
+        {
+            <ToolActivityLine Calls="calls" />
+        }
+        else if (message.Author == ChatAuthor.Assistant)
+        {
+            <MarkdownView Markdown="@message.Text" />
+        }
+        else
+        {
+            <p class="bd-message__text">@message.Text</p>
+        }
+    </MessageTemplate>
+</ChatPanel>
+
+@code {
+    private static readonly string[] Suggestions =
+    [
+        "Priya says the capacitor tests fine. Order a replacement compressor for WO-1001.",
+        "Order a spare run capacitor for WO-1001.",
+        "Charge Harbor View Dental $2,145.00 for the WO-1001 compressor replacement.",
+    ];
+}

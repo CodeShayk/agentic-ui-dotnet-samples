@@ -1,0 +1,47 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Chapter 19's proof: the capability reader against the specification's own fixtures; the agent's
+    document and its enforcement in both profiles; protocolVersion on RUN_STARTED and the version
+    negotiation (a newer minor, a newer major, an unreadable declaration, a missing one, an older peer);
+    unknown kept apart from unsupported in the plan; Beacon Desk's adaptive UI rendered with bUnit
+    against the real agent in each profile; and Beacon Field's composer driven with fake media capture.
+    It also hosts a declaration behind Agent Framework's MapAGUIServer (the hosting package is a PREVIEW,
+    1.23.0-preview.260928.1). No model, no browser, no device, no network.
+  -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Ch19.Tests</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="xunit.v3" />
+    <PackageReference Include="bunit" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
+    <PackageReference Include="AGUI.Client" />
+    <PackageReference Include="AGUI.Formatting" />
+    <PackageReference Include="AGUI.Server" />
+    <PackageReference Include="Microsoft.Extensions.AI" />
+    <PackageReference Include="Microsoft.Agents.AI" />
+    <PackageReference Include="Microsoft.Agents.AI.Hosting.AGUI.AspNetCore" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Beacon.AI\Beacon.AI.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.AGUI.Hosting\Beacon.AGUI.Hosting.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.Client.Core\Beacon.Client.Core.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.Testing\Beacon.Testing.csproj" />
+    <ProjectReference Include="..\Ch19.Beacon.Adaptive\Ch19.Beacon.Adaptive.csproj" />
+    <ProjectReference Include="..\Ch19.Beacon.Agent\Ch19.Beacon.Agent.csproj" />
+    <ProjectReference Include="..\Ch19.Beacon.Desk\Ch19.Beacon.Desk.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Fixtures\**\*.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <!--
+    Beacon's agent for Chapter 13: a diagnosis that shows its work. The model plans the diagnosis
+    and checks the plan off through state, drafts the service report while its tool arguments are
+    still streaming (predictive state), and the server reports its lookups as an activity message
+    and its phases as STEP_STARTED / STEP_FINISHED. Runs offline on the scripted model.
+  -->
+  <PropertyGroup>
+    <RootNamespace>Ch13.Beacon.Agent</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AGUI.Server" />
+    <PackageReference Include="Microsoft.Extensions.AI" />
+    <PackageReference Include="OpenAI" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Beacon.Domain\Beacon.Domain.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.AI\Beacon.AI.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.AGUI.Hosting\Beacon.AGUI.Hosting.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,69 @@
+@*
+    The form generated from a response schema: one control per field, in schema order. Every control has a
+    visible label, its hint and error are tied to it with aria-describedby, and errors appear once a field
+    has been visited (on blur) or a submit was attempted, then update with each change. The checks are
+    Ch15.Forms', the same ones the agent runs on the payload.
+*@
+@foreach (var field in Draft.Schema.Fields)
+{
+    var id = FieldId(field);
+    var error = ErrorFor(field);
+    var describedBy = DescribedBy(field, error);
+
+    @switch (field.Kind)
+    {
+        case FieldKind.Choice:
+            <fieldset class="ch15-field" aria-describedby="@describedBy" aria-invalid="@(error is null ? null : "true")">
+                <legend>@field.Label @Optional(field)</legend>
+                @for (var i = 0; i < field.Options.Count; i++)
+                {
+                    var option = field.Options[i];
+                    var key = RadioKey(field, i); // a copy: the loop variable would be read after the loop ends
+                    <label class="ch15-choice">
+                        <input type="radio" name="@id" value="@option" disabled="@Disabled"
+                               checked="@(Draft.Text(field.Name) == option)"
+                               @onchange="() => Choose(field, option)"
+                               @ref="_inputs[key]" />
+                        @Display(option)
+                    </label>
+                }
+                @Hint(field)
+                @Error(field, error)
+            </fieldset>
+            break;
+
+        case FieldKind.Boolean:
+            <div class="ch15-field ch15-field--check">
+                <input id="@id" type="checkbox" disabled="@Disabled"
+                       checked="@Draft.Flag(field.Name)"
+                       aria-describedby="@describedBy"
+                       @onchange="e => Draft.SetFlag(field.Name, e.Value is true)"
+                       @ref="_inputs[field.Name]" />
+                <label for="@id">@field.Label</label>
+                @Hint(field)
+            </div>
+            break;
+
+        default:
+            @* Numbers are typed as text with a decimal keyboard: type="number" hands back an empty string for
+               input it can't parse, which would turn "2,4" into "required" instead of "must be a number".
+               The value is bound, and commits on change: wired by hand to value and @oninput, a render for one
+               keystroke can overwrite the next under Interactive Server (Chapter 14). *@
+            <div class="ch15-field">
+                <label for="@id">@field.Label @Optional(field)</label>
+                <input id="@id" type="text" class="ch15-input" disabled="@Disabled"
+                       inputmode="@(field.Kind is FieldKind.Number or FieldKind.Integer ? "decimal" : null)"
+                       maxlength="@field.MaxLength" autocomplete="off" spellcheck="false"
+                       aria-required="@(field.Required ? "true" : null)"
+                       aria-invalid="@(error is null ? null : "true")"
+                       aria-describedby="@describedBy"
+                       @bind:get="Draft.Text(field.Name)"
+                       @bind:set="value => Draft.SetText(field.Name, value)"
+                       @onblur="() => Draft.Touch(field.Name)"
+                       @ref="_inputs[field.Name]" />
+                @Hint(field)
+                @Error(field, error)
+            </div>
+            break;
+    }
+}

@@ -1,0 +1,165 @@
+@implements IDisposable
+@*
+    One lane: a subagent invocation with its badge and status, the approval it waits on (if any), and a
+    collapsible activity list in which every message and tool card names who produced it. Invocations it
+    delegated to nest inside it. Each approval has a heading the chat's "Go to … approval" button can focus.
+*@
+<section class="ch18-lane ch18-lane--@Kind(Lane.Name)" aria-labelledby="@_titleId" data-subagent-run-id="@Lane.SubagentRunId">
+    <header class="ch18-lane__header">
+        <h3 id="@_titleId" class="ch18-lane__title">
+            <span class="ch18-badge ch18-badge--@Kind(Lane.Name)">@Lane.Label</span>
+        </h3>
+        <span class="ch18-status ch18-status--@Lane.Status.ToString().ToLowerInvariant()">@StatusText(Lane.Status)</span>
+    </header>
+
+    @if (Lane.Description is { Length: > 0 } description)
+    {
+        <p class="ch18-lane__description">@description</p>
+    }
+
+    @if (Lane.SpawnedBy is { } spawnedBy)
+    {
+        <p class="ch18-lane__origin">Started by the <code>@spawnedBy</code> call.</p>
+    }
+
+    @if (Lane.Status == LaneStatus.Failed)
+    {
+        <p class="ch18-lane__error">@Lane.Error</p>
+    }
+
+    @foreach (var interrupt in Lane.OpenInterrupts)
+    {
+        var messageId = $"{_titleId}-{interrupt.Id}";
+        <div @key="interrupt.Id" class="ch18-approval" role="group" aria-labelledby="@_titleId @messageId">
+            @* The chat's "Go to … approval" button lands here (ApprovalFocus); tabindex -1 makes it focusable without adding a tab stop. *@
+            <h4 class="ch18-approval__title" tabindex="-1" @ref="_headings[interrupt.Id]">Waiting for your approval</h4>
+            <p id="@messageId" class="ch18-approval__message">@interrupt.Message</p>
+            <div class="ch18-approval__actions">
+                <button type="button" class="bd-button bd-button--primary" disabled="@Busy" @onclick="() => OnApprove.InvokeAsync(interrupt)">Approve</button>
+                <button type="button" class="bd-button" disabled="@Busy" @onclick="() => OnDecline.InvokeAsync(interrupt)">Decline</button>
+            </div>
+        </div>
+    }
+
+    <details class="ch18-lane__activity" open>
+        <summary>Activity (@Lane.Entries.Count)</summary>
+        @if (Lane.Entries.Count == 0)
+        {
+            <p class="ch18-lane__quiet">Nothing reported yet.</p>
+        }
+        <ol class="ch18-entries">
+            @foreach (var entry in Lane.Entries)
+            {
+                <li @key="entry.Id" class="ch18-entry">
+                    @switch (entry)
+                    {
+                        case LaneMessage message:
+                            <span class="ch18-by">@message.Owner</span>
+                            <div class="ch18-entry__text">
+                                <MarkdownView Markdown="@message.Text" />
+                            </div>
+                            break;
+
+                        case LaneToolCall tool:
+                            <details class="ch18-tool ch18-tool--@tool.Call.Status.ToString().ToLowerInvariant()">
+                                <summary>
+                                    <span class="ch18-by">@tool.Owner</span>
+                                    <code class="ch18-tool__name">@tool.Call.Name</code>
+                                    <span class="ch18-tool__status">@ToolStatus(tool.Call)</span>
+                                </summary>
+                                <dl class="ch18-tool__details">
+                                    <dt>Arguments</dt>
+                                    <dd><code>@(tool.Call.Arguments?.GetRawText() ?? tool.Call.ArgumentsText)</code></dd>
+                                    @if (tool.Call.Result is { } result)
+                                    {
+                                        <dt>Result</dt>
+                                        <dd><code>@result</code></dd>
+                                    }
+                                </dl>
+                            </details>
+                            break;
+                    }
+                </li>
+            }
+        </ol>
+    </details>
+
+    @if (Lane.Children.Count > 0)
+    {
+        <div class="ch18-lane__children" role="group" aria-label="@($"Delegated by the {Lane.Label.ToLowerInvariant()}")">
+            @foreach (var child in Lane.Children)
+            {
+                <SpecialistLaneView @key="child.SubagentRunId" Lane="child" Busy="Busy" OnApprove="OnApprove" OnDecline="OnDecline" />
+            }
+        </div>
+    }
+</section>
+
+@code {
+    private readonly string _titleId = $"ch18-lane-{Guid.NewGuid():N}";
+    private readonly Dictionary<string, ElementReference> _headings = new(StringComparer.Ordinal);
+
+    [Inject] private ApprovalFocus Focus { get; set; } = default!;
+
+    [Parameter, EditorRequired] public SpecialistLane Lane { get; set; } = default!;
+
+    /// <summary>True while a turn runs (or before the page is interactive): the approval buttons wait.</summary>
+    [Parameter] public bool Busy { get; set; }
+
+    [Parameter] public EventCallback<InterruptView> OnApprove { get; set; }
+
+    [Parameter] public EventCallback<InterruptView> OnDecline { get; set; }
+
+    // Tell the chat which approvals this lane shows, and forget the ones that are gone.
+    protected override void OnAfterRender(bool firstRender)
+    {
+        foreach (var gone in _headings.Keys.Where(id => Lane.OpenInterrupts.All(i => i.Id != id)).ToList())
+        {
+            _headings.Remove(gone);
+            Focus.Unregister(gone);
+        }
+
+        foreach (var (interruptId, heading) in _headings)
+        {
+            Focus.Register(interruptId, heading);
+        }
+    }
+
+    public void Dispose()
+    {
+        foreach (var interruptId in _headings.Keys)
+        {
+            Focus.Unregister(interruptId);
+        }
+    }
+
+    // Each specialist keeps its color everywhere it appears; anything else gets a neutral one.
+    private static string Kind(string name) => name switch
+    {
+        "parts-specialist" => "parts",
+        "scheduling-specialist" => "scheduling",
+        "warranty-specialist" => "warranty",
+        _ => "other",
+    };
+
+    private static string StatusText(LaneStatus status) => status switch
+    {
+        LaneStatus.Running => "Working…",
+        LaneStatus.Done => "Done",
+        LaneStatus.WaitingForApproval => "Waiting for your approval",
+        LaneStatus.Resuming => "Resuming",
+        LaneStatus.Suspended => "Paused",
+        LaneStatus.Failed => "Failed",
+        _ => "Status not reported",
+    };
+
+    private static string ToolStatus(ToolCallView call) => call.Status switch
+    {
+        ToolCallStatus.Streaming or ToolCallStatus.InProgress => "running",
+        ToolCallStatus.Completed when call.Result?.Contains("\"error\"", StringComparison.Ordinal) == true => "failed",
+        ToolCallStatus.Completed => "done",
+        ToolCallStatus.AwaitingApproval => "waiting for approval",
+        ToolCallStatus.AwaitingClient => "waiting",
+        _ => "stopped",
+    };
+}

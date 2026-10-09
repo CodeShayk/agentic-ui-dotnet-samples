@@ -1,0 +1,253 @@
+{
+  "format": "beacon-model-recording/1",
+  "model": "llama3.2",
+  "turns": [
+    [
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "functionCall",
+            "name": "list_work_orders",
+            "arguments": {
+              "status": "Open"
+            },
+            "informationalOnly": false,
+            "callId": "9c05873f"
+          }
+        ],
+        "responseId": "49c51977c3734af7ae17d49db62ebe88",
+        "messageId": "49c51977c3734af7ae17d49db62ebe88",
+        "createdAt": "2026-10-03T17:07:37.0663806\u002B00:00",
+        "modelId": "llama3.2"
+      },
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": ""
+          },
+          {
+            "$type": "usage",
+            "details": {
+              "inputTokenCount": 882,
+              "outputTokenCount": 18,
+              "totalTokenCount": 900
+            }
+          }
+        ],
+        "additionalProperties": {
+          "load_duration": "00:00:00.0049468",
+          "total_duration": "00:00:01.2881432",
+          "prompt_eval_duration": "00:00:00.6997640",
+          "eval_duration": "00:00:00.5709970"
+        },
+        "responseId": "49c51977c3734af7ae17d49db62ebe88",
+        "messageId": "49c51977c3734af7ae17d49db62ebe88",
+        "createdAt": "2026-10-03T17:07:37.1249046\u002B00:00",
+        "finishReason": "stop",
+        "modelId": "llama3.2"
+      }
+    ],
+    [
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": "The"
+          }
+        ],
+        "responseId": "afbea437d9144ef2a90db1ebc3f66dea",
+        "messageId": "afbea437d9144ef2a90db1ebc3f66dea",
+        "createdAt": "2026-10-03T17:07:37.3975684\u002B00:00",
+        "modelId": "llama3.2"
+      },
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": " current"
+          }
+        ],
+        "responseId": "afbea437d9144ef2a90db1ebc3f66dea",
+        "messageId": "afbea437d9144ef2a90db1ebc3f66dea",
+        "createdAt": "2026-10-03T17:07:37.4278202\u002B00:00",
+        "modelId": "llama3.2"
+      },
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": " status"
+          }
+        ],
+        "responseId": "afbea437d9144ef2a90db1ebc3f66dea",
+        "messageId": "afbea437d9144ef2a90db1ebc3f66dea",
+        "createdAt": "2026-10-03T17:07:37.4573305\u002B00:00",
+        "modelId": "llama3.2"
+      },
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": " of"
+          }
+        ],
+        "responseId": "afbea437d9144ef2a90db1ebc3f66dea",
+        "messageId": "afbea437d9144ef2a90db1ebc3f66dea",
+        "createdAt": "2026-10-03T17:07:37.4849828\u002B00:00",
+        "modelId": "llama3.2"
+      },
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": " W"
+          }
+        ],
+        "responseId": "afbea437d9144ef2a90db1ebc3f66dea",
+        "messageId": "afbea437d9144ef2a90db1ebc3f66dea",
+        "createdAt": "2026-10-03T17:07:37.5116338\u002B00:00",
+        "modelId": "llama3.2"
+      },
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": "O"
+          }
+        ],
+        "responseId": "afbea437d9144ef2a90db1ebc3f66dea",
+        "messageId": "afbea437d9144ef2a90db1ebc3f66dea",
+        "createdAt": "2026-10-03T17:07:37.5414144\u002B00:00",
+        "modelId": "llama3.2"
+      },
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": "-"
+          }
+        ],
+        "responseId": "afbea437d9144ef2a90db1ebc3f66dea",
+        "messageId": "afbea437d9144ef2a90db1ebc3f66dea",
+        "createdAt": "2026-10-03T17:07:37.5704788\u002B00:00",
+        "modelId": "llama3.2"
+      },
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": "100"
+          }
+        ],
+        "responseId": "afbea437d9144ef2a90db1ebc3f66dea",
+        "messageId": "afbea437d9144ef2a90db1ebc3f66dea",
+        "createdAt": "2026-10-03T17:07:37.5973185\u002B00:00",
+        "modelId": "llama3.2"
+      },
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": "1"
+          }
+        ],
+        "responseId": "afbea437d9144ef2a90db1ebc3f66dea",
+        "messageId": "afbea437d9144ef2a90db1ebc3f66dea",
+        "createdAt": "2026-10-03T17:07:37.626108\u002B00:00",
+        "modelId": "llama3.2"
+      },
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": " is"
+          }
+        ],
+        "responseId": "afbea437d9144ef2a90db1ebc3f66dea",
+        "messageId": "afbea437d9144ef2a90db1ebc3f66dea",
+        "createdAt": "2026-10-03T17:07:37.6542053\u002B00:00",
+        "modelId": "llama3.2"
+      },
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": " \u0022"
+          }
+        ],
+        "responseId": "afbea437d9144ef2a90db1ebc3f66dea",
+        "messageId": "afbea437d9144ef2a90db1ebc3f66dea",
+        "createdAt": "2026-10-03T17:07:37.6843837\u002B00:00",
+        "modelId": "llama3.2"
+      },
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": "Open"
+          }
+        ],
+        "responseId": "afbea437d9144ef2a90db1ebc3f66dea",
+        "messageId": "afbea437d9144ef2a90db1ebc3f66dea",
+        "createdAt": "2026-10-03T17:07:37.7102393\u002B00:00",
+        "modelId": "llama3.2"
+      },
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": "\u0022."
+          }
+        ],
+        "responseId": "afbea437d9144ef2a90db1ebc3f66dea",
+        "messageId": "afbea437d9144ef2a90db1ebc3f66dea",
+        "createdAt": "2026-10-03T17:07:37.7373591\u002B00:00",
+        "modelId": "llama3.2"
+      },
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": ""
+          },
+          {
+            "$type": "usage",
+            "details": {
+              "inputTokenCount": 353,
+              "outputTokenCount": 14,
+              "totalTokenCount": 367
+            }
+          }
+        ],
+        "additionalProperties": {
+          "load_duration": "00:00:00.0078477",
+          "total_duration": "00:00:00.5752684",
+          "prompt_eval_duration": "00:00:00.1462430",
+          "eval_duration": "00:00:00.3661010"
+        },
+        "responseId": "afbea437d9144ef2a90db1ebc3f66dea",
+        "messageId": "afbea437d9144ef2a90db1ebc3f66dea",
+        "createdAt": "2026-10-03T17:07:37.7640438\u002B00:00",
+        "finishReason": "stop",
+        "modelId": "llama3.2"
+      }
+    ]
+  ]
+}

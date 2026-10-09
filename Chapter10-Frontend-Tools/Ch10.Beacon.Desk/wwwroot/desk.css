@@ -1,0 +1,226 @@
+/* Chapter 10 additions to Beacon Desk: the dispatch board the agent acts on, the tool-activity line and
+   the confirmation card. Colors come from Beacon.Desk.Ui's tokens, so light and dark themes both work. */
+
+.ch10-tools {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.25rem;
+    font-size: 0.9rem;
+    color: var(--bd-muted);
+}
+
+.ch10-tools__call {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.ch10-tools__name {
+    flex: none;
+    white-space: nowrap;
+    font-family: var(--bd-mono);
+    font-size: 0.8rem;
+    background: var(--bd-code-bg);
+    border-radius: 4px;
+    padding: 0 0.3rem;
+}
+
+.ch10-tools__mark {
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 50%;
+    border: 2px solid var(--bd-accent);
+    flex: none;
+}
+
+.ch10-tools__call--streaming .ch10-tools__mark,
+.ch10-tools__call--inprogress .ch10-tools__mark {
+    border-right-color: transparent;
+    animation: ch10-spin 0.9s linear infinite;
+}
+
+.ch10-tools__call--completed .ch10-tools__mark {
+    background: var(--bd-success);
+    border-color: var(--bd-success);
+}
+
+.ch10-tools__call--awaitingapproval .ch10-tools__mark,
+.ch10-tools__call--awaitingclient .ch10-tools__mark {
+    border-color: var(--bd-warning);
+}
+
+.ch10-tools__call--abandoned .ch10-tools__mark {
+    border-color: var(--bd-danger);
+    border-style: dashed;
+}
+
+@keyframes ch10-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ch10-tools__call--streaming .ch10-tools__mark,
+    .ch10-tools__call--inprogress .ch10-tools__mark {
+        animation: none;
+    }
+}
+
+.ch10-tools__where {
+    flex: none;
+    white-space: nowrap;
+    font-size: 0.75rem;
+    border: 1px solid var(--bd-border);
+    border-radius: 999px;
+    padding: 0 0.4rem;
+}
+
+.ch10-board {
+    display: grid;
+    gap: 16px;
+    padding: 16px;
+}
+
+.ch10-panel h1,
+.ch10-panel h2 {
+    margin: 0 0 8px;
+}
+
+.ch10-panel h2 {
+    font-size: 1.1rem;
+}
+
+.ch10-date,
+.ch10-note {
+    color: var(--bd-muted);
+    font-size: 0.85rem;
+    font-weight: normal;
+}
+
+.ch10-subheading {
+    font-size: 1rem;
+    margin-top: 12px;
+}
+
+.ch10-facts {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: 4px 12px;
+    margin: 0;
+}
+
+.ch10-facts dt {
+    font-weight: 600;
+}
+
+.ch10-facts dd {
+    margin: 0;
+}
+
+.ch10-checklist .ch10-done {
+    color: var(--bd-muted);
+    text-decoration: line-through;
+}
+
+.ch10-wo-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 4px;
+}
+
+.ch10-wo-list .bd-button {
+    width: 100%;
+    text-align: left;
+}
+
+.ch10-schedule {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+.ch10-schedule th,
+.ch10-schedule td {
+    text-align: left;
+    padding: 6px 4px;
+    border-top: 1px solid var(--bd-border);
+    vertical-align: top;
+}
+
+.ch10-slot {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin: 2px 6px 2px 0;
+    padding: 2px 8px;
+    border: 1px solid var(--bd-border);
+    border-radius: var(--bd-radius);
+    background: var(--bd-surface-alt);
+}
+
+.ch10-slot--free {
+    border-style: dashed;
+}
+
+.ch10-slot--highlighted {
+    border: 2px solid var(--bd-accent);
+    background: var(--bd-badge-bg);
+}
+
+.ch10-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 8px;
+}
+
+.ch10-form label {
+    display: grid;
+    gap: 4px;
+    font-size: 0.9rem;
+}
+
+.ch10-form input {
+    font: inherit;
+    padding: 6px 8px;
+    border: 1px solid var(--bd-border-strong);
+    border-radius: 6px;
+    background: var(--bd-surface);
+    color: var(--bd-text);
+}
+
+.ch10-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.ch10-confirm {
+    margin: 8px 0;
+    padding: 12px 14px;
+    border: 2px solid var(--bd-warning);
+    border-radius: var(--bd-radius);
+    background: var(--bd-surface-alt);
+}
+
+.ch10-confirm:focus {
+    outline: 3px solid var(--bd-focus);
+    outline-offset: 2px;
+}
+
+.ch10-confirm__title {
+    font-size: 1rem;
+    margin: 0 0 6px;
+}
+
+.ch10-confirm__details {
+    margin: 0;
+    padding-left: 1.25rem;
+    font-size: 0.9rem;
+}

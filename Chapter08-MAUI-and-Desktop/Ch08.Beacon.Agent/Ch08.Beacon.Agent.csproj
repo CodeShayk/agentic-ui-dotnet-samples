@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <!--
+    Beacon's agent for Chapter 8: Chapter 5's pipeline over the scripted model, the read-only tools and
+    one consequential tool (place_part_order, capped at the $500 spending limit), plus development-only
+    fault injection that drops connections before a run's first event or after a tool has run, so the
+    clients' retry rules can be watched against a real server.
+  -->
+  <PropertyGroup>
+    <RootNamespace>Ch08.Beacon.Agent</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AGUI.Server" />
+    <PackageReference Include="Microsoft.Extensions.AI" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Beacon.Domain\Beacon.Domain.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.AI\Beacon.AI.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.AGUI.Hosting\Beacon.AGUI.Hosting.csproj" />
+  </ItemGroup>
+
+</Project>

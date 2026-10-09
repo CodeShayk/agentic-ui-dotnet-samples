@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    A minimal desktop client for Beacon (Chapter 8): a WPF window bound to the same ChatViewModel
+    Beacon Field uses, over Chapter 7's conversation and this chapter's retry layer.
+  -->
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <!-- Directory.Build.props defaults TargetFramework to net11.0; WPF needs the Windows framework. -->
+    <TargetFramework>net11.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <RootNamespace>Ch08.Beacon.Wpf</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Beacon.Client.Core\Beacon.Client.Core.csproj" />
+    <ProjectReference Include="..\Ch08.Field.Core\Ch08.Field.Core.csproj" />
+  </ItemGroup>
+
+</Project>

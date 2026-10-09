@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <!--
+    Chapter 2: an AG-UI endpoint written by hand. It deliberately references no AGUI.* package:
+    the request and the six events are small records serialized with System.Text.Json, and the
+    stream is written with TypedResults.ServerSentEvents. Chapter 4 replaces it with the SDK.
+  -->
+  <PropertyGroup>
+    <RootNamespace>Ch02.HandBuilt.Agent</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Beacon.AI\Beacon.AI.csproj" />
+  </ItemGroup>
+
+</Project>

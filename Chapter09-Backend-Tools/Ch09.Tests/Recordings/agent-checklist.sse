@@ -1,0 +1,42 @@
+data: {"type":"RUN_STARTED","threadId":"t-1","runId":"r-1"}
+
+data: {"type":"TOOL_CALL_START","toolCallId":"call-0007-1","toolCallName":"set_checklist_item","parentMessageId":"msg-0007","rawEvent":{"authorName":null,"role":"assistant","contents":[],"additionalProperties":null,"responseId":"resp-0007","messageId":"msg-0007","conversationId":null,"createdAt":null,"finishReason":null,"modelId":"beacon-scripted","continuationToken":null}}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call-0007-1","delta":"{\u0022work","rawEvent":{"authorName":null,"role":"assistant","contents":[],"additionalProperties":null,"responseId":"resp-0007","messageId":"msg-0007","conversationId":null,"createdAt":null,"finishReason":null,"modelId":"beacon-scripted","continuationToken":null}}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call-0007-1","delta":"OrderI","rawEvent":{"authorName":null,"role":"assistant","contents":[],"additionalProperties":null,"responseId":"resp-0007","messageId":"msg-0007","conversationId":null,"createdAt":null,"finishReason":null,"modelId":"beacon-scripted","continuationToken":null}}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call-0007-1","delta":"d\u0022:\u0022WO","rawEvent":{"authorName":null,"role":"assistant","contents":[],"additionalProperties":null,"responseId":"resp-0007","messageId":"msg-0007","conversationId":null,"createdAt":null,"finishReason":null,"modelId":"beacon-scripted","continuationToken":null}}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call-0007-1","delta":"-1001\u0022","rawEvent":{"authorName":null,"role":"assistant","contents":[],"additionalProperties":null,"responseId":"resp-0007","messageId":"msg-0007","conversationId":null,"createdAt":null,"finishReason":null,"modelId":"beacon-scripted","continuationToken":null}}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call-0007-1","delta":",\u0022item","rawEvent":{"authorName":null,"role":"assistant","contents":[],"additionalProperties":null,"responseId":"resp-0007","messageId":"msg-0007","conversationId":null,"createdAt":null,"finishReason":null,"modelId":"beacon-scripted","continuationToken":null}}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call-0007-1","delta":"Id\u0022:\u0022C","rawEvent":{"authorName":null,"role":"assistant","contents":[],"additionalProperties":null,"responseId":"resp-0007","messageId":"msg-0007","conversationId":null,"createdAt":null,"finishReason":null,"modelId":"beacon-scripted","continuationToken":null}}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call-0007-1","delta":"3\u0022,\u0022do","rawEvent":{"authorName":null,"role":"assistant","contents":[],"additionalProperties":null,"responseId":"resp-0007","messageId":"msg-0007","conversationId":null,"createdAt":null,"finishReason":null,"modelId":"beacon-scripted","continuationToken":null}}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call-0007-1","delta":"ne\u0022:tr","rawEvent":{"authorName":null,"role":"assistant","contents":[],"additionalProperties":null,"responseId":"resp-0007","messageId":"msg-0007","conversationId":null,"createdAt":null,"finishReason":null,"modelId":"beacon-scripted","continuationToken":null}}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call-0007-1","delta":"ue}","rawEvent":{"authorName":null,"role":"assistant","contents":[],"additionalProperties":null,"responseId":"resp-0007","messageId":"msg-0007","conversationId":null,"createdAt":null,"finishReason":null,"modelId":"beacon-scripted","continuationToken":null}}
+
+data: {"type":"TOOL_CALL_END","toolCallId":"call-0007-1","rawEvent":{"authorName":null,"role":"assistant","contents":[{"$type":"functionCall","name":"set_checklist_item","arguments":{"workOrderId":"WO-1001","itemId":"C3","done":true},"informationalOnly":false,"callId":"call-0007-1","annotations":null,"additionalProperties":null}],"additionalProperties":null,"responseId":"resp-0007","messageId":"msg-0007","conversationId":null,"createdAt":null,"finishReason":null,"modelId":"beacon-scripted","continuationToken":null}}
+
+data: {"type":"TOOL_CALL_RESULT","messageId":"call-0007-1","toolCallId":"call-0007-1","content":"{\r\n  \u0022workOrderId\u0022: \u0022WO-1001\u0022,\r\n  \u0022itemId\u0022: \u0022C3\u0022,\r\n  \u0022text\u0022: \u0022Inspect run capacitor\u0022,\r\n  \u0022done\u0022: true,\r\n  \u0022changed\u0022: true,\r\n  \u0022doneCount\u0022: 1,\r\n  \u0022itemCount\u0022: 4\r\n}","rawEvent":{"authorName":null,"role":"tool","contents":[{"$type":"functionResult","result":{"workOrderId":"WO-1001","itemId":"C3","text":"Inspect run capacitor","done":true,"changed":true,"doneCount":1,"itemCount":4},"callId":"call-0007-1","annotations":null,"additionalProperties":null}],"additionalProperties":null,"responseId":"3ad933f2bb0a4f349975d1e002fd4c7d","messageId":"3ad933f2bb0a4f349975d1e002fd4c7d","conversationId":null,"createdAt":"2026-10-03T03:12:53.2019878\u002B00:00","finishReason":null,"modelId":null,"continuationToken":null}}
+
+data: {"type":"TEXT_MESSAGE_START","messageId":"msg-0008","role":"assistant","rawEvent":{"authorName":null,"role":"assistant","contents":[{"$type":"text","text":"Marked C3 (Inspect ","annotations":null,"additionalProperties":null}],"additionalProperties":null,"responseId":"resp-0008","messageId":"msg-0008","conversationId":null,"createdAt":null,"finishReason":null,"modelId":"beacon-scripted","continuationToken":null}}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-0008","delta":"Marked C3 (Inspect ","rawEvent":{"authorName":null,"role":"assistant","contents":[{"$type":"text","text":"Marked C3 (Inspect ","annotations":null,"additionalProperties":null}],"additionalProperties":null,"responseId":"resp-0008","messageId":"msg-0008","conversationId":null,"createdAt":null,"finishReason":null,"modelId":"beacon-scripted","continuationToken":null}}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-0008","delta":"run capacitor) done ","rawEvent":{"authorName":null,"role":"assistant","contents":[{"$type":"text","text":"run capacitor) done ","annotations":null,"additionalProperties":null}],"additionalProperties":null,"responseId":"resp-0008","messageId":"msg-0008","conversationId":null,"createdAt":null,"finishReason":null,"modelId":"beacon-scripted","continuationToken":null}}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-0008","delta":"on WO-1001. 1 ","rawEvent":{"authorName":null,"role":"assistant","contents":[{"$type":"text","text":"on WO-1001. 1 ","annotations":null,"additionalProperties":null}],"additionalProperties":null,"responseId":"resp-0008","messageId":"msg-0008","conversationId":null,"createdAt":null,"finishReason":null,"modelId":"beacon-scripted","continuationToken":null}}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-0008","delta":"of 4 items ","rawEvent":{"authorName":null,"role":"assistant","contents":[{"$type":"text","text":"of 4 items ","annotations":null,"additionalProperties":null}],"additionalProperties":null,"responseId":"resp-0008","messageId":"msg-0008","conversationId":null,"createdAt":null,"finishReason":null,"modelId":"beacon-scripted","continuationToken":null}}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-0008","delta":"are done.","rawEvent":{"authorName":null,"role":"assistant","contents":[{"$type":"text","text":"are done.","annotations":null,"additionalProperties":null}],"additionalProperties":null,"responseId":"resp-0008","messageId":"msg-0008","conversationId":null,"createdAt":null,"finishReason":null,"modelId":"beacon-scripted","continuationToken":null}}
+
+data: {"type":"TEXT_MESSAGE_END","messageId":"msg-0008"}
+
+data: {"type":"RUN_FINISHED","threadId":"t-1","runId":"r-1","outcome":{"type":"success"}}
+

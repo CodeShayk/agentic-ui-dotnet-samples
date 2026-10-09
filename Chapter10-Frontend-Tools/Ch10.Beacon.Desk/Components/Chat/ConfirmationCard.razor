@@ -1,0 +1,45 @@
+@*
+    Beacon asks before it changes something Dana is working on. The card takes focus when it appears, so a
+    screen reader reads the question and its exact values before any answer is one keystroke away; Tab
+    reaches the two buttons, Enter or Space presses the focused one and Escape declines. Nothing happens
+    until she answers; if she doesn't, the tool gives up.
+*@
+<section class="ch10-confirm" role="alertdialog" aria-modal="false"
+         aria-labelledby="@($"{Request.Id}-title")" aria-describedby="@($"{Request.Id}-details")"
+         tabindex="-1" @ref="_card" @onkeydown="OnKeyDown">
+    <h2 class="ch10-confirm__title" id="@($"{Request.Id}-title")">@Request.Title</h2>
+    <ul class="ch10-confirm__details" id="@($"{Request.Id}-details")">
+        @foreach (var line in Request.Details)
+        {
+            <li>@line</li>
+        }
+    </ul>
+    <div class="ch10-actions">
+        <button type="button" class="bd-button bd-button--primary" @onclick="() => OnAnswer.InvokeAsync(true)">@Request.ConfirmLabel</button>
+        <button type="button" class="bd-button" @onclick="() => OnAnswer.InvokeAsync(false)">@Request.DeclineLabel</button>
+    </div>
+</section>
+
+@code {
+    private ElementReference _card;
+    private string? _focusedFor;
+
+    [Parameter, EditorRequired] public ConfirmationRequest Request { get; set; } = default!;
+
+    /// <summary>True to let Beacon go ahead, false to decline.</summary>
+    [Parameter] public EventCallback<bool> OnAnswer { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        // Focus each new request once; re-renders while it waits mustn't pull focus back.
+        if (_focusedFor != Request.Id)
+        {
+            _focusedFor = Request.Id;
+            await _card.FocusAsync();
+        }
+    }
+
+    // Escape bubbles up from either button too. Enter and Space are left to the buttons, so the card itself
+    // never answers for Dana: a keystroke answers only through the button it lands on.
+    private Task OnKeyDown(KeyboardEventArgs e) => e.Key == "Escape" ? OnAnswer.InvokeAsync(false) : Task.CompletedTask;
+}

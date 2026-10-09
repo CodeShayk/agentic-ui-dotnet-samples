@@ -1,0 +1,1 @@
+{"threadId": "t-19", "runId": "r-photo", "protocolVersion": "1.0", "messages": [{"id": "u-1", "role": "user", "content": [{"type": "text", "text": "Nameplate for WO-1001."}, {"type": "image", "source": {"type": "data", "value": "iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAIAAACQkWg2AAAAFUlEQVR4nGNgqLhCGhrVMKph+GoAAKzFTBBwoh/QAAAAAElFTkSuQmCC", "mimeType": "image/png"}}]}]}

@@ -1,0 +1,47 @@
+@*
+    Reads reasoning aloud for screen-reader users who asked for it. A step is announced once, when it
+    finishes, and only if its reply's panel is open at that moment; reasoning in a collapsed panel is never
+    read out. The transcript's own live region announces the answer alone (see ReplyTranscript).
+    The region sits outside the streaming message, which is aria-busy while it streams.
+*@
+<div class="bd-visually-hidden" aria-live="polite" aria-atomic="true" data-ch16-reasoning-announcer>
+    <span @key="_announcementKey">@_announcement</span>
+</div>
+
+@code {
+    private readonly HashSet<string> _finished = new(StringComparer.Ordinal);
+    private bool _initialized;
+    private string _announcement = string.Empty;
+    private int _announcementKey;
+
+    /// <summary>Every reply in the transcript.</summary>
+    [Parameter, EditorRequired] public IEnumerable<Reply> Replies { get; set; } = [];
+
+    /// <summary>The replies whose panels are open.</summary>
+    [Parameter, EditorRequired] public IReadOnlySet<string> Expanded { get; set; } = new HashSet<string>();
+
+    protected override void OnParametersSet()
+    {
+        List<string> fresh = [];
+        foreach (var reply in Replies)
+        {
+            foreach (var step in reply.Steps)
+            {
+                // Every finished step is remembered, open or not, so expanding later doesn't replay old ones.
+                if (step is { Kind: ReplyStepKind.Thought, InProgress: false, Text.Length: > 0 }
+                    && _finished.Add(step.Id) && _initialized && Expanded.Contains(reply.Id))
+                {
+                    fresh.Add(SafeMarkdown.ToPlainText(step.Text));
+                }
+            }
+        }
+
+        if (fresh.Count > 0)
+        {
+            _announcement = "How I got here: " + string.Join(" ", fresh);
+            _announcementKey++;
+        }
+
+        _initialized = true;
+    }
+}

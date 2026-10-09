@@ -1,0 +1,51 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Beacon Field for Chapter 11: the generated components in .NET MAUI. The same projector and view
+    models as Beacon Desk (Ch11.Beacon.ComponentViews), with a DataTemplateSelector choosing a native
+    template per component and GraphicsView drawing the timeline and the chart. Windows by default; set
+    BeaconMobileTargets=true (with the android and ios workloads installed) to add the phone targets.
+  -->
+  <PropertyGroup>
+    <TargetFramework>net11.0-windows10.0.19041.0</TargetFramework>
+    <TargetFrameworks Condition="'$(BeaconMobileTargets)' == 'true'">net11.0-android;net11.0-ios;net11.0-windows10.0.19041.0</TargetFrameworks>
+    <TargetFramework Condition="'$(BeaconMobileTargets)' == 'true'"></TargetFramework>
+
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Ch11.Beacon.Field</RootNamespace>
+    <UseMaui>true</UseMaui>
+    <SingleProject>true</SingleProject>
+
+    <ApplicationTitle>Beacon Field</ApplicationTitle>
+    <ApplicationId>com.contosoclimate.beaconfield.ch11</ApplicationId>
+    <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+    <ApplicationVersion>1</ApplicationVersion>
+
+    <!-- Unpackaged on Windows, so the app runs straight from the build output. -->
+    <WindowsPackageType>None</WindowsPackageType>
+
+    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">15.0</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">24.0</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
+    <TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#0078D4" />
+    <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#0078D4" BaseSize="128,128" />
+    <MauiFont Include="Resources\Fonts\*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Maui.Controls" />
+    <PackageReference Include="AGUI.Client" />
+    <PackageReference Include="Microsoft.Extensions.AI" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Beacon.Client.Core\Beacon.Client.Core.csproj" />
+    <ProjectReference Include="..\Ch11.Beacon.Components\Ch11.Beacon.Components.csproj" />
+    <ProjectReference Include="..\Ch11.Beacon.ComponentViews\Ch11.Beacon.ComponentViews.csproj" />
+  </ItemGroup>
+
+</Project>

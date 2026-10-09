@@ -1,0 +1,78 @@
+@*
+    Beacon Desk's chat, driven by the conversation's view state. Everything it shows is projected
+    from one immutable ConversationView, read once per render.
+*@
+@{
+    var view = Conversation.View;
+    var transcript = Project(view);
+}
+<ChatPanel @ref="_panel"
+           Messages="transcript.Messages"
+           Streaming="transcript.Streaming"
+           Status="StatusOf(view)"
+           ThreadId="@view.ThreadId"
+           RunId="@view.CurrentRun?.RunId"
+           Error="@ErrorOf(view)"
+           Disabled="!RendererInfo.IsInteractive"
+           OnSend="SendAsync"
+           OnStop="Conversation.Stop"
+           OnNewChat="NewChat">
+    <HeaderContent>
+        @if (view.LastReconciliation is { } reconciled)
+        {
+            <span class="bd-badge" title="What the agent's last MESSAGES_SNAPSHOT changed">
+                Reconciled: @reconciled.Changed changed, @reconciled.Added added, @reconciled.Dropped dropped
+            </span>
+        }
+    </HeaderContent>
+    <EmptyContent>
+        <p>Ask Beacon about a work order, a part or today's schedule. For example:</p>
+        <ul class="bd-suggestions">
+            @foreach (var prompt in Suggestions)
+            {
+                <li>
+                    <button type="button"
+                            class="bd-button bd-suggestion"
+                            disabled="@(!RendererInfo.IsInteractive)"
+                            @onclick="() => SendAsync(prompt)">@prompt</button>
+                </li>
+            }
+        </ul>
+    </EmptyContent>
+    <AfterMessages>
+        @* The activity line is visual; this says the same thing to a screen reader, once per call. *@
+        <p class="bd-visually-hidden" role="status">@ToolLine.Announcement(view)</p>
+        @if (view.OpenInterrupts.FirstOrDefault() is { } waiting)
+        {
+            <p class="ch07-waiting" role="status">
+                Beacon is waiting for a decision this Desk can't make yet: @waiting.Message
+                Start a new chat to carry on.
+            </p>
+        }
+    </AfterMessages>
+    <MessageTemplate Context="message">
+        @if (message.Id.StartsWith(DeskTranscript.ToolLinePrefix, StringComparison.Ordinal)
+             && view.FindMessage(message.Id[DeskTranscript.ToolLinePrefix.Length..]) is AssistantMessageView caller)
+        {
+            <ToolActivityLine Calls="[.. view.ToolCallsOf(caller)]" />
+        }
+        else if (message.Author == ChatAuthor.Assistant)
+        {
+            <MarkdownView Markdown="@message.Text" />
+        }
+        else
+        {
+            <p class="bd-message__text">@message.Text</p>
+        }
+    </MessageTemplate>
+</ChatPanel>
+
+@code {
+    private static readonly string[] Suggestions =
+    [
+        "What's the status of WO-1001?",
+        "Is EQ-501 under warranty?",
+        "Why is WO-1001 short-cycling?",
+        "Show today's schedule",
+    ];
+}

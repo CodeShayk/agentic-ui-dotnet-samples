@@ -1,0 +1,53 @@
+/* Chapter 26's additions to beacon-desk.css: the work-order card's facts and the approval prompt. */
+
+.ch26-facts {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.25rem 1rem;
+  margin: 0.75rem 0 0;
+}
+
+.ch26-facts > div {
+  display: contents;
+}
+
+.ch26-facts dt {
+  color: var(--bd-muted);
+}
+
+.ch26-facts dd {
+  margin: 0;
+}
+
+.ch26-workorder__summary {
+  margin: 0.25rem 0 0;
+}
+
+.ch26-approval {
+  margin: 0.75rem 0;
+  padding: 0.75rem 1rem;
+  border: 2px solid var(--bd-warning);
+  border-radius: var(--bd-radius);
+  background: var(--bd-surface);
+}
+
+.ch26-approval__title {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.ch26-approval__title:focus-visible {
+  outline: 2px solid var(--bd-focus);
+  outline-offset: 2px;
+}
+
+.ch26-approval__message {
+  margin: 0.25rem 0 0;
+  color: var(--bd-muted);
+}
+
+.ch26-approval__actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}

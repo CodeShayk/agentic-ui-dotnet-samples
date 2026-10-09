@@ -1,0 +1,24 @@
+@*
+    The agent's visible reasoning, oldest first. Rendered as plain text: it is model output.
+*@
+<section class="bd-card ch19-reasoning" aria-labelledby="ch19-reasoning-title" data-testid="reasoning-panel">
+    <h2 id="ch19-reasoning-title" class="ch19-panel__title">@(Decision.Label ?? "Reasoning")</h2>
+    @if (Decision.Note is { } note)
+    {
+        <p class="ch19-muted">@note</p>
+    }
+    @if (Messages.Count == 0 && Decision.Note is null)
+    {
+        <p class="ch19-muted">Ask Beacon to diagnose a fault and its reasoning appears here.</p>
+    }
+    @foreach (var message in Messages)
+    {
+        <p class="ch19-reasoning__text">@message.Text</p>
+    }
+</section>
+
+@code {
+    [Parameter, EditorRequired] public FeatureDecision Decision { get; set; } = default!;
+
+    [Parameter] public IReadOnlyList<ReasoningMessageView> Messages { get; set; } = [];
+}

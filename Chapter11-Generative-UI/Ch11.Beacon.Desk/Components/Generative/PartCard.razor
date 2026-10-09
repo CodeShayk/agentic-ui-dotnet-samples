@@ -1,0 +1,66 @@
+@inherits GeneratedComponentBase<PartCardView>
+@*
+    One stocked part. While the props stream it fills in field by field, with placeholders for what
+    hasn't arrived; its buttons appear only once the server has accepted the props and granted them.
+*@
+<article class="ch11-card ch11-part@(IsDraft ? " ch11-draft" : null)" aria-label="@($"Part {View.Sku}")">
+    <header class="ch11-card__header">
+        <span class="ch11-part__sku">@(View.Sku ?? "…")</span>
+        @if (View.WorkOrderId is { } workOrderId)
+        {
+            <span class="bd-badge">@workOrderId</span>
+        }
+        <DraftBadge Phase="Component.Phase" />
+    </header>
+
+    <h3 class="ch11-part__name">
+        @if (View.Name is null)
+        {
+            <span class="ch11-skeleton ch11-skeleton--wide" aria-hidden="true"></span>
+        }
+        else
+        {
+            @View.Name
+        }
+    </h3>
+
+    <p class="ch11-part__price">
+        @if (View.Price is null)
+        {
+            <span class="ch11-skeleton" aria-hidden="true"></span>
+        }
+        else
+        {
+            @View.Price <span class="ch11-part__unit">each</span>
+        }
+    </p>
+
+    @if (View.Stock is not null)
+    {
+        <p class="ch11-part__stock@(View.IsOutOfStock ? " ch11-part__stock--out" : null)">@View.Stock</p>
+    }
+
+    @if (View.Note is not null)
+    {
+        <p class="ch11-part__note">@View.Note</p>
+    }
+
+    @if (Component.Corrections.Count > 0)
+    {
+        <p class="ch11-card__corrected">Details are from Beacon's records; the agent's version differed.</p>
+    }
+
+    @if (Actions.Count > 0)
+    {
+        <div class="ch11-actions">
+            @foreach (var action in Actions)
+            {
+                <button type="button" class="bd-button bd-button--primary" disabled="@(!action.Enabled)" @onclick="() => RequestAsync(action)">@action.Label</button>
+                @if (!action.Enabled && action.Reason is not null)
+                {
+                    <span class="ch11-actions__reason">@action.Reason</span>
+                }
+            }
+        </div>
+    }
+</article>

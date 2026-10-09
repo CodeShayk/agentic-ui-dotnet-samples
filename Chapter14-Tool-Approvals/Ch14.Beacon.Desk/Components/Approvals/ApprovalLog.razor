@@ -1,0 +1,61 @@
+@*
+    The session's spending approvals, from the conversation's Interrupts slice: what Beacon asked, whether
+    it is still waiting and what happened to the call. The agent's audit is the record; this is Dana's view.
+*@
+@implements IDisposable
+@inject AgentConversation Conversation
+@inject DeskClient Client
+
+<div class="bd-card ch14-log">
+    <h1>Spending approvals</h1>
+    <p class="bd-card__meta">
+        Orders and charges over $500 wait for your decision. This Desk signs its answers as <code>@Client.Id</code>.
+    </p>
+
+    @{
+        var view = Conversation.View;
+        var approvals = view.Interrupts.Where(i => i.Kind == InterruptKind.ToolApproval).Reverse().ToList();
+    }
+    @if (approvals.Count == 0)
+    {
+        <p class="ch14-log__empty">No approvals in this conversation yet.</p>
+    }
+    else
+    {
+        <ol class="ch14-log__list">
+            @foreach (var interrupt in approvals)
+            {
+                var call = interrupt.ToolCallId is { } id ? view.FindToolCall(id) : null;
+                var state = !interrupt.IsAnswered ? "waiting" : call is not null && ToolLine.Outcome(call) is { } outcome ? outcome : "answered";
+                <li class="ch14-log__item">
+                    <span class="ch14-log__state ch14-log__state--@StateClass(interrupt, call)">@state</span>
+                    <span>@interrupt.Message</span>
+                </li>
+            }
+        </ol>
+    }
+</div>
+
+@code {
+    private RenderThrottle _throttle = default!;
+
+    protected override void OnInitialized()
+    {
+        _throttle = new RenderThrottle(() => InvokeAsync(StateHasChanged), TimeSpan.FromMilliseconds(100));
+        Conversation.Changed += OnChanged;
+    }
+
+    private void OnChanged(object? sender, ConversationChangedEventArgs e) => _ = _throttle.RequestAsync();
+
+    private static string StateClass(InterruptView interrupt, ToolCallView? call) =>
+        !interrupt.IsAnswered ? "waiting"
+        : call is not null && ToolLine.Outcome(call) is { } outcome
+            ? outcome.StartsWith("placed", StringComparison.Ordinal) || outcome.StartsWith("charged", StringComparison.Ordinal) ? "done" : "stopped"
+            : "answered";
+
+    public void Dispose()
+    {
+        Conversation.Changed -= OnChanged;
+        _throttle.Dispose();
+    }
+}

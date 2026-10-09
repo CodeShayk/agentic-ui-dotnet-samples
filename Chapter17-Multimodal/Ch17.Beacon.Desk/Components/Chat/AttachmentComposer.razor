@@ -1,0 +1,75 @@
+@*
+    Where Dana writes and attaches. The file input is the browser's own, under a visible label, so it
+    works with a keyboard and a screen reader without script. Each attachment shows a preview (photos),
+    its size against its limit and a Remove button that names the file. Problems are an alert; a file
+    that arrives safely is announced politely.
+*@
+<form class="bd-composer ch17-composer" @onsubmit="SubmitAsync">
+    <div class="ch17-attach">
+        <label class="ch17-attach__label" for="@_fileId">Attach photos, recordings or PDFs</label>
+        <InputFile id="@_fileId"
+                   class="ch17-attach__input"
+                   multiple
+                   accept="@Policy.AcceptList"
+                   disabled="@(Disabled || Busy || _reading)"
+                   aria-describedby="@_limitsId"
+                   OnChange="OnFilesChosenAsync" />
+        <p id="@_limitsId" class="ch17-attach__limits">
+            @Policy.Describe(); up to @Policy.MaxPartsPerMessage per message.
+        </p>
+    </div>
+
+    @if (_pending.Count > 0)
+    {
+        <ul class="ch17-pending" aria-label="Attachments to send">
+            @foreach (var item in _pending)
+            {
+                <li @key="item.Id" class="ch17-pending__item">
+                    @if (item.PreviewUrl is not null)
+                    {
+                        <img class="ch17-pending__thumb" src="@item.PreviewUrl" alt="Preview of @item.Name" />
+                    }
+                    else
+                    {
+                        <span class="ch17-pending__kind" aria-hidden="true">@item.Rule.Kind</span>
+                    }
+                    <span class="ch17-pending__name">@item.Name</span>
+                    <span class="ch17-pending__size">@ByteSize.Format(item.Size) of @ByteSize.Format(item.Rule.MaxBytes)</span>
+                    <button type="button" class="bd-button bd-button--quiet" aria-label="Remove @item.Name" @onclick="() => Remove(item)">Remove</button>
+                </li>
+            }
+        </ul>
+    }
+
+    <p class="ch17-budget">
+        This message: @ByteSize.Format(PendingBytes). Conversation: @ByteSize.Format(ConversationBytes + PendingBytes)
+        of @ByteSize.Format(Policy.MaxBytesPerRequest).
+    </p>
+
+    @if (_problems.Count > 0)
+    {
+        <ul class="ch17-problems" role="alert">
+            @foreach (var problem in _problems)
+            {
+                <li>@problem</li>
+            }
+        </ul>
+    }
+
+    <label class="bd-visually-hidden" for="@_inputId">Message Beacon</label>
+    <input id="@_inputId"
+           @ref="_input"
+           class="bd-composer__input"
+           type="text"
+           autocomplete="off"
+           placeholder="Ask Beacon, or send attachments on their own"
+           maxlength="2000"
+           disabled="@Disabled"
+           @bind="_draft"
+           @bind:event="oninput" />
+    <div class="bd-composer__actions">
+        <button type="submit" class="bd-button bd-button--primary" disabled="@(Disabled || Busy || _reading)">Send</button>
+        <StopButton IsStreaming="Busy" OnStop="OnStop" />
+    </div>
+    <p class="bd-visually-hidden" aria-live="polite" aria-atomic="true">@_announcement</p>
+</form>

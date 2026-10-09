@@ -1,0 +1,93 @@
+@*
+    Beacon Desk's chat, driven by the conversation's view. Answers carry a Regenerate button and, once regenerated,
+    "Version n of m" links that open the other branch. An open question from the agent shows its form below the
+    transcript, whether it arrived live or came back with a restored conversation.
+*@
+@{
+    var view = Conversation.View;
+    var transcript = Project(view);
+}
+<ChatPanel @ref="_panel"
+           Messages="transcript.Messages"
+           Streaming="transcript.Streaming"
+           Status="StatusOf(view)"
+           ThreadId="@view.ThreadId"
+           RunId="@view.CurrentRun?.RunId"
+           Error="@(_error ?? ErrorOf(view))"
+           Disabled="@(!RendererInfo.IsInteractive || view.OpenInterrupts.Any())"
+           Placeholder="@(view.OpenInterrupts.Any() ? "Answer Beacon's question first" : "Ask Beacon a question")"
+           OnSend="SendAsync"
+           OnStop="Conversation.Stop"
+           OnNewChat="NewChat">
+    <EmptyContent>
+        <p>Open a conversation from the list, or start one:</p>
+        <ul class="bd-suggestions">
+            @foreach (var prompt in Suggestions)
+            {
+                <li>
+                    <button type="button"
+                            class="bd-button bd-suggestion"
+                            disabled="@(!RendererInfo.IsInteractive)"
+                            @onclick="() => SendAsync(prompt)">@prompt</button>
+                </li>
+            }
+        </ul>
+    </EmptyContent>
+    <MessageTemplate Context="message">
+        @if (transcript.Tools.TryGetValue(message.Id, out var calls))
+        {
+            <ul class="ch22-tools" aria-label="What Beacon looked up">
+                @foreach (var call in calls)
+                {
+                    <li class="@(call.Done ? "ch22-tools__done" : "ch22-tools__running")">@call.Text</li>
+                }
+            </ul>
+        }
+        @if (message.Author == ChatAuthor.Assistant)
+        {
+            @if (message.Text.Length > 0)
+            {
+                <MarkdownView Markdown="@message.Text" />
+            }
+            var versions = Sessions.VersionsOf(message.Id, view);
+            var canRegenerate = Sessions.CanRegenerate(message.Id, view);
+            @if (versions is not null || canRegenerate)
+            {
+                <div class="ch22-answer-actions">
+                    @if (versions is not null)
+                    {
+                        <nav class="ch22-versions" aria-label="Versions of this answer">
+                            <button type="button" class="bd-button bd-button--quiet" disabled="@(versions.Previous is null || view.IsBusy)"
+                                    aria-label="Previous version" @onclick="() => OpenBranchAsync(versions.Previous)">‹</button>
+                            <span>Version @versions.Number of @versions.Count</span>
+                            <button type="button" class="bd-button bd-button--quiet" disabled="@(versions.Next is null || view.IsBusy)"
+                                    aria-label="Next version" @onclick="() => OpenBranchAsync(versions.Next)">›</button>
+                        </nav>
+                    }
+                    @if (canRegenerate)
+                    {
+                        <button type="button" class="bd-button bd-button--quiet ch22-regenerate" @onclick="() => RegenerateAsync(message.Id)">Regenerate</button>
+                    }
+                </div>
+            }
+        }
+        else
+        {
+            <p class="bd-message__text">@message.Text</p>
+        }
+    </MessageTemplate>
+    <AfterMessages>
+        @foreach (var question in view.OpenInterrupts)
+        {
+            <ReadingsForm @key="question.Id" Interrupt="question" OnAnswer="AnswerAsync" OnAbandon="AbandonAsync" />
+        }
+    </AfterMessages>
+</ChatPanel>
+
+@code {
+    private static readonly string[] Suggestions =
+    [
+        "WO-1005 tripped on C33 again. What should Elena check before we condemn the compressor?",
+        "What is the status of WO-1005?",
+    ];
+}

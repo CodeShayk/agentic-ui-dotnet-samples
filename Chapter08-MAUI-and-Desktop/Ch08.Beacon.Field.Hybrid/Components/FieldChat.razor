@@ -1,0 +1,62 @@
+@implements IDisposable
+@inject FieldClient Field
+
+@* Beacon Desk's chat panel, unchanged, inside a native window. *@
+<ChatPanel Title="Beacon Field" Messages="_messages" Streaming="_streaming" Status="StatusOf(Field.Conversation.View)"
+           Error="@Field.Conversation.View.Failure?.Message" OnSend="SendAsync" OnStop="Field.Conversation.Stop" OnNewChat="NewChat" />
+
+@code {
+    private IReadOnlyList<TranscriptMessage> _messages = [];
+    private TranscriptMessage? _streaming;
+
+    protected override void OnInitialized()
+    {
+        Field.Conversation.Changed += OnChanged;
+        Project(Field.Conversation.View);
+    }
+
+    // The same marshaling as the Desk: InvokeAsync puts the render on the BlazorWebView's dispatcher.
+    private void OnChanged(object? sender, ConversationChangedEventArgs e) =>
+        _ = InvokeAsync(() =>
+        {
+            Project(Field.Conversation.View);
+            StateHasChanged();
+        });
+
+    private Task SendAsync(string text) => Field.Conversation.SendAsync(text);
+
+    private void NewChat() => Field.Conversation.Reset();
+
+    private void Project(ConversationView view)
+    {
+        List<TranscriptMessage> messages = [];
+        TranscriptMessage? streaming = null;
+        foreach (var message in view.Messages)
+        {
+            switch (message)
+            {
+                case UserMessageView user:
+                    messages.Add(new TranscriptMessage(user.Id, ChatAuthor.User, user.Text));
+                    break;
+                case AssistantMessageView { Text.Length: > 0, IsStreaming: true } assistant:
+                    streaming = new TranscriptMessage(assistant.Id, ChatAuthor.Assistant, assistant.Text);
+                    break;
+                case AssistantMessageView { Text.Length: > 0 } assistant:
+                    messages.Add(new TranscriptMessage(assistant.Id, ChatAuthor.Assistant, assistant.Text) { IsPartial = assistant.IsPartial });
+                    break;
+            }
+        }
+
+        (_messages, _streaming) = (messages, streaming);
+    }
+
+    private static ChatStatus StatusOf(ConversationView view) => view.Status switch
+    {
+        ConversationStatus.Starting or ConversationStatus.Running => ChatStatus.Streaming,
+        ConversationStatus.Stopped => ChatStatus.Stopped,
+        ConversationStatus.Failed => ChatStatus.Error,
+        _ => ChatStatus.Idle,
+    };
+
+    public void Dispose() => Field.Conversation.Changed -= OnChanged;
+}

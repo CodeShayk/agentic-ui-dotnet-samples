@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Chapter 6's proof: bUnit tests of the Desk's chat against recorded AG-UI streams, the safe
+       Markdown renderer, the agent's CORS policy and how a timeout reaches the chat. No model and no browser.
+       Browser/ holds the book's browser proof: the running agent and Desk, driven with Playwright for .NET
+       in the installed Microsoft Edge, headless. It is skipped unless RUN_E2E_TESTS=true, and it runs the
+       apps with dotnet run without building them, so build Ch06.Beacon.Agent and Ch06.Beacon.Desk first. -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Ch06.Tests</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="xunit.v3" />
+    <PackageReference Include="bunit" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
+    <PackageReference Include="AGUI.Client" />
+    <PackageReference Include="AGUI.Formatting" />
+    <PackageReference Include="Microsoft.Playwright" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Beacon.Desk.Ui\Beacon.Desk.Ui.csproj" />
+    <ProjectReference Include="..\Ch06.Beacon.Desk.Client\Ch06.Beacon.Desk.Client.csproj" />
+    <ProjectReference Include="..\Ch06.Beacon.Agent\Ch06.Beacon.Agent.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Recordings\*.sse" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>

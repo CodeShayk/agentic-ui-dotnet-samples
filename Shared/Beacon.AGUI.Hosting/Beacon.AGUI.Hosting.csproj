@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    The ASP.NET Core glue that hosts any IChatClient as an AG-UI endpoint, built on AGUI.Server.
+    No NuGet package ships this layer, so the book owns it (Chapter 4).
+    Adapted from the AG-UI .NET SDK samples (sdks/dotnet/samples/AGUI.Samples.Shared),
+    Copyright (c) 2025 AG-UI Protocol contributors, MIT License.
+  -->
+  <PropertyGroup>
+    <RootNamespace>Beacon.AGUI.Hosting</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AGUI.Abstractions" />
+    <PackageReference Include="AGUI.Formatting" />
+    <PackageReference Include="AGUI.Protobuf" />
+    <PackageReference Include="AGUI.Server" />
+    <PackageReference Include="Microsoft.Extensions.AI" />
+  </ItemGroup>
+
+</Project>

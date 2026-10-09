@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Test helpers: replay recorded model output and read AG-UI streams back as events and JSON. -->
+  <PropertyGroup>
+    <RootNamespace>Beacon.Testing</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AGUI.Abstractions" />
+    <PackageReference Include="AGUI.Formatting" />
+    <PackageReference Include="Microsoft.Extensions.AI" />
+  </ItemGroup>
+
+</Project>

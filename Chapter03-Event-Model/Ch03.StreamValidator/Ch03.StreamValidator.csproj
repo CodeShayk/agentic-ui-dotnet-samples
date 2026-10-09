@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    A validator for AG-UI 1.0 event streams. It works on wire JSON (JsonElement) and depends on
+    nothing but System.Text.Json, so it can check any producer, whatever language or SDK built it.
+    Chapter 3 builds it; Chapter 26 runs it in Beacon's CI.
+  -->
+  <PropertyGroup>
+    <RootNamespace>Ch03.StreamValidator</RootNamespace>
+  </PropertyGroup>
+
+</Project>

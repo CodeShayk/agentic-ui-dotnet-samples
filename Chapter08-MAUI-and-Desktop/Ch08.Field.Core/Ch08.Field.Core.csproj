@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Beacon Field's platform-independent logic (Chapter 8): the connection policy and the transport that
+    retries only before a run's first event, the HTTP handler a phone needs, what to do after a run was
+    cut off or the app went to the background, and the view models that Beacon Field (.NET MAUI) and the
+    WPF client bind to. No .NET MAUI or WPF dependency, so it builds and tests without a workload.
+  -->
+  <PropertyGroup>
+    <RootNamespace>Ch08.Field.Core</RootNamespace>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <!-- .NET MAUI trims; the analyzers keep this library safe for it. -->
+    <IsAotCompatible>true</IsAotCompatible>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AGUI.Client" />
+    <PackageReference Include="Microsoft.Extensions.AI" />
+    <PackageReference Include="Markdig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Beacon.Client.Core\Beacon.Client.Core.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,231 @@
+/* Chapter 15 additions to Beacon Desk: the question panel with its generated forms, the question log and the
+   tool-activity line. Colors come from Beacon.Desk.Ui's tokens, so light and dark themes both work. */
+
+.ch15-questions {
+    display: grid;
+    gap: 12px;
+    margin: 8px 0;
+    padding: 12px;
+    border: 2px solid var(--bd-warning);
+    border-radius: var(--bd-radius);
+    background: var(--bd-surface);
+}
+
+.ch15-questions__title {
+    margin: 0;
+    font-size: 1rem;
+}
+
+.ch15-questions__title:focus {
+    outline: 2px solid var(--bd-focus);
+    outline-offset: 2px;
+}
+
+.ch15-question {
+    display: grid;
+    gap: 8px;
+    padding: 12px;
+    border: 1px solid var(--bd-border);
+    border-radius: var(--bd-radius);
+    background: var(--bd-surface-alt);
+}
+
+.ch15-question--skipped {
+    opacity: 0.85;
+    border-style: dashed;
+}
+
+.ch15-question__title {
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+.ch15-question__message {
+    margin: 0;
+}
+
+.ch15-question__context {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--bd-muted);
+}
+
+.ch15-field {
+    display: grid;
+    gap: 4px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 0.9rem;
+}
+
+.ch15-field > label,
+.ch15-field > legend {
+    font-weight: 600;
+    padding: 0;
+}
+
+.ch15-field--check {
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    column-gap: 8px;
+}
+
+.ch15-field--check > label {
+    font-weight: normal;
+}
+
+.ch15-field--check > .ch15-hint {
+    grid-column: 2;
+}
+
+.ch15-input {
+    min-width: 0;
+    max-width: 22rem;
+    padding: 7px 10px;
+    border: 1px solid var(--bd-border-strong);
+    border-radius: 8px;
+    background: var(--bd-surface);
+    color: var(--bd-text);
+    font: inherit;
+}
+
+.ch15-input:disabled {
+    background: var(--bd-surface-alt);
+}
+
+.ch15-field input[aria-invalid="true"],
+.ch15-field[aria-invalid="true"] {
+    border-color: var(--bd-danger);
+}
+
+.ch15-field[aria-invalid="true"] {
+    border-left: 3px solid var(--bd-danger);
+    padding-left: 8px;
+}
+
+.ch15-choice {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-right: 12px;
+    font-weight: normal;
+}
+
+.ch15-optional {
+    font-weight: normal;
+    color: var(--bd-muted);
+}
+
+.ch15-hint {
+    margin: 0;
+    font-size: 0.8rem;
+    color: var(--bd-muted);
+}
+
+.ch15-error {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--bd-danger);
+    font-weight: 600;
+}
+
+.ch15-notice {
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+.ch15-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+}
+
+.ch15-badge--waiting {
+    background: var(--bd-warning);
+    color: var(--bd-text);
+}
+
+.ch15-log {
+    margin: 16px;
+}
+
+.ch15-log h1 {
+    margin: 0 0 8px;
+    font-size: 1.2rem;
+}
+
+.ch15-log__list {
+    margin: 0;
+    padding-left: 1.2rem;
+    display: grid;
+    gap: 12px;
+}
+
+.ch15-log__item h2 {
+    margin: 0;
+    font-size: 1rem;
+}
+
+.ch15-log__item p {
+    margin: 2px 0;
+}
+
+.ch15-log__status {
+    font-size: 0.85rem;
+    color: var(--bd-muted);
+}
+
+.ch15-tools {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.25rem;
+    font-size: 0.9rem;
+    color: var(--bd-muted);
+}
+
+.ch15-tools__call {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.ch15-tools__name {
+    flex: none;
+    white-space: nowrap;
+    font-family: var(--bd-mono);
+    font-size: 0.8rem;
+    background: var(--bd-code-bg);
+    border-radius: 4px;
+    padding: 0 0.3rem;
+}
+
+.ch15-tools__mark {
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 50%;
+    border: 2px solid var(--bd-accent);
+    flex: none;
+}
+
+.ch15-tools__call--completed .ch15-tools__mark {
+    background: var(--bd-success);
+    border-color: var(--bd-success);
+}
+
+.ch15-tools__where {
+    flex: none;
+    white-space: nowrap;
+    font-size: 0.75rem;
+    border: 1px solid var(--bd-border);
+    border-radius: 999px;
+    padding: 0 0.4rem;
+}
+
+.ch15-questions__status {
+    margin: 0;
+    font-size: 0.9rem;
+}

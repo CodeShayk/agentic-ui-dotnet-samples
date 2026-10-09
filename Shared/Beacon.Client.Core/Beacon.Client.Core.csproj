@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Beacon's client core (Chapter 7): the view state every client renders from, the reducer that folds
+    an AG-UI run into it and the conversation service that drives AGUIChatClient. No UI dependencies,
+    so Blazor (Beacon Desk), .NET MAUI (Beacon Field), WPF and console clients share it unchanged.
+    Later chapters build on it without modifying it; each one explains the slice it uses.
+  -->
+  <PropertyGroup>
+    <RootNamespace>Beacon.Client.Core</RootNamespace>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <!-- .NET MAUI and Blazor WebAssembly trim; the analyzers keep this library safe for both. -->
+    <IsAotCompatible>true</IsAotCompatible>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AGUI.Client" />
+    <PackageReference Include="Microsoft.Extensions.AI" />
+  </ItemGroup>
+
+</Project>

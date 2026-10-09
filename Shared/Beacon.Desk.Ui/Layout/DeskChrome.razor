@@ -1,0 +1,41 @@
+@namespace Beacon.Desk.Ui
+@*
+    Beacon Desk's application chrome: a skip link, the app bar and the main landmark. Apps wrap their
+    layout's Body in it and pass their own navigation.
+*@
+<a class="bd-skip-link" href="#@MainId">Skip to main content</a>
+<header class="bd-appbar">
+    <div class="bd-appbar__brand">
+        <span class="bd-appbar__mark" aria-hidden="true"></span>
+        <span class="bd-appbar__name">Beacon Desk</span>
+        <span class="bd-appbar__org">Contoso Climate</span>
+    </div>
+    @if (Navigation is not null)
+    {
+        <nav class="bd-appbar__nav" aria-label="Main">@Navigation</nav>
+    }
+    @if (!string.IsNullOrEmpty(UserName))
+    {
+        <div class="bd-appbar__user">@UserName</div>
+    }
+</header>
+<main id="@MainId" class="bd-main" tabindex="-1">
+    @ChildContent
+</main>
+<div id="blazor-error-ui" class="bd-error-ui" data-nosnippet>
+    An unexpected error has occurred.
+    <a href="." class="reload">Reload</a>
+    <button type="button" class="dismiss bd-button bd-button--quiet">Dismiss</button>
+</div>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    /// <summary>Links shown in the app bar.</summary>
+    [Parameter] public RenderFragment? Navigation { get; set; }
+
+    /// <summary>The signed-in user's display name.</summary>
+    [Parameter] public string? UserName { get; set; }
+
+    [Parameter] public string MainId { get; set; } = "main";
+}

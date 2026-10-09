@@ -1,0 +1,28 @@
+@namespace Beacon.Desk.Ui
+@*
+    Renders Markdown from a model. The only MarkupString in Beacon Desk is built here, and only from
+    SafeMarkdown's output; raw model text never reaches the DOM as markup.
+*@
+<div class="bd-markdown @CssClass">@_html</div>
+
+@code {
+    private string? _source;
+    private MarkupString _html;
+
+    /// <summary>The Markdown to render. Untrusted input is expected.</summary>
+    [Parameter] public string? Markdown { get; set; }
+
+    /// <summary>Extra CSS classes for the wrapper.</summary>
+    [Parameter] public string? CssClass { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        // Parse only when the text changed. While a message streams this runs once per render,
+        // which is why the chat throttles renders rather than rendering every token.
+        if (!string.Equals(_source, Markdown, StringComparison.Ordinal))
+        {
+            _source = Markdown;
+            _html = new MarkupString(SafeMarkdown.ToHtml(Markdown));
+        }
+    }
+}

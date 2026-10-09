@@ -1,0 +1,110 @@
+/* Chapter 20 additions to Beacon Desk: surfaces drawn from A2UI descriptions, and the surface inspector.
+   Colors come from Beacon.Desk.Ui's tokens, so light and dark themes both work; every state is also
+   carried by text, never by color alone. */
+
+/* ---------- A surface in the transcript ---------- */
+
+/* A form is its own card: drop the message bubble around it and let it use the column's width. */
+.bd-message:has(.ch20-surface) { max-width: 100%; width: 100%; }
+.bd-message__body:has(> .ch20-surface) { padding: 0; background: transparent; border: none; }
+
+.ch20-surface { display: grid; gap: 8px; }
+.ch20-surface__body { border: none; margin: 0; padding: 0; min-width: 0; }
+.ch20-surface__body:disabled { opacity: 0.85; }
+.ch20-surface__notice,
+.ch20-surface__status { margin: 0; font-size: 13px; color: var(--bd-muted); }
+.ch20-surface--rejected {
+    background: var(--bd-danger-bg);
+    border: 1px dashed var(--bd-danger);
+    border-radius: var(--bd-radius);
+    padding: 10px 12px;
+}
+.ch20-surface__title { margin: 0; font-weight: 600; }
+.ch20-surface__detail { margin: 4px 0 0; font-size: 13px; }
+
+/* ---------- The catalog's primitives ---------- */
+
+.ch20-card {
+    background: var(--bd-surface);
+    border: 1px solid var(--bd-border);
+    border-radius: var(--bd-radius);
+    padding: 12px 14px;
+}
+
+.ch20-column { display: flex; flex-direction: column; gap: 8px; }
+.ch20-row { display: flex; flex-direction: row; flex-wrap: wrap; gap: 12px; }
+.ch20-justify-center { justify-content: center; }
+.ch20-justify-end { justify-content: flex-end; }
+.ch20-justify-spaceBetween { justify-content: space-between; }
+.ch20-justify-spaceAround { justify-content: space-around; }
+.ch20-justify-spaceEvenly { justify-content: space-evenly; }
+.ch20-align-start { align-items: flex-start; }
+.ch20-align-center { align-items: center; }
+.ch20-align-end { align-items: flex-end; }
+
+.ch20-text { margin: 0; }
+.ch20-text--title { font-size: 16px; }
+.ch20-text--heading { font-size: 14px; margin-top: 4px; }
+.ch20-text--subheading { font-size: 13px; }
+.ch20-text--caption { font-size: 12px; color: var(--bd-muted); }
+.ch20-divider { border: none; border-top: 1px solid var(--bd-border); margin: 4px 0; width: 100%; }
+.ch20-image { max-width: 100%; border-radius: var(--bd-radius); }
+
+.ch20-field { display: grid; gap: 4px; }
+.ch20-label { font-size: 13px; font-weight: 600; }
+.ch20-input {
+    font: inherit;
+    color: var(--bd-text);
+    background: var(--bd-bg);
+    border: 1px solid var(--bd-border-strong);
+    border-radius: 4px;
+    padding: 6px 8px;
+    max-width: 22rem;
+}
+.ch20-input--long { max-width: 100%; resize: vertical; }
+.ch20-input:focus-visible,
+.ch20-check input:focus-visible { outline: 2px solid var(--bd-focus); outline-offset: 2px; }
+.ch20-input[aria-invalid="true"] { border-color: var(--bd-danger); }
+
+.ch20-check { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+.ch20-choices { border: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 4px 16px; }
+.ch20-choices legend { width: 100%; margin-bottom: 4px; }
+
+.ch20-error { margin: 0; font-size: 12px; color: var(--bd-danger); }
+.ch20-error::before { content: "Problem: "; font-weight: 600; }
+.ch20-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; margin-top: 4px; }
+.ch20-hint { margin: 0; font-size: 12px; color: var(--bd-muted); }
+
+/* A component this Desk can't draw: its label, its current value and why, in a dashed box. */
+.ch20-degraded {
+    display: grid;
+    gap: 2px;
+    border: 1px dashed var(--bd-border-strong);
+    border-radius: 4px;
+    padding: 6px 8px;
+    background: var(--bd-surface-alt);
+}
+.ch20-degraded__label { font-weight: 600; font-size: 13px; }
+.ch20-degraded__value,
+.ch20-degraded__why { font-size: 12px; color: var(--bd-muted); }
+
+/* ---------- The inspector ---------- */
+
+.ch20-inspector { display: grid; gap: 12px; }
+.ch20-inspector__title { margin: 0; font-size: 16px; }
+.ch20-inspector__empty { margin: 0; color: var(--bd-muted); }
+.ch20-inspector__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.ch20-inspector__item {
+    background: var(--bd-surface);
+    border: 1px solid var(--bd-border);
+    border-radius: var(--bd-radius);
+    padding: 10px 12px;
+}
+.ch20-inspector__name { margin: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-weight: 600; }
+.ch20-inspector__meta { margin: 4px 0 0; font-size: 12px; color: var(--bd-muted); overflow-wrap: anywhere; }
+.ch20-inspector__problems { margin: 6px 0 0; padding-left: 18px; font-size: 12px; display: grid; gap: 4px; }
+.ch20-problem--error { color: var(--bd-danger); }
+.ch20-problem--warning { color: var(--bd-text); }
+.ch20-badge--accepted { color: var(--bd-success); }
+.ch20-badge--degraded { color: var(--bd-text); }
+.ch20-badge--rejected { color: var(--bd-danger); }

@@ -1,0 +1,58 @@
+@inherits ProgressPanel<ReportView?>
+@*
+    The service report as Beacon writes it, from state.report. While the agent drafts, the text is shown
+    as plain text: half-written Markdown would flicker between literal asterisks and bold. The report's
+    prose is untrusted model output, so it is only ever rendered as text.
+*@
+<section class="bd-card ch13-panel ch13-report" aria-labelledby="ch13-report-title" data-renders="@CountRender()"
+         aria-busy="@((Gate.Current?.Status is ReportStatus.Drafting or ReportStatus.Saving && Gate.Current?.IsStopped == false) ? "true" : "false")">
+    <h2 id="ch13-report-title" class="ch13-panel__title">
+        Service report @Gate.Current?.WorkOrderId
+        @if (Gate.Current is { } badge)
+        {
+            <span class="bd-badge ch13-report__status ch13-report__status--@StatusCss(badge)">@StatusText(badge)</span>
+        }
+    </h2>
+    @if (Gate.Current is not { } report)
+    {
+        <p class="ch13-empty">Beacon drafts the service report here, as it writes it.</p>
+    }
+    else
+    {
+        <dl class="ch13-report__fields">
+            <dt>Summary</dt>
+            <dd>@Show(report.Summary)</dd>
+            <dt>Findings</dt>
+            <dd>@Show(report.Findings)</dd>
+            <dt>Recommendation</dt>
+            <dd>@Show(report.Recommendation)</dd>
+        </dl>
+        @if (report.Error is { } error)
+        {
+            <p class="ch13-report__error" role="alert">Not saved: @error</p>
+        }
+    }
+</section>
+
+@code {
+    protected override ReportView? Project(ConversationView view) => ReportView.From(view);
+
+    private static string Show(string text) => text.Length == 0 ? "…" : text;
+
+    private static string StatusText(ReportView report) => report switch
+    {
+        { IsStopped: true } => "Stopped before Beacon finished",
+        { Status: ReportStatus.Drafting } => "Drafting…",
+        { Status: ReportStatus.Saving } => "Saving…",
+        { Status: ReportStatus.Saved } => "Saved",
+        _ => "Not saved",
+    };
+
+    private static string StatusCss(ReportView report) => report switch
+    {
+        { IsStopped: true } => "stopped",
+        { Status: ReportStatus.Saved } => "saved",
+        { Status: ReportStatus.Rejected } => "rejected",
+        _ => "working",
+    };
+}

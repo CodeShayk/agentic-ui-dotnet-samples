@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <!--
+    Beacon's agent for Chapter 19: an agent that says what it can do and keeps its word. It serves its
+    AgentCapabilities at GET /agent/capabilities, enforces the same declaration on every run (media it
+    doesn't accept is refused, reasoning it doesn't declare never leaves, client tools it doesn't accept
+    never reach the model), judges the client's protocolVersion before RUN_STARTED, and declares its
+    own on RUN_STARTED, which AGUI.Server 1.0.0 leaves out. Beacon:Profile switches between the Full
+    and Reduced deployments. Runs offline on the scripted model.
+  -->
+  <PropertyGroup>
+    <RootNamespace>Ch19.Beacon.Agent</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AGUI.Server" />
+    <PackageReference Include="Microsoft.Extensions.AI" />
+    <PackageReference Include="OpenAI" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Beacon.Domain\Beacon.Domain.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.AI\Beacon.AI.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.AGUI.Hosting\Beacon.AGUI.Hosting.csproj" />
+    <ProjectReference Include="..\Ch19.Beacon.Adaptive\Ch19.Beacon.Adaptive.csproj" />
+  </ItemGroup>
+
+</Project>

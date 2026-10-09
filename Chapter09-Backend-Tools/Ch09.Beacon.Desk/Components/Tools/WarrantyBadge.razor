@@ -1,0 +1,15 @@
+@using System.Globalization
+@* The result of check_warranty. The word says covered or not; the color only repeats it. *@
+<p class="ch09-warranty ch09-warranty--@(Warranty.Covered ? "covered" : "not-covered")">
+    <span class="ch09-warranty__status">@(Warranty.Covered ? "Covered" : "Not covered")</span>
+    <span class="ch09-warranty__unit">@Warranty.EquipmentId</span>
+    <span class="ch09-warranty__terms">@Warranty.Coverage</span>
+    @if (Warranty.ExpiresOn is { } expires)
+    {
+        <span class="ch09-warranty__expiry">@(Warranty.Covered ? "until" : "expired") @expires.ToString("MMM d, yyyy", CultureInfo.InvariantCulture)</span>
+    }
+</p>
+
+@code {
+    [Parameter, EditorRequired] public WarrantyBody Warranty { get; set; } = default!;
+}

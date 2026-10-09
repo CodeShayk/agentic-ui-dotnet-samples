@@ -1,0 +1,22 @@
+data: {"type":"RUN_STARTED","threadId":"t-1","runId":"r-3","protocolVersion":"1.0"}
+
+data: {"type":"STATE_SNAPSHOT","snapshot":{"workOrderId":"WO-1001","checklist":[{"id":"C1","item":"Check thermostat settings and wiring","done":false},{"id":"C2","item":"Measure refrigerant pressures","done":false},{"id":"C3","item":"Inspect run capacitor","done":false}]}}
+
+data: {"type":"STATE_DELTA","delta":[{"op":"add","path":"/checklist/-","value":{"id":"C4","item":"Test compressor amperage","done":false}}]}
+
+data: {"type":"TEXT_MESSAGE_START","messageId":"msg-r3-1","role":"assistant"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-r3-1","delta":"I've opened the "}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-r3-1","delta":"WO-1001 checklist and "}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-r3-1","delta":"added a compressor "}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-r3-1","delta":"amperage test, since "}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-r3-1","delta":"the unit short-cycles."}
+
+data: {"type":"TEXT_MESSAGE_END","messageId":"msg-r3-1"}
+
+data: {"type":"RUN_FINISHED","threadId":"t-1","runId":"r-3"}
+

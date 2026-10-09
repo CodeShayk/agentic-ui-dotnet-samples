@@ -1,0 +1,53 @@
+@*
+    Beacon Desk's chat with attachments. The transcript, status bar and Markdown rendering are
+    Beacon.Desk.Ui's; the composer is this chapter's, because it carries files.
+*@
+@{
+    var view = Conversation.View;
+    var transcript = Project(view);
+    var refusals = MediaRefusals.From(view);
+}
+<section class="bd-chat-panel" aria-labelledby="ch17-chat-title">
+    <header class="bd-chat-panel__header">
+        <div class="bd-chat-panel__heading">
+            <h2 id="ch17-chat-title" class="bd-chat-panel__title">Beacon</h2>
+            <button type="button"
+                    class="bd-button bd-button--quiet"
+                    disabled="@(!RendererInfo.IsInteractive || view.IsBusy)"
+                    @onclick="NewChat">New chat</button>
+        </div>
+        <ChatStatusBar Status="StatusOf(view)" ThreadId="@view.ThreadId" RunId="@view.CurrentRun?.RunId" Error="@ErrorOf(view)" />
+    </header>
+
+    <ChatTranscript Messages="transcript.Messages"
+                    Streaming="transcript.Streaming"
+                    IsResponding="@(view.IsBusy && transcript.Streaming is null)">
+        <EmptyContent>
+            <p>Attach a nameplate photo, a recording of the noise or a manufacturer's PDF, and ask Beacon about it.</p>
+        </EmptyContent>
+        <MessageTemplate Context="message">
+            @if (message.Author == ChatAuthor.Assistant)
+            {
+                <MarkdownView Markdown="@message.Text" />
+            }
+            else
+            {
+                @if (message.Text.Length > 0)
+                {
+                    <p class="bd-message__text">@message.Text</p>
+                }
+                @if (view.FindMessage(message.Id) is UserMessageView user)
+                {
+                    <SentAttachments Message="user" Refusals="refusals" />
+                }
+            }
+        </MessageTemplate>
+    </ChatTranscript>
+
+    <AttachmentComposer @ref="_composer"
+                        ConversationBytes="ConversationBytes(view)"
+                        Disabled="!RendererInfo.IsInteractive"
+                        Busy="view.IsBusy"
+                        OnSend="SendAsync"
+                        OnStop="Conversation.Stop" />
+</section>

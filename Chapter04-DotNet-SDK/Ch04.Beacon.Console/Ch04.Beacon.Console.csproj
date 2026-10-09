@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Chapter 4: a console REPL that talks to Beacon through AGUIChatClient, an IChatClient that speaks
+    AG-UI. AGUI.Client also targets netstandard2.0 and net472, so the same code runs in Blazor
+    WebAssembly, .NET MAUI, WPF and Windows Forms.
+  -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Ch04.Beacon.Console</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AGUI.Client" />
+    <PackageReference Include="Microsoft.Extensions.AI" />
+  </ItemGroup>
+
+</Project>

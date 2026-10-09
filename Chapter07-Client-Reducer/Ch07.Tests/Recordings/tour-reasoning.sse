@@ -1,0 +1,50 @@
+data: {"type":"RUN_STARTED","threadId":"t-1","runId":"r-6","protocolVersion":"1.0"}
+
+data: {"type":"REASONING_START","messageId":"think-r6-1"}
+
+data: {"type":"REASONING_MESSAGE_START","messageId":"reasoning-r6-1","role":"reasoning"}
+
+data: {"type":"REASONING_MESSAGE_CONTENT","messageId":"reasoning-r6-1","delta":"Short-cycling with warm "}
+
+data: {"type":"REASONING_MESSAGE_CONTENT","messageId":"reasoning-r6-1","delta":"air usually means "}
+
+data: {"type":"REASONING_MESSAGE_CONTENT","messageId":"reasoning-r6-1","delta":"the compressor trips "}
+
+data: {"type":"REASONING_MESSAGE_CONTENT","messageId":"reasoning-r6-1","delta":"on overload. The "}
+
+data: {"type":"REASONING_MESSAGE_CONTENT","messageId":"reasoning-r6-1","delta":"fault history shows "}
+
+data: {"type":"REASONING_MESSAGE_CONTENT","messageId":"reasoning-r6-1","delta":"E5 overload trips. "}
+
+data: {"type":"REASONING_MESSAGE_CONTENT","messageId":"reasoning-r6-1","delta":"A weak run "}
+
+data: {"type":"REASONING_MESSAGE_CONTENT","messageId":"reasoning-r6-1","delta":"capacitor is the "}
+
+data: {"type":"REASONING_MESSAGE_CONTENT","messageId":"reasoning-r6-1","delta":"cheapest cause to "}
+
+data: {"type":"REASONING_MESSAGE_CONTENT","messageId":"reasoning-r6-1","delta":"rule out."}
+
+data: {"type":"REASONING_MESSAGE_END","messageId":"reasoning-r6-1"}
+
+data: {"type":"REASONING_ENCRYPTED_VALUE","subtype":"message","entityId":"reasoning-r6-1","encryptedValue":"gAAAAABpQ2hhcHRlci0zLW9wYXF1ZS1yZWFzb25pbmctYXJ0aWZhY3Q="}
+
+data: {"type":"REASONING_END","messageId":"think-r6-1"}
+
+data: {"type":"TEXT_MESSAGE_START","messageId":"msg-r6-1","role":"assistant"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-r6-1","delta":"The most likely "}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-r6-1","delta":"cause is a "}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-r6-1","delta":"failing run capacitor. "}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-r6-1","delta":"Measure CAP-45-5 before "}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-r6-1","delta":"you condemn the "}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-r6-1","delta":"compressor."}
+
+data: {"type":"TEXT_MESSAGE_END","messageId":"msg-r6-1"}
+
+data: {"type":"RUN_FINISHED","threadId":"t-1","runId":"r-6","outcome":{"type":"success"},"usage":[{"provider":"beacon","model":"beacon-scripted","inputTokens":980,"outputTokens":341,"totalTokens":1321,"reasoningTokens":288}]}
+

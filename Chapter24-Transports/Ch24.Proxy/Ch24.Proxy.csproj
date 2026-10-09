@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <!--
+    Chapter 24: a reverse proxy in front of Beacon's agent, built on YARP (Yarp.ReverseProxy), to show
+    what proxies do to AG-UI streams. /direct/... streams through with YARP's idle (activity) timeout;
+    /inspected/... reads each response whole before forwarding it, as any proxy that scans or rewrites
+    bodies must, which buffers the stream.
+  -->
+  <PropertyGroup>
+    <RootNamespace>Ch24.Proxy</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Yarp.ReverseProxy" />
+  </ItemGroup>
+
+</Project>

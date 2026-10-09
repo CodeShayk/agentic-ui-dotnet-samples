@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    The base of Chapter 26's pyramid: no server, no browser, no network. Pure reducer tests against
+    Beacon.Client.Core, and bUnit tests of Beacon Desk's components, including the whole workspace fed by
+    streams captured from Ch26.Beacon.Agent with curl -N through the real AGUIChatClient.
+  -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Ch26.Tests.Unit</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="xunit.v3" />
+    <PackageReference Include="bunit" />
+    <PackageReference Include="AGUI.Client" />
+    <PackageReference Include="AGUI.Formatting" />
+    <PackageReference Include="Microsoft.Extensions.AI" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Beacon.Client.Core\Beacon.Client.Core.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.Desk.Ui\Beacon.Desk.Ui.csproj" />
+    <ProjectReference Include="..\Ch26.Beacon.Desk\Ch26.Beacon.Desk.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Recordings\*.sse" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>

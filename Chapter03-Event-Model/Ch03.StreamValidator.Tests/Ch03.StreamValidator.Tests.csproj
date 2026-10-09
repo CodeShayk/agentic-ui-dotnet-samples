@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Ch03.StreamValidator.Tests</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="xunit.v3" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Ch03.StreamValidator\Ch03.StreamValidator.csproj" />
+    <ProjectReference Include="..\Ch03.EventTour\Ch03.EventTour.csproj" />
+  </ItemGroup>
+
+  <!-- The AG-UI conformance corpus (MIT, see Conformance/NOTICE.md), read at test time. -->
+  <ItemGroup>
+    <None Include="Conformance\**\*" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Ch11.Beacon.Field"
+             xmlns:drawing="clr-namespace:Ch11.Beacon.Field.Drawing"
+             x:Class="Ch11.Beacon.Field.MainPage"
+             x:DataType="local:FieldChatViewModel"
+             Title="Beacon Field">
+
+    <ContentPage.Resources>
+        <!-- One template per component, chosen by name. The view models are the Desk's; only the drawing differs. -->
+        <local:ComponentTemplateSelector x:Key="Rows">
+            <local:ComponentTemplateSelector.Message>
+                <DataTemplate x:DataType="local:TextItem">
+                    <Label Text="{Binding Text}" Margin="12,6" LineBreakMode="WordWrap" />
+                </DataTemplate>
+            </local:ComponentTemplateSelector.Message>
+
+            <local:ComponentTemplateSelector.PartCard>
+                <DataTemplate x:DataType="local:ComponentItem">
+                    <Border Margin="12,6" Padding="12" StrokeShape="RoundRectangle 10"
+                            StrokeDashArray="{Binding IsDraft, Converter={StaticResource DraftDashes}}">
+                        <VerticalStackLayout Spacing="4" SemanticProperties.Description="{Binding Description}">
+                            <Label Text="{Binding PartCard.Sku}" FontFamily="OpenSansSemibold" />
+                            <Label Text="{Binding PartCard.Name}" FontSize="16" FontFamily="OpenSansSemibold" />
+                            <Label Text="{Binding PartCard.Price}" FontSize="22" />
+                            <Label Text="{Binding PartCard.Stock}" TextColor="{StaticResource Gray500}" />
+                            <Label Text="{Binding PartCard.Note}" LineBreakMode="WordWrap" />
+                            <Button Text="Order this part" IsVisible="{Binding CanOrder}" HorizontalOptions="Start"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type local:FieldChatViewModel}}, Path=OrderCommand, x:DataType=local:FieldChatViewModel}"
+                                    CommandParameter="{Binding .}" />
+                            <Label Text="{Binding OrderNote}" TextColor="{StaticResource Gray500}" FontSize="12" />
+                        </VerticalStackLayout>
+                    </Border>
+                </DataTemplate>
+            </local:ComponentTemplateSelector.PartCard>
+
+            <local:ComponentTemplateSelector.ScheduleTimeline>
+                <DataTemplate x:DataType="local:ComponentItem">
+                    <Border Margin="12,6" Padding="12" StrokeShape="RoundRectangle 10">
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="{Binding Timeline.Title}" FontFamily="OpenSansSemibold" />
+                            <drawing:TimelineGraphicsView Timeline="{Binding Timeline}" />
+                        </VerticalStackLayout>
+                    </Border>
+                </DataTemplate>
+            </local:ComponentTemplateSelector.ScheduleTimeline>
+
+            <local:ComponentTemplateSelector.FaultHistoryChart>
+                <DataTemplate x:DataType="local:ComponentItem">
+                    <Border Margin="12,6" Padding="12" StrokeShape="RoundRectangle 10">
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="{Binding Chart.Title}" FontFamily="OpenSansSemibold" />
+                            <drawing:FaultChartGraphicsView Chart="{Binding Chart}" />
+                        </VerticalStackLayout>
+                    </Border>
+                </DataTemplate>
+            </local:ComponentTemplateSelector.FaultHistoryChart>
+
+            <local:ComponentTemplateSelector.Fallback>
+                <DataTemplate x:DataType="local:ComponentItem">
+                    <Border Margin="12,6" Padding="12" StrokeShape="RoundRectangle 10" Stroke="{StaticResource Amber}">
+                        <Label Text="{Binding Description}" LineBreakMode="WordWrap" />
+                    </Border>
+                </DataTemplate>
+            </local:ComponentTemplateSelector.Fallback>
+        </local:ComponentTemplateSelector>
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="*,Auto,Auto" Padding="0,8">
+        <CollectionView ItemsSource="{Binding Items}" ItemTemplate="{StaticResource Rows}" ItemsUpdatingScrollMode="KeepLastItemInView" />
+
+        <HorizontalStackLayout Grid.Row="1" Spacing="6" Margin="12,4">
+            <Button Text="Capacitor for WO-1001" Command="{Binding SendCommand}" CommandParameter="Which capacitor fits WO-1001?" />
+            <Button Text="Today's schedule" Command="{Binding SendCommand}" CommandParameter="Show today's schedule" />
+            <Button Text="EQ-501 faults" Command="{Binding SendCommand}" CommandParameter="Chart the fault history for EQ-501" />
+        </HorizontalStackLayout>
+
+        <Grid Grid.Row="2" ColumnDefinitions="*,Auto" ColumnSpacing="8" Margin="12,4">
+            <Entry Text="{Binding Draft}" Placeholder="Ask Beacon" ReturnCommand="{Binding SendCommand}" />
+            <Button Grid.Column="1" Text="Send" Command="{Binding SendCommand}" />
+        </Grid>
+    </Grid>
+</ContentPage>

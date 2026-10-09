@@ -1,0 +1,19 @@
+@* Copied from Chapter 7 (CSS classes renamed to ch12-). *@
+@*
+    The activity line for one assistant message's tool calls: a status mark and a sentence per call.
+    The mark is decorative; the sentence carries the status for screen readers.
+*@
+<ul class="ch12-tools" aria-label="Tool activity">
+    @foreach (var call in Calls)
+    {
+        <li class="ch12-tools__call ch12-tools__call--@call.Status.ToString().ToLowerInvariant()">
+            <span class="ch12-tools__mark" aria-hidden="true"></span>
+            <span>@ToolLine.Describe(call)</span>
+            <code class="ch12-tools__name">@call.Name</code>
+        </li>
+    }
+</ul>
+
+@code {
+    [Parameter, EditorRequired] public IReadOnlyList<ToolCallView> Calls { get; set; } = [];
+}

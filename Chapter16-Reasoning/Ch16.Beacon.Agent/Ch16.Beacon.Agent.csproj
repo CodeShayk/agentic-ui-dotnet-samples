@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <!--
+    Beacon's agent for Chapter 16. Diagnoses come with reasoning: TextReasoningContent becomes REASONING_*
+    events, and the scripted model plays a provider that shows a summary of its thinking and returns the
+    full chain sealed, as REASONING_ENCRYPTED_VALUE. A policy layer decides how much reasoning reaches the
+    wire (full, summary or none) and redacts contact details. The run handler carries the sealed values a
+    client returns back into the model's history, which AGUI.Server 1.0.0 can't do on its own.
+  -->
+  <PropertyGroup>
+    <RootNamespace>Ch16.Beacon.Agent</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AGUI.Server" />
+    <PackageReference Include="Microsoft.Extensions.AI" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Beacon.Domain\Beacon.Domain.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.AI\Beacon.AI.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.AGUI.Hosting\Beacon.AGUI.Hosting.csproj" />
+  </ItemGroup>
+
+</Project>

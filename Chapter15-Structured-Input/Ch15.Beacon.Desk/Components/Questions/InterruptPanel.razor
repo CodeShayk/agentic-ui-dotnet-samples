@@ -1,0 +1,71 @@
+@*
+    Beacon's open questions, one card per input interrupt, sent together: a resume must cover every interrupt
+    of the run, so there is one Send button. A card can be skipped (abandoned), and an expired card can only
+    be skipped. Focus moves to the heading when questions arrive, and to the first field that needs fixing
+    when a send is refused. The panel never talks to the agent; it raises OnSubmit with Dana's decisions,
+    stays until the agent takes them, and comes back with the reason, and what was typed, if it doesn't.
+*@
+@{
+    var now = Clock.GetUtcNow();
+}
+<section class="ch15-questions" aria-labelledby="@_headingId">
+    <h3 id="@_headingId" class="ch15-questions__title" tabindex="-1" @ref="_heading">@Heading()</h3>
+
+    @foreach (var question in _questions)
+    {
+        var titleId = $"{question.Id}-title";
+        <article class="ch15-question @(question.CanOnlySkip(now) ? "ch15-question--skipped" : null)" aria-labelledby="@titleId">
+            <h4 id="@titleId" class="ch15-question__title">@question.Title</h4>
+            <p class="ch15-question__message">@question.Message</p>
+            @if (question.Context() is { Count: > 0 } context)
+            {
+                <p class="ch15-question__context">@string.Join(" · ", context)</p>
+            }
+            @if (question.ExpiresAt is { } expiresAt && !question.IsExpired(now))
+            {
+                <p class="ch15-question__context">
+                    Answer within <time datetime="@expiresAt.ToString("O", CultureInfo.InvariantCulture)">@Time.TimeLeft(expiresAt, now)</time>
+                </p>
+            }
+
+            @if (question.IsExpired(now))
+            {
+                <p class="ch15-notice" role="status">This question expired, so Beacon can't take an answer to it any more. It will be skipped when you send.</p>
+            }
+            else if (question.Skipped)
+            {
+                <p class="ch15-notice">Skipped. Beacon will carry on without it.</p>
+                <button type="button" class="bd-button bd-button--quiet" disabled="@_sending" @onclick="() => question.Skipped = false">Answer it after all</button>
+            }
+            else if (question.Draft is { } draft)
+            {
+                <SchemaForm @ref="_forms[question.Id]" Draft="draft" IdPrefix="@question.Id" Disabled="_sending" />
+                <button type="button" class="bd-button bd-button--quiet" disabled="@_sending" @onclick="() => question.Skipped = true">I can't answer this</button>
+            }
+            else
+            {
+                <p class="ch15-notice">Beacon Desk can't show a form for this question, so it can only be skipped.</p>
+            }
+        </article>
+    }
+
+    @if (_error is not null)
+    {
+        <p class="ch15-error" role="alert">@_error</p>
+    }
+    else if (Refused is { } failure && !_sending)
+    {
+        <p class="ch15-error" role="alert">@Refusal(failure)</p>
+    }
+
+    @* A polite live region, present from the first render so screen readers announce what appears in it. *@
+    <p class="ch15-questions__status" role="status">@StatusText(now)</p>
+
+    <div class="ch15-actions">
+        <button type="button" class="bd-button bd-button--primary" disabled="@_sending" @onclick="SubmitAsync">@SendLabel(now)</button>
+        @if (CanStartOver && !_sending)
+        {
+            <button type="button" class="bd-button bd-button--quiet" @onclick="OnNewChat">New chat</button>
+        }
+    </div>
+</section>

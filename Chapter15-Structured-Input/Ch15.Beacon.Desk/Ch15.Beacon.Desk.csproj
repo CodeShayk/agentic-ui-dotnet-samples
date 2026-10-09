@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <!--
+    Beacon Desk for Chapter 15: Chapter 7's chat over Beacon.Client.Core, plus forms generated from the
+    response schemas of Beacon's input interrupts. Each question is answered, skipped (abandoned) or, once
+    it expires, only skipped; every answer is checked with Ch15.Forms, the same code the agent runs.
+    Interactive Server.
+  -->
+  <PropertyGroup>
+    <RootNamespace>Ch15.Beacon.Desk</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Ch15.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AGUI.Client" />
+    <PackageReference Include="Microsoft.Extensions.AI" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Beacon.Desk.Ui\Beacon.Desk.Ui.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.Client.Core\Beacon.Client.Core.csproj" />
+    <ProjectReference Include="..\Ch15.Forms\Ch15.Forms.csproj" />
+  </ItemGroup>
+
+</Project>

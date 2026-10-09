@@ -1,0 +1,8 @@
+# run <run-1> (resume: 0)
+RUN_STARTED {"threadId":"<thread-1>","runId":"<run-1>","protocolVersion":"1.0"}
+TOOL_CALL_START {"toolCallId":"<call-1>","toolCallName":"place_part_order","parentMessageId":"<message-1>","rawEvent":"…"}
+TOOL_CALL_ARGS {"toolCallId":"<call-1>","delta":"{\"workOrderId\":\"WO-1001\",\"sku\":\"CMP-CA36\",\"quantity\":\"1\"}","rawEvent":"…"}
+TOOL_CALL_END {"toolCallId":"<call-1>","rawEvent":"…"}
+TEXT_MESSAGE_START {"messageId":"<message-1>","role":"assistant","rawEvent":"…"}
+TEXT_MESSAGE_END {"messageId":"<message-1>"}
+RUN_FINISHED {"threadId":"<thread-1>","runId":"<run-1>","outcome":{"type":"interrupt","interrupts":[{"id":"<interrupt-1>","reason":"tool_call","message":"Approval required for tool call: place_part_order","toolCallId":"<call-1>","responseSchema":{"type":"object","properties":{"approved":{"type":"boolean"}},"required":["approved"]}}]},"usage":[{"model":"llama3.2","inputTokens":886,"outputTokens":37,"totalTokens":923}]}

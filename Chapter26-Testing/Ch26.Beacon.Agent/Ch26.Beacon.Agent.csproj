@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <!--
+    Chapter 26: the system under test. Beacon's agent with its read-only tools, the two consequential
+    tools behind Contoso Climate's spending check (an approval interrupt above $500), the work order a
+    run opened shared as state, and a model recorder for capturing replayable model output. One
+    configuration switch, Beacon:Regressions:SettleAfterRunFinished, reintroduces an event-ordering
+    regression so section 26.8 can show the test suite catching it. Everything is off by default.
+  -->
+  <PropertyGroup>
+    <RootNamespace>Ch26.Beacon.Agent</RootNamespace>
+    <UserSecretsId>beacon-ch26-agent</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AGUI.Server" />
+    <PackageReference Include="Microsoft.Extensions.AI" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Beacon.Domain\Beacon.Domain.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.AI\Beacon.AI.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.AGUI.Hosting\Beacon.AGUI.Hosting.csproj" />
+  </ItemGroup>
+
+</Project>

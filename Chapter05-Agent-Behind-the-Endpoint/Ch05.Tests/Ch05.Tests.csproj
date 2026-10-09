@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Chapter 5: both hosts behind one client, the instruction policy, function invocation, each
+    pipeline layer's effect on the stream, a provider swap by configuration (against a fake Ollama
+    server that replays recorded llama3.2 responses) and Agent Framework sessions.
+    Live-model tests run only when RUN_MODEL_TESTS=true.
+  -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Ch05.Tests</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="xunit.v3" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
+    <PackageReference Include="AGUI.Client" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Ch05.Beacon.Agent\Ch05.Beacon.Agent.csproj" />
+    <ProjectReference Include="..\Ch05.Beacon.AgentFramework\Ch05.Beacon.AgentFramework.csproj" />
+    <ProjectReference Include="..\Ch05.Beacon.Pipeline\Ch05.Beacon.Pipeline.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.Testing\Beacon.Testing.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Recordings\*.ndjson" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>

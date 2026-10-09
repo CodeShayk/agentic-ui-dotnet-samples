@@ -1,0 +1,221 @@
+/* Chapter 13 additions to Beacon Desk: the status line, the plan checklist, the report preview and the
+   activity card. Colors come from Beacon.Desk.Ui's tokens, so light and dark themes both work. */
+
+.ch13-work {
+    display: grid;
+    gap: 16px;
+    align-content: start;
+}
+
+.ch13-panel {
+    margin: 0;
+}
+
+.ch13-panel__title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 18px;
+    margin: 0 0 8px;
+}
+
+.ch13-panel__meta,
+.ch13-empty {
+    color: var(--bd-muted);
+    margin: 0 0 8px;
+}
+
+/* What Beacon is doing */
+
+.ch13-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 32px;
+    padding: 4px 12px;
+    border-radius: var(--bd-radius);
+    background: var(--bd-surface-alt);
+    border: 1px solid var(--bd-border);
+    font-weight: 600;
+}
+
+.ch13-status__phase--busy::before {
+    content: "";
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin-right: 8px;
+    border-radius: 50%;
+    background: var(--bd-accent);
+    animation: ch13-pulse 1.2s ease-in-out infinite;
+}
+
+/* The plan */
+
+.ch13-plan__progress {
+    width: 100%;
+    height: 8px;
+    margin-bottom: 12px;
+    accent-color: var(--bd-success);
+}
+
+.ch13-plan__steps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 8px;
+}
+
+.ch13-step {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+}
+
+.ch13-step__body {
+    display: grid;
+    gap: 2px;
+}
+
+.ch13-step__note {
+    color: var(--bd-muted);
+    font-size: 14px;
+}
+
+.ch13-step__mark,
+.ch13-check__mark {
+    flex: none;
+    width: 14px;
+    height: 14px;
+    margin-top: 4px;
+    border-radius: 50%;
+    border: 2px solid var(--bd-border-strong);
+}
+
+.ch13-step--active .ch13-step__mark,
+.ch13-check--running .ch13-check__mark {
+    border-color: var(--bd-accent);
+    border-right-color: transparent;
+    animation: ch13-spin 0.9s linear infinite;
+}
+
+.ch13-step--active .ch13-step__title {
+    font-weight: 600;
+}
+
+.ch13-step--done .ch13-step__mark,
+.ch13-check--done .ch13-check__mark {
+    background: var(--bd-success);
+    border-color: var(--bd-success);
+}
+
+.ch13-step--stopped .ch13-step__mark {
+    border-color: var(--bd-warning);
+    border-style: dashed;
+}
+
+.ch13-check--failed .ch13-check__mark {
+    border-color: var(--bd-danger);
+    border-style: dashed;
+}
+
+/* The report */
+
+.ch13-report__fields {
+    margin: 0;
+    display: grid;
+    gap: 4px;
+}
+
+.ch13-report__fields dt {
+    font-weight: 600;
+    margin-top: 8px;
+}
+
+.ch13-report__fields dd {
+    margin: 0;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.ch13-report__status {
+    font-size: 13px;
+}
+
+.ch13-report__status--saved {
+    color: var(--bd-success);
+}
+
+.ch13-report__status--rejected,
+.ch13-report__status--stopped {
+    color: var(--bd-warning);
+}
+
+.ch13-report__error {
+    color: var(--bd-danger);
+    background: var(--bd-danger-bg);
+    padding: 8px 12px;
+    border-radius: var(--bd-radius);
+}
+
+/* The activity card in the chat */
+
+.ch13-checks {
+    border: 1px solid var(--bd-border);
+    border-radius: var(--bd-radius);
+    background: var(--bd-surface-alt);
+    padding: 8px 12px;
+}
+
+.ch13-checks__title {
+    margin: 0 0 6px;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.ch13-checks__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 4px;
+    font-size: 14px;
+}
+
+.ch13-check {
+    display: grid;
+    grid-template-columns: auto minmax(8rem, auto) 1fr;
+    gap: 8px;
+    align-items: start;
+}
+
+.ch13-check__mark {
+    width: 10px;
+    height: 10px;
+    margin-top: 5px;
+}
+
+.ch13-check__finding {
+    color: var(--bd-muted);
+}
+
+@keyframes ch13-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes ch13-pulse {
+    50% {
+        opacity: 0.35;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ch13-step--active .ch13-step__mark,
+    .ch13-check--running .ch13-check__mark,
+    .ch13-status__phase--busy::before {
+        animation: none;
+    }
+}

@@ -1,0 +1,422 @@
+{
+  "format": "beacon-model-recording/1",
+  "model": "llama3.2",
+  "turns": [
+    [
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "functionCall",
+            "name": "check_warranty",
+            "arguments": {
+              "equipmentId": "EQ-501"
+            },
+            "informationalOnly": false,
+            "callId": "bbdc89b9"
+          }
+        ],
+        "responseId": "1c9cebbaeb1c48029b27508f7f67df35",
+        "messageId": "1c9cebbaeb1c48029b27508f7f67df35",
+        "createdAt": "2026-10-03T17:07:22.5151003\u002B00:00",
+        "modelId": "llama3.2"
+      },
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": ""
+          },
+          {
+            "$type": "usage",
+            "details": {
+              "inputTokenCount": 879,
+              "outputTokenCount": 17,
+              "totalTokenCount": 896
+            }
+          }
+        ],
+        "additionalProperties": {
+          "load_duration": "00:00:00.0044255",
+          "total_duration": "00:00:00.9792862",
+          "prompt_eval_duration": "00:00:00.4708300",
+          "eval_duration": "00:00:00.4973810"
+        },
+        "responseId": "1c9cebbaeb1c48029b27508f7f67df35",
+        "messageId": "1c9cebbaeb1c48029b27508f7f67df35",
+        "createdAt": "2026-10-03T17:07:22.5488182\u002B00:00",
+        "finishReason": "stop",
+        "modelId": "llama3.2"
+      }
+    ],
+    [
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": "The"
+          }
+        ],
+        "responseId": "48a54c9de5424ba7a7fd4d25086d9720",
+        "messageId": "48a54c9de5424ba7a7fd4d25086d9720",
+        "createdAt": "2026-10-03T17:07:22.7052947\u002B00:00",
+        "modelId": "llama3.2"
+      },
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": " EQ"
+          }
+        ],
+        "responseId": "48a54c9de5424ba7a7fd4d25086d9720",
+        "messageId": "48a54c9de5424ba7a7fd4d25086d9720",
+        "createdAt": "2026-10-03T17:07:22.7301876\u002B00:00",
+        "modelId": "llama3.2"
+      },
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": "-"
+          }
+        ],
+        "responseId": "48a54c9de5424ba7a7fd4d25086d9720",
+        "messageId": "48a54c9de5424ba7a7fd4d25086d9720",
+        "createdAt": "2026-10-03T17:07:22.763052\u002B00:00",
+        "modelId": "llama3.2"
+      },
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": "501"
+          }
+        ],
+        "responseId": "48a54c9de5424ba7a7fd4d25086d9720",
+        "messageId": "48a54c9de5424ba7a7fd4d25086d9720",
+        "createdAt": "2026-10-03T17:07:22.7904197\u002B00:00",
+        "modelId": "llama3.2"
+      },
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": " equipment"
+          }
+        ],
+        "responseId": "48a54c9de5424ba7a7fd4d25086d9720",
+        "messageId": "48a54c9de5424ba7a7fd4d25086d9720",
+        "createdAt": "2026-10-03T17:07:22.8217704\u002B00:00",
+        "modelId": "llama3.2"
+      },
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": " is"
+          }
+        ],
+        "responseId": "48a54c9de5424ba7a7fd4d25086d9720",
+        "messageId": "48a54c9de5424ba7a7fd4d25086d9720",
+        "createdAt": "2026-10-03T17:07:22.8642907\u002B00:00",
+        "modelId": "llama3.2"
+      },
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": " still"
+          }
+        ],
+        "responseId": "48a54c9de5424ba7a7fd4d25086d9720",
+        "messageId": "48a54c9de5424ba7a7fd4d25086d9720",
+        "createdAt": "2026-10-03T17:07:22.9508833\u002B00:00",
+        "modelId": "llama3.2"
+      },
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": " under"
+          }
+        ],
+        "responseId": "48a54c9de5424ba7a7fd4d25086d9720",
+        "messageId": "48a54c9de5424ba7a7fd4d25086d9720",
+        "createdAt": "2026-10-03T17:07:22.9863765\u002B00:00",
+        "modelId": "llama3.2"
+      },
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": " warranty"
+          }
+        ],
+        "responseId": "48a54c9de5424ba7a7fd4d25086d9720",
+        "messageId": "48a54c9de5424ba7a7fd4d25086d9720",
+        "createdAt": "2026-10-03T17:07:23.0181453\u002B00:00",
+        "modelId": "llama3.2"
+      },
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": "."
+          }
+        ],
+        "responseId": "48a54c9de5424ba7a7fd4d25086d9720",
+        "messageId": "48a54c9de5424ba7a7fd4d25086d9720",
+        "createdAt": "2026-10-03T17:07:23.0459407\u002B00:00",
+        "modelId": "llama3.2"
+      },
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": " The"
+          }
+        ],
+        "responseId": "48a54c9de5424ba7a7fd4d25086d9720",
+        "messageId": "48a54c9de5424ba7a7fd4d25086d9720",
+        "createdAt": "2026-10-03T17:07:23.072199\u002B00:00",
+        "modelId": "llama3.2"
+      },
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": " parts"
+          }
+        ],
+        "responseId": "48a54c9de5424ba7a7fd4d25086d9720",
+        "messageId": "48a54c9de5424ba7a7fd4d25086d9720",
+        "createdAt": "2026-10-03T17:07:23.1200794\u002B00:00",
+        "modelId": "llama3.2"
+      },
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": " are"
+          }
+        ],
+        "responseId": "48a54c9de5424ba7a7fd4d25086d9720",
+        "messageId": "48a54c9de5424ba7a7fd4d25086d9720",
+        "createdAt": "2026-10-03T17:07:23.1605984\u002B00:00",
+        "modelId": "llama3.2"
+      },
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": " covered"
+          }
+        ],
+        "responseId": "48a54c9de5424ba7a7fd4d25086d9720",
+        "messageId": "48a54c9de5424ba7a7fd4d25086d9720",
+        "createdAt": "2026-10-03T17:07:23.1918776\u002B00:00",
+        "modelId": "llama3.2"
+      },
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": " for"
+          }
+        ],
+        "responseId": "48a54c9de5424ba7a7fd4d25086d9720",
+        "messageId": "48a54c9de5424ba7a7fd4d25086d9720",
+        "createdAt": "2026-10-03T17:07:23.2316312\u002B00:00",
+        "modelId": "llama3.2"
+      },
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": " "
+          }
+        ],
+        "responseId": "48a54c9de5424ba7a7fd4d25086d9720",
+        "messageId": "48a54c9de5424ba7a7fd4d25086d9720",
+        "createdAt": "2026-10-03T17:07:23.270925\u002B00:00",
+        "modelId": "llama3.2"
+      },
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": "10"
+          }
+        ],
+        "responseId": "48a54c9de5424ba7a7fd4d25086d9720",
+        "messageId": "48a54c9de5424ba7a7fd4d25086d9720",
+        "createdAt": "2026-10-03T17:07:23.2992941\u002B00:00",
+        "modelId": "llama3.2"
+      },
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": " years"
+          }
+        ],
+        "responseId": "48a54c9de5424ba7a7fd4d25086d9720",
+        "messageId": "48a54c9de5424ba7a7fd4d25086d9720",
+        "createdAt": "2026-10-03T17:07:23.3303514\u002B00:00",
+        "modelId": "llama3.2"
+      },
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": ","
+          }
+        ],
+        "responseId": "48a54c9de5424ba7a7fd4d25086d9720",
+        "messageId": "48a54c9de5424ba7a7fd4d25086d9720",
+        "createdAt": "2026-10-03T17:07:23.3723413\u002B00:00",
+        "modelId": "llama3.2"
+      },
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": " but"
+          }
+        ],
+        "responseId": "48a54c9de5424ba7a7fd4d25086d9720",
+        "messageId": "48a54c9de5424ba7a7fd4d25086d9720",
+        "createdAt": "2026-10-03T17:07:23.4125963\u002B00:00",
+        "modelId": "llama3.2"
+      },
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": " the"
+          }
+        ],
+        "responseId": "48a54c9de5424ba7a7fd4d25086d9720",
+        "messageId": "48a54c9de5424ba7a7fd4d25086d9720",
+        "createdAt": "2026-10-03T17:07:23.445847\u002B00:00",
+        "modelId": "llama3.2"
+      },
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": " labor"
+          }
+        ],
+        "responseId": "48a54c9de5424ba7a7fd4d25086d9720",
+        "messageId": "48a54c9de5424ba7a7fd4d25086d9720",
+        "createdAt": "2026-10-03T17:07:23.4841404\u002B00:00",
+        "modelId": "llama3.2"
+      },
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": " coverage"
+          }
+        ],
+        "responseId": "48a54c9de5424ba7a7fd4d25086d9720",
+        "messageId": "48a54c9de5424ba7a7fd4d25086d9720",
+        "createdAt": "2026-10-03T17:07:23.5747522\u002B00:00",
+        "modelId": "llama3.2"
+      },
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": " has"
+          }
+        ],
+        "responseId": "48a54c9de5424ba7a7fd4d25086d9720",
+        "messageId": "48a54c9de5424ba7a7fd4d25086d9720",
+        "createdAt": "2026-10-03T17:07:23.620471\u002B00:00",
+        "modelId": "llama3.2"
+      },
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": " expired"
+          }
+        ],
+        "responseId": "48a54c9de5424ba7a7fd4d25086d9720",
+        "messageId": "48a54c9de5424ba7a7fd4d25086d9720",
+        "createdAt": "2026-10-03T17:07:23.695242\u002B00:00",
+        "modelId": "llama3.2"
+      },
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": "."
+          }
+        ],
+        "responseId": "48a54c9de5424ba7a7fd4d25086d9720",
+        "messageId": "48a54c9de5424ba7a7fd4d25086d9720",
+        "createdAt": "2026-10-03T17:07:23.7350553\u002B00:00",
+        "modelId": "llama3.2"
+      },
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": ""
+          },
+          {
+            "$type": "usage",
+            "details": {
+              "inputTokenCount": 302,
+              "outputTokenCount": 27,
+              "totalTokenCount": 329
+            }
+          }
+        ],
+        "additionalProperties": {
+          "load_duration": "00:00:00.0063252",
+          "total_duration": "00:00:01.2577814",
+          "prompt_eval_duration": "00:00:00.1337810",
+          "eval_duration": "00:00:01.1063170"
+        },
+        "responseId": "48a54c9de5424ba7a7fd4d25086d9720",
+        "messageId": "48a54c9de5424ba7a7fd4d25086d9720",
+        "createdAt": "2026-10-03T17:07:23.8123857\u002B00:00",
+        "finishReason": "stop",
+        "modelId": "llama3.2"
+      }
+    ]
+  ]
+}

@@ -1,0 +1,12 @@
+@*
+    Beacon Desk's workspace: the work-order sheet in the work area and the chat beside it. Both read the
+    same AgentConversation; the sheet edits its state and the chat drives its turns.
+*@
+<DeskShell WorkAreaLabel="Work-order sheet">
+    <WorkArea>
+        <WorkOrderSheetPanel />
+    </WorkArea>
+    <Chat>
+        <DeskChat />
+    </Chat>
+</DeskShell>

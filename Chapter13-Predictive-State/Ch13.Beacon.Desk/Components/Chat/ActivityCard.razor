@@ -1,0 +1,32 @@
+@*
+    One "What Beacon checked" activity: a line per lookup, filled in as each returns. The server words
+    every finding, so this card knows nothing about Beacon's tools; it renders labels and statuses.
+*@
+<div class="ch13-checks" role="group" aria-label="@Checks.Title">
+    <p class="ch13-checks__title">@Checks.Title</p>
+    <ul class="ch13-checks__list">
+        @for (var i = 0; i < Checks.Checks.Count; i++)
+        {
+            var check = Checks.Checks[i];
+            <li @key="i" class="ch13-check ch13-check--@Css(check.Status)">
+                <span class="ch13-check__mark" aria-hidden="true"></span>
+                <span class="ch13-check__label">@check.Label</span>
+                <span class="ch13-check__finding">@(check.Finding ?? StatusText(check.Status))</span>
+            </li>
+        }
+    </ul>
+</div>
+
+@code {
+    [Parameter, EditorRequired] public ChecksView Checks { get; set; } = default!;
+
+    // Statuses come from the agent: only known ones become class names.
+    private static string Css(string status) => status is "running" or "done" or "failed" ? status : "other";
+
+    private static string StatusText(string status) => status switch
+    {
+        "running" => "checking…",
+        "failed" => "failed",
+        _ => status,
+    };
+}

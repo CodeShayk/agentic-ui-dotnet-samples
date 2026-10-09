@@ -1,0 +1,121 @@
+/* Chapter 14 additions to Beacon Desk: the tool-activity line, the approval dialog and the approvals
+   log. Colors come from Beacon.Desk.Ui's tokens, so light and dark themes both work. */
+
+.ch14-tools {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.25rem;
+    font-size: 0.9rem;
+    color: var(--bd-muted);
+}
+
+.ch14-tools__call { display: flex; align-items: center; gap: 0.5rem; }
+
+.ch14-tools__name {
+    font-family: var(--bd-mono);
+    font-size: 0.8rem;
+    background: var(--bd-code-bg);
+    border-radius: 4px;
+    padding: 0 0.3rem;
+}
+
+.ch14-tools__mark {
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 50%;
+    border: 2px solid var(--bd-accent);
+    flex: none;
+}
+
+.ch14-tools__call--streaming .ch14-tools__mark,
+.ch14-tools__call--inprogress .ch14-tools__mark {
+    border-right-color: transparent;
+    animation: ch14-spin 0.9s linear infinite;
+}
+
+.ch14-tools__call--completed .ch14-tools__mark { background: var(--bd-success); border-color: var(--bd-success); }
+
+.ch14-tools__call--awaitingapproval .ch14-tools__mark { border-color: var(--bd-warning); background: var(--bd-warning); }
+
+.ch14-tools__call--abandoned .ch14-tools__mark { border-color: var(--bd-danger); border-style: dashed; }
+
+@keyframes ch14-spin { to { transform: rotate(360deg); } }
+
+@media (prefers-reduced-motion: reduce) {
+    .ch14-tools__call--streaming .ch14-tools__mark,
+    .ch14-tools__call--inprogress .ch14-tools__mark { animation: none; }
+}
+
+/* The approval dialog: amber edge, like every interrupt in the book's figures. */
+.ch14-approval {
+    margin: 0.75rem 0;
+    padding: 0.75rem 1rem 1rem;
+    border: 1px solid var(--bd-border-strong);
+    border-left: 4px solid var(--bd-warning);
+    border-radius: var(--bd-radius);
+    background: var(--bd-surface);
+}
+
+.ch14-approval__title { margin: 0 0 0.25rem; font-size: 1.05rem; }
+
+.ch14-approval__title:focus-visible,
+.ch14-approval :focus-visible { outline: 2px solid var(--bd-focus); outline-offset: 2px; }
+
+.ch14-approval__message { margin: 0 0 0.5rem; }
+
+.ch14-approval__facts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+    gap: 0.25rem 1rem;
+    margin: 0 0 0.75rem;
+    font-size: 0.9rem;
+}
+
+.ch14-approval__facts dt { color: var(--bd-muted); font-size: 0.8rem; }
+
+.ch14-approval__facts dd { margin: 0; font-weight: 600; overflow-wrap: anywhere; }
+
+.ch14-approval__actions { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+
+.ch14-approval__form { display: grid; gap: 0.6rem; }
+
+.ch14-approval__field { display: grid; gap: 0.2rem; }
+
+.ch14-approval__field label { font-weight: 600; font-size: 0.9rem; }
+
+.ch14-approval__hint { margin: 0; color: var(--bd-muted); font-size: 0.8rem; }
+.ch14-approval__status { margin: 0; font-size: 0.9rem; }
+
+.ch14-approval__error {
+    margin: 0;
+    padding: 0.4rem 0.6rem;
+    border-radius: 6px;
+    color: var(--bd-danger);
+    background: var(--bd-danger-bg);
+    font-size: 0.9rem;
+}
+
+.ch14-badge--waiting { background: var(--bd-warning); color: var(--bd-surface); }
+
+/* The approvals log in the work area. */
+.ch14-log__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.5rem; }
+
+.ch14-log__item {
+    display: grid;
+    gap: 0.2rem;
+    padding: 0.5rem 0;
+    border-top: 1px solid var(--bd-border);
+    font-size: 0.9rem;
+}
+
+.ch14-log__state { font-size: 0.8rem; font-weight: 600; }
+
+.ch14-log__state--waiting { color: var(--bd-warning); }
+
+.ch14-log__state--done { color: var(--bd-success); }
+
+.ch14-log__state--stopped { color: var(--bd-danger); }
+
+.ch14-log__empty { color: var(--bd-muted); }

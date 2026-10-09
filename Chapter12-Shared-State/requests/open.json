@@ -1,0 +1,11 @@
+{
+  "threadId": "t-12",
+  "runId": "r-1",
+  "messages": [
+    {
+      "id": "m-1",
+      "role": "user",
+      "content": "Open WO-1001"
+    }
+  ]
+}

@@ -1,0 +1,85 @@
+@*
+    "About this agent": what discovery found, what the Desk does with each feature, and the protocol
+    version the agent declared on its last RUN_STARTED. Developers read it; dispatchers can ignore it.
+*@
+<section class="bd-card ch19-agent" aria-labelledby="ch19-agent-title">
+    <h2 id="ch19-agent-title" class="ch19-panel__title">About this agent</h2>
+
+    @if (Discovery is null)
+    {
+        <p class="ch19-muted">Reading the agent's capabilities…</p>
+    }
+    else if (Discovery.Outcome == DiscoveryOutcome.Declared)
+    {
+        <p class="ch19-identity" data-testid="identity">
+            @(Plan.Profile.Name ?? "Unnamed agent") @Plan.Profile.Version
+            @if (Plan.Profile.Provider is { } provider)
+            {
+                <span>· @provider</span>
+            }
+            @if (Plan.Profile.DeploymentProfile is { } profile)
+            {
+                <span class="bd-badge" data-testid="profile">@profile</span>
+            }
+        </p>
+    }
+    else
+    {
+        <p class="ch19-muted" data-testid="undeclared">
+            @OutcomeText(Discovery.Outcome) The Desk treats every capability as unknown.
+        </p>
+    }
+
+    <table class="ch19-features">
+        <caption class="bd-visually-hidden">What the agent declared and what this Desk does</caption>
+        <thead>
+            <tr><th scope="col">Feature</th><th scope="col">Agent declares</th><th scope="col">This Desk</th></tr>
+        </thead>
+        <tbody>
+            @foreach (var decision in Plan.Decisions.Values)
+            {
+                <tr data-feature="@decision.Feature">
+                    <th scope="row">@FeatureText.Name(decision.Feature)</th>
+                    <td>@FeatureText.Declared(decision.Declared)</td>
+                    <td>@FeatureText.Presented(decision.Presentation)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <p class="ch19-protocol" data-testid="protocol">
+        @if (ProducerVersion is { } check)
+        {
+            <span class="@(check.IsWarning ? "ch19-warning" : null)">Protocol: @check.Summary</span>
+        }
+        else
+        {
+            <span class="ch19-muted">Protocol: the agent declares its version when a run starts.</span>
+        }
+    </p>
+
+    @if (ReasoningContradicts)
+    {
+        <p class="ch19-warning" data-testid="mismatch">
+            The agent sent reasoning although it declared it doesn't reason. It's shown anyway: the stream wins.
+        </p>
+    }
+</section>
+
+@code {
+    [Parameter] public CapabilityDiscoveryResult? Discovery { get; set; }
+
+    [Parameter, EditorRequired] public FeaturePlan Plan { get; set; } = default!;
+
+    /// <summary>The check of the latest run's <c>RUN_STARTED.protocolVersion</c>; <see langword="null"/> before the first run.</summary>
+    [Parameter] public ProducerVersionCheck? ProducerVersion { get; set; }
+
+    [Parameter] public bool ReasoningContradicts { get; set; }
+
+    private static string OutcomeText(DiscoveryOutcome outcome) => outcome switch
+    {
+        DiscoveryOutcome.NotOffered => "This agent doesn't publish its capabilities.",
+        DiscoveryOutcome.Rejected => "This agent's capabilities document didn't validate, so it isn't used.",
+        _ => "The agent's capabilities couldn't be read.",
+    };
+}

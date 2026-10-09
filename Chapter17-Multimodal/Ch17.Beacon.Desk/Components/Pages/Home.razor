@@ -1,0 +1,13 @@
+@page "/"
+
+<PageTitle>Beacon Desk</PageTitle>
+
+@* A static page around one interactive island: the chat and its attachment picker share a circuit. *@
+<DeskShell WorkAreaLabel="Attachments">
+    <WorkArea>
+        <AttachmentGuide />
+    </WorkArea>
+    <Chat>
+        <MediaChat @rendermode="InteractiveServer" />
+    </Chat>
+</DeskShell>

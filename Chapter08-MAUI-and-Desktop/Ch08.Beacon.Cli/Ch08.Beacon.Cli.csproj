@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Beacon's command-line client for operators (Chapter 8), packaged as a .NET tool named "beacon".
+    Pack it with dotnet pack, install it as a global tool (dotnet tool install with the global option and
+    add-source pointing at the package folder), then run: beacon ask "What is the status of WO-1001?"
+    The help option lists the exit codes.
+  -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Ch08.Beacon.Cli</RootNamespace>
+
+    <IsPackable>true</IsPackable>
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>beacon</ToolCommandName>
+    <PackageId>Ch08.Beacon.Cli</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>Contoso Climate</Authors>
+    <Description>Ask Beacon, Contoso Climate's field-service agent, from a terminal. Streams answers over AG-UI; prints wire events as JSON lines with --events.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AGUI.Client" />
+    <PackageReference Include="Microsoft.Extensions.AI" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Beacon.Client.Core\Beacon.Client.Core.csproj" />
+    <ProjectReference Include="..\Ch08.Field.Core\Ch08.Field.Core.csproj" />
+  </ItemGroup>
+
+</Project>

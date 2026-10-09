@@ -1,0 +1,41 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Chapter 17's proof: media parts on the wire in both directions, malformed and oversized requests
+    refused before the run, mistyped, oversized and disallowed parts set aside before the model, the URL
+    guard (HTTPS, allow-list, private addresses after DNS, redirects), a happy path for each kind of media
+    and Beacon Field's capture flow over fakes. The media is synthetic (samples/ and bytes built in code).
+    No model, no browser, no device, no network.
+  -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Ch17.Tests</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="xunit.v3" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
+    <PackageReference Include="AGUI.Client" />
+    <PackageReference Include="AGUI.Formatting" />
+    <PackageReference Include="AGUI.Server" />
+    <PackageReference Include="Microsoft.Extensions.AI" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\samples\*" LinkBase="samples" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Beacon.Client.Core\Beacon.Client.Core.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.Testing\Beacon.Testing.csproj" />
+    <ProjectReference Include="..\Ch17.Media\Ch17.Media.csproj" />
+    <ProjectReference Include="..\Ch17.Field.Capture\Ch17.Field.Capture.csproj" />
+    <ProjectReference Include="..\Ch17.Beacon.Agent\Ch17.Beacon.Agent.csproj" />
+    <ProjectReference Include="..\Ch17.Beacon.Desk\Ch17.Beacon.Desk.csproj" />
+  </ItemGroup>
+
+</Project>

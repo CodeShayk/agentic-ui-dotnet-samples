@@ -1,0 +1,67 @@
+@implements IDisposable
+@*
+    The work area's view of the surfaces: what the Desk's own validator decided about each one, and why.
+    A dispatcher rarely needs it; a developer debugging a form always does.
+*@
+@inject AgentConversation Conversation
+@inject SurfaceBoard Board
+
+<div class="ch20-inspector">
+    <h2 class="ch20-inspector__title">Forms from Beacon</h2>
+    @if (Board.Surfaces.Count == 0)
+    {
+        <p class="ch20-inspector__empty">No forms yet. Each form Beacon describes is checked here against this Desk's catalog before it is drawn.</p>
+    }
+    else
+    {
+        <ul class="ch20-inspector__list">
+            @foreach (var surface in Board.Surfaces)
+            {
+                <li class="ch20-inspector__item" data-surface="@surface.SurfaceId">
+                    <p class="ch20-inspector__name">
+                        <span>@surface.Title</span>
+                        <span class="bd-badge ch20-badge ch20-badge--@surface.Verdict.Outcome.ToString().ToLowerInvariant()">@surface.Verdict.Outcome</span>
+                        <span class="bd-badge">@surface.Status</span>
+                    </p>
+                    <p class="ch20-inspector__meta">
+                        @surface.SurfaceId · @(surface.Document?.Components.Count ?? 0) components · catalog @(surface.Document?.CatalogId ?? "unknown")
+                    </p>
+                    @if (surface.Verdict.Problems.Count > 0)
+                    {
+                        <ul class="ch20-inspector__problems">
+                            @foreach (var problem in surface.Verdict.Problems)
+                            {
+                                <li class="@(problem.IsError ? "ch20-problem--error" : "ch20-problem--warning")">
+                                    <code>@problem.Code</code> at <code>@problem.Path</code>: @problem.Message
+                                </li>
+                            }
+                        </ul>
+                    }
+                </li>
+            }
+        </ul>
+    }
+</div>
+
+@code {
+    private RenderThrottle _throttle = default!;
+
+    protected override void OnInitialized()
+    {
+        _throttle = new RenderThrottle(() => InvokeAsync(StateHasChanged), TimeSpan.FromMilliseconds(200));
+        Conversation.Changed += OnChanged;
+    }
+
+    // Keep the board in step with the conversation, then render; DeskChat does the same, and Sync is idempotent.
+    private void OnChanged(object? sender, ConversationChangedEventArgs e)
+    {
+        _ = DeskTranscript.From(e.View, Board);
+        _ = _throttle.RequestAsync();
+    }
+
+    public void Dispose()
+    {
+        Conversation.Changed -= OnChanged;
+        _throttle.Dispose();
+    }
+}

@@ -1,0 +1,40 @@
+<Project Sdk="Aspire.AppHost.Sdk/13.6.0">
+
+  <!--
+    Chapter 27: Beacon's Aspire AppHost. It starts the agent, Beacon Desk and the smoke test with the
+    dashboard, wires them together with service discovery and passes the model settings in as
+    parameters. With an Azure Container Apps environment in the model, `aspire publish` and
+    `aspire deploy` turn the same graph into Container Apps.
+  -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Ch27.AppHost</RootNamespace>
+    <UserSecretsId>beacon-ch27-apphost</UserSecretsId>
+    <!--
+      Aspire 13.6's template sets AspireUseCliBundle=true, which takes the orchestrator (DCP) and the
+      dashboard from an installed Aspire CLI. The companion code restores them from NuGet instead, so
+      the solution builds on a machine without the CLI; ASPIRE010 says exactly that.
+    -->
+    <AspireUseCliBundle>false</AspireUseCliBundle>
+    <NoWarn>$(NoWarn);ASPIRE010</NoWarn>
+  </PropertyGroup>
+
+  <!--
+    The SDK adds Aspire.Hosting.AppHost implicitly, with its own version. Under central package
+    management that collides with the pin in Directory.Packages.props (NU1009), so the reference is
+    explicit and the version comes from the props file like every other package.
+  -->
+  <ItemGroup>
+    <PackageReference Include="Aspire.Hosting.AppHost" />
+    <PackageReference Include="Aspire.Hosting.Azure.AppContainers" />
+    <PackageReference Include="Aspire.Hosting.Azure.CognitiveServices" />
+  </ItemGroup>
+
+  <!-- Each referenced project becomes a resource (Projects.Ch27_Beacon_Agent and so on). -->
+  <ItemGroup>
+    <ProjectReference Include="..\Ch27.Beacon.Agent\Ch27.Beacon.Agent.csproj" />
+    <ProjectReference Include="..\Ch27.Beacon.Desk\Ch27.Beacon.Desk.csproj" />
+    <ProjectReference Include="..\Ch27.SmokeTest\Ch27.SmokeTest.csproj" />
+  </ItemGroup>
+
+</Project>

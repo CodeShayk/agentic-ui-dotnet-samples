@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="Ch08.Beacon.Field.ChatPage"
+             xmlns:local="clr-namespace:Ch08.Beacon.Field"
+             xmlns:core="clr-namespace:Ch08.Field.Core.Presentation;assembly=Ch08.Field.Core"
+             x:DataType="core:ChatViewModel"
+             Title="Beacon Field">
+
+    <ContentPage.Resources>
+        <local:MessageTemplateSelector x:Key="MessageTemplate">
+            <local:MessageTemplateSelector.UserTemplate>
+                <DataTemplate x:DataType="core:MessageItem">
+                    <Border Margin="56,6,0,6" Padding="14,10" HorizontalOptions="End"
+                            BackgroundColor="{StaticResource Primary}" StrokeThickness="0"
+                            StrokeShape="RoundRectangle 14">
+                        <Label Text="{Binding Text}" TextColor="White" FontSize="16"
+                               SemanticProperties.Description="{Binding AccessibleText}" />
+                    </Border>
+                </DataTemplate>
+            </local:MessageTemplateSelector.UserTemplate>
+            <local:MessageTemplateSelector.AssistantTemplate>
+                <DataTemplate x:DataType="core:MessageItem">
+                    <VerticalStackLayout Margin="0,6,56,6" Spacing="4">
+                        <Border IsVisible="{Binding HasText}" Padding="14,10" StrokeThickness="0"
+                                StrokeShape="RoundRectangle 14"
+                                BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray600}}">
+                            <VerticalStackLayout Spacing="6">
+                                <!-- Markdown as native spans: no HTML, no images, no tappable links. -->
+                                <Label FormattedText="{Binding Runs, Converter={StaticResource InlineRuns}}" FontSize="16"
+                                       SemanticProperties.Description="{Binding AccessibleText}" />
+                                <Label Text="Cut off before Beacon finished." IsVisible="{Binding IsPartial}"
+                                       FontSize="13" FontAttributes="Italic"
+                                       TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray300}}" />
+                            </VerticalStackLayout>
+                        </Border>
+                        <!-- What Beacon's tools are doing for this message: from the tap, while it happens. -->
+                        <Label Text="{Binding Activity}" IsVisible="{Binding HasActivity}"
+                               FontAttributes="Italic" FontSize="14"
+                               TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray300}}" />
+                    </VerticalStackLayout>
+                </DataTemplate>
+            </local:MessageTemplateSelector.AssistantTemplate>
+        </local:MessageTemplateSelector>
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="Auto,Auto,*,Auto" Padding="16,12" RowSpacing="10">
+
+        <!-- Header: who, and what's happening now. -->
+        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+            <VerticalStackLayout Spacing="2">
+                <Label Text="Beacon Field" FontSize="24" FontAttributes="Bold"
+                       SemanticProperties.HeadingLevel="Level1" />
+                <Label Text="{Binding StatusText}" FontSize="15" AutomationId="Status"
+                       TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray300}}" />
+            </VerticalStackLayout>
+            <Button Grid.Column="1" Text="New chat" Command="{Binding NewChatCommand}" VerticalOptions="Center"
+                    AutomationId="NewChat" SemanticProperties.Hint="Starts a new conversation" />
+        </Grid>
+
+        <!-- After a turn that didn't finish: what is known, and the one safe next step. -->
+        <Border Grid.Row="1" IsVisible="{Binding HasRecovery}" Padding="14,12"
+                BackgroundColor="{StaticResource AmberSurface}" Stroke="{StaticResource Amber}"
+                StrokeThickness="2" StrokeShape="RoundRectangle 10">
+            <VerticalStackLayout Spacing="10">
+                <Label Text="{Binding Recovery.Message}" TextColor="{StaticResource OffBlack}" FontSize="16"
+                       AutomationId="RecoveryMessage" />
+                <HorizontalStackLayout Spacing="10">
+                    <Button Text="{Binding Recovery.ActionLabel}" Command="{Binding RecoveryCommand}"
+                            IsVisible="{Binding HasRecoveryAction}" MinimumHeightRequest="48"
+                            AutomationId="RecoveryAction" />
+                    <Button Text="Dismiss" Command="{Binding DismissRecoveryCommand}" MinimumHeightRequest="48"
+                            BackgroundColor="Transparent" TextColor="{StaticResource OffBlack}"
+                            BorderColor="{StaticResource OffBlack}" BorderWidth="1"
+                            AutomationId="DismissRecovery" />
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+        </Border>
+
+        <!-- The transcript: items update in place, and the newest stays in view. -->
+        <CollectionView x:Name="Transcript" Grid.Row="2" ItemsSource="{Binding Messages}"
+                        ItemTemplate="{StaticResource MessageTemplate}"
+                        ItemsUpdatingScrollMode="KeepLastItemInView" AutomationId="Transcript">
+            <CollectionView.EmptyView>
+                <Label Text="Ask about a work order, a part or today's schedule." FontSize="16"
+                       HorizontalTextAlignment="Center" VerticalOptions="Center"
+                       TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}" />
+            </CollectionView.EmptyView>
+        </CollectionView>
+
+        <!-- Composer: big targets for gloved thumbs; Send and Stop share one place. -->
+        <Grid Grid.Row="3" ColumnDefinitions="*,Auto" ColumnSpacing="10">
+            <Entry x:Name="Composer" Text="{Binding Draft}" Placeholder="Ask Beacon…" FontSize="16"
+                   ReturnType="Send" ReturnCommand="{Binding SendCommand}" MinimumHeightRequest="52"
+                   AutomationId="Composer" SemanticProperties.Description="Message to Beacon" />
+            <Button Grid.Column="1" Text="Send" Command="{Binding SendCommand}"
+                    IsVisible="{Binding IsBusy, Converter={StaticResource Not}}"
+                    MinimumWidthRequest="96" MinimumHeightRequest="52" FontSize="16" AutomationId="Send" />
+            <Button Grid.Column="1" Text="Stop" Command="{Binding StopCommand}" IsVisible="{Binding IsBusy}"
+                    MinimumWidthRequest="96" MinimumHeightRequest="52" FontSize="16"
+                    BackgroundColor="#D13438" TextColor="White" AutomationId="Stop"
+                    SemanticProperties.Hint="Stops Beacon's answer and keeps what arrived" />
+        </Grid>
+    </Grid>
+</ContentPage>

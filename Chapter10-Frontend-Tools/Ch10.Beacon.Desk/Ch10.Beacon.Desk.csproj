@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <!--
+    Beacon Desk for Chapter 10: Chapter 7's chat over Beacon.Client.Core, plus a dispatch board the agent
+    can act on through three frontend tools (open_work_order, highlight_schedule_slot, prefill_part_order).
+    Changing the dispatcher's draft needs her confirmation, asked inside the tool. Interactive Server.
+  -->
+  <PropertyGroup>
+    <RootNamespace>Ch10.Beacon.Desk</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AGUI.Client" />
+    <PackageReference Include="Microsoft.Extensions.AI" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Beacon.Domain\Beacon.Domain.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.Desk.Ui\Beacon.Desk.Ui.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.Client.Core\Beacon.Client.Core.csproj" />
+  </ItemGroup>
+
+</Project>

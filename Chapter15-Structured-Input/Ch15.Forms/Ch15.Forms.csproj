@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    The forms Beacon generates from an interrupt's responseSchema: a documented subset of JSON Schema,
+    a parser that refuses anything outside it, a validator and the editable draft a form binds to.
+    System.Text.Json only, with no AG-UI or UI dependency, so the agent validates resume payloads
+    with exactly the code the Desk and Beacon Field use to validate what a person typed.
+  -->
+  <PropertyGroup>
+    <RootNamespace>Ch15.Forms</RootNamespace>
+    <!-- .NET MAUI trims on Android and iOS; the analyzers keep the library safe for it. -->
+    <IsAotCompatible>true</IsAotCompatible>
+  </PropertyGroup>
+
+</Project>

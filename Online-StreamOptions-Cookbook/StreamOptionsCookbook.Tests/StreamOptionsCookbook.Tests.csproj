@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    The cookbook's proof: every recipe hosted behind the book's MapAGUIEndpoint with a recorded model, its
+    events asserted on the wire, frame by frame, from the raw SSE payloads; the pitfalls the cookbook states,
+    each pinned by a test; and the two ways Agent Framework's MapAGUIServer picks up AGUIStreamOptions.
+    No model, no network. Set STREAM_OPTIONS_CAPTURE_DIR to write each recipe's frames to a .sse file.
+  -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>StreamOptionsCookbook.Tests</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="xunit.v3" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
+    <PackageReference Include="AGUI.Abstractions" />
+    <PackageReference Include="AGUI.Formatting" />
+    <PackageReference Include="AGUI.Server" />
+    <PackageReference Include="Microsoft.Extensions.AI" />
+    <PackageReference Include="OpenAI" />
+    <PackageReference Include="Microsoft.Agents.AI" />
+    <PackageReference Include="Microsoft.Agents.AI.Hosting.AGUI.AspNetCore" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\StreamOptionsCookbook\StreamOptionsCookbook.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.AGUI.Hosting\Beacon.AGUI.Hosting.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.Testing\Beacon.Testing.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <!--
+    Beacon Desk for Chapter 20: Chapter 7's chat, plus a renderer for the agent's declarative surfaces.
+    Every a2ui-surface activity is validated again on arrival against the Desk's own catalog, drawn by a
+    recursive Blazor component that knows a fixed set of primitives, bound to a local data model and
+    submitted as an A2UI action in the next run's forwardedProps. Unknown components degrade to a
+    placeholder; malformed or unsafe surfaces aren't drawn at all. Interactive Server.
+  -->
+  <PropertyGroup>
+    <RootNamespace>Ch20.Beacon.Desk</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AGUI.Client" />
+    <PackageReference Include="Microsoft.Extensions.AI" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Ch20.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Beacon.Desk.Ui\Beacon.Desk.Ui.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.Client.Core\Beacon.Client.Core.csproj" />
+    <ProjectReference Include="..\Ch20.DeclarativeUi\Ch20.DeclarativeUi.csproj" />
+  </ItemGroup>
+
+</Project>

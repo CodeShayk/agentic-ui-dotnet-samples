@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Chapter 25: telemetry as a tested contract. The agent runs in memory (or on Kestrel when a test
+    needs real HTTP between spans) with OpenTelemetry's in-memory exporter, and the tests assert span
+    names and parent-child relationships, that message content stays out of telemetry by default,
+    that RUN_FINISHED carries usage, the run-cost metric and a capture/replay round trip.
+  -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Ch25.Tests</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="xunit.v3" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
+    <PackageReference Include="AGUI.Client" />
+    <PackageReference Include="OpenTelemetry.Exporter.InMemory" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Ch25.Beacon.Agent\Ch25.Beacon.Agent.csproj" />
+    <ProjectReference Include="..\Ch25.Beacon.Console\Ch25.Beacon.Console.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.Testing\Beacon.Testing.csproj" />
+  </ItemGroup>
+
+</Project>

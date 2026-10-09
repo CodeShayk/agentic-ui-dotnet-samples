@@ -1,0 +1,51 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Chapter 27: the deployed Beacon as tested behavior. The combined agent (Chapters 22-25 plus this chapter)
+    answers 401 without a token and streams for a development token; its store survives a restart and keys
+    conversations by user; a run ID runs once per user; each limit answers with its own status; the log cap and
+    the redaction compose. The Desk refuses anonymous pages and calls the agent as the signed-in user. The AG-UI
+    client policy retries only runs that never started (connect failures and timeouts, 503 or 429 with a short
+    Retry-After), its breaker trips at a dispatch desk's volume, and DeskChat reports every failure without
+    ending the circuit. The AppHost wires the resources, the development key and the published secrets.
+  -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Ch27.Tests</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="xunit.v3" />
+    <PackageReference Include="bunit" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
+    <PackageReference Include="Aspire.Hosting.Testing" />
+    <PackageReference Include="AGUI.Client" />
+    <PackageReference Include="OpenTelemetry.Exporter.InMemory" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Ch27.AppHost\Ch27.AppHost.csproj" />
+    <ProjectReference Include="..\Ch27.ServiceDefaults\Ch27.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\Ch27.Beacon.Agent\Ch27.Beacon.Agent.csproj" />
+    <ProjectReference Include="..\Ch27.Beacon.Desk\Ch27.Beacon.Desk.csproj" />
+    <ProjectReference Include="..\Ch27.Beacon.Field.Core\Ch27.Beacon.Field.Core.csproj" />
+    <ProjectReference Include="..\Ch27.SmokeTest\Ch27.SmokeTest.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.AI\Beacon.AI.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.AGUI.Hosting\Beacon.AGUI.Hosting.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.Testing\Beacon.Testing.csproj" />
+  </ItemGroup>
+
+  <!-- The Field settings files the build chooses between, to check every environment's values. -->
+  <ItemGroup>
+    <None Include="..\Ch27.Beacon.Field.Core\appsettings.*.json" Link="FieldSettings\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>

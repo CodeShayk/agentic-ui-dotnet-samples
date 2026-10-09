@@ -1,0 +1,18 @@
+data: {"type":"RUN_STARTED","threadId":"t-1","runId":"r-11","protocolVersion":"1.0"}
+
+data: {"type":"STEP_STARTED","stepName":"draft-report"}
+
+data: {"type":"TEXT_MESSAGE_START","messageId":"msg-r11-1","role":"assistant"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-r11-1","delta":"Drafting the WO-1001 "}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-r11-1","delta":"service report: arrived "}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-r11-1","delta":"9:05, unit short-cycling,"}
+
+data: {"type":"TEXT_MESSAGE_END","messageId":"msg-r11-1"}
+
+data: {"type":"STEP_FINISHED","stepName":"draft-report"}
+
+data: {"type":"RUN_FINISHED","threadId":"t-1","runId":"r-11","outcome":{"type":"cancelled"},"usage":[{"provider":"beacon","model":"beacon-scripted","inputTokens":1102,"outputTokens":14,"totalTokens":1116}]}
+

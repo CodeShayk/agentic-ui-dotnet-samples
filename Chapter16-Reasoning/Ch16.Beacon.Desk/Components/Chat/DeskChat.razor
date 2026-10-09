@@ -1,0 +1,66 @@
+@*
+    Beacon Desk's chat, driven by the conversation's view state. Each reply shows its "How I got here" panel,
+    collapsed, above an answer that renders the moment it starts streaming.
+*@
+@{
+    var view = Conversation.View;
+    var transcript = Project(view);
+}
+<ChatPanel @ref="_panel"
+           Messages="transcript.Messages"
+           Streaming="transcript.Streaming"
+           Status="StatusOf(view)"
+           ThreadId="@view.ThreadId"
+           RunId="@view.CurrentRun?.RunId"
+           Error="@ErrorOf(view)"
+           Disabled="@(!RendererInfo.IsInteractive)"
+           OnSend="SendAsync"
+           OnStop="Conversation.Stop"
+           OnNewChat="NewChat">
+    <EmptyContent>
+        <p>Ask Beacon to diagnose WO-1001, or try one of these:</p>
+        <ul class="bd-suggestions">
+            @foreach (var prompt in Suggestions)
+            {
+                <li>
+                    <button type="button"
+                            class="bd-button bd-suggestion"
+                            disabled="@(!RendererInfo.IsInteractive)"
+                            @onclick="() => SendAsync(prompt)">@prompt</button>
+                </li>
+            }
+        </ul>
+    </EmptyContent>
+    <AfterMessages>
+        <ReasoningAnnouncer Replies="transcript.Replies.Values" Expanded="_expanded" />
+    </AfterMessages>
+    <MessageTemplate Context="message">
+        @if (transcript.Replies.TryGetValue(message.Id, out var reply))
+        {
+            <ReasoningPanel Steps="reply.Steps"
+                            Expanded="@_expanded.Contains(reply.Id)"
+                            ExpandedChanged="open => SetExpanded(reply.Id, open)" />
+
+            @if (reply.Answer.Length > 0)
+            {
+                <MarkdownView Markdown="@reply.Answer" />
+            }
+            else if (!reply.IsStreaming)
+            {
+                <p class="bd-message__text">@message.Text</p>
+            }
+        }
+        else
+        {
+            <p class="bd-message__text">@message.Text</p>
+        }
+    </MessageTemplate>
+</ChatPanel>
+
+@code {
+    private static readonly string[] Suggestions =
+    [
+        "Why is WO-1001 short-cycling?",
+        "Priya measured the run capacitor at 38 µF. What now?",
+    ];
+}

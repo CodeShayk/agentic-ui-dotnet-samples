@@ -1,0 +1,52 @@
+@using System.Globalization
+@inherits GeneratedComponentBase<ScheduleTimelineView>
+@*
+    One day, one lane per technician. Positions come from the shared view model as fractions of the
+    visible day; this template only turns them into percentages. Each block carries its full text for
+    screen readers, and lanes and blocks appear as their slots finish streaming.
+*@
+<article class="ch11-card ch11-timeline@(IsDraft ? " ch11-draft" : null)">
+    <header class="ch11-card__header">
+        <h3 class="ch11-card__title">@View.Title</h3>
+        @if (View.DateLabel is { } date)
+        {
+            <span class="ch11-card__meta">@date</span>
+        }
+        <DraftBadge Phase="Component.Phase" />
+    </header>
+
+    <div class="ch11-timeline__body">
+        <div class="ch11-timeline__axis" aria-hidden="true">
+            @foreach (var tick in View.Ticks)
+            {
+                <span class="ch11-timeline__tick" style="left: @Percent(tick.Offset)">@tick.Label</span>
+            }
+        </div>
+        <ol class="ch11-timeline__lanes">
+            @foreach (var lane in View.Lanes)
+            {
+                <li @key="lane.Key" class="ch11-lane">
+                    <span class="ch11-lane__name">@lane.Name</span>
+                    <div class="ch11-lane__track">
+                        @foreach (var block in lane.Blocks)
+                        {
+                            <span class="ch11-block @(block.IsFree ? "ch11-block--free" : "ch11-block--job")"
+                                  style="left: @Percent(block.Offset); width: @Percent(block.Width)"
+                                  title="@block.Description">
+                                <span class="bd-visually-hidden">@block.Description</span>
+                                @if (block.ShowsLabel)
+                                {
+                                    <span aria-hidden="true">@block.Label</span>
+                                }
+                            </span>
+                        }
+                    </div>
+                </li>
+            }
+        </ol>
+    </div>
+</article>
+
+@code {
+    private static string Percent(double fraction) => (fraction * 100).ToString("0.###", CultureInfo.InvariantCulture) + "%";
+}

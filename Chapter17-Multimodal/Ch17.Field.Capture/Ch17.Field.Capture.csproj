@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Beacon Field's capture flow without .NET MAUI: photo, recording or file, checked against Beacon's media
+    policy and held in a tray until the technician sends them. The device sits behind IPhotoSource,
+    IAudioRecorder and IFileSource, which the MAUI app implements and the tests fake. The status line's
+    wording lives here too, so it's tested without the MAUI workload.
+  -->
+  <PropertyGroup>
+    <RootNamespace>Ch17.Field.Capture</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.AI.Abstractions" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Beacon.Client.Core\Beacon.Client.Core.csproj" />
+    <ProjectReference Include="..\Ch17.Media\Ch17.Media.csproj" />
+  </ItemGroup>
+
+</Project>

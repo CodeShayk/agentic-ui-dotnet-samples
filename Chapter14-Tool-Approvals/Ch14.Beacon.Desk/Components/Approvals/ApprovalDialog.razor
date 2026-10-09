@@ -1,0 +1,135 @@
+@*
+    The approval dialog: what Beacon wants to do, what it costs and how long Dana has to answer, then
+    Approve, Edit or Deny. It never talks to the agent; it raises OnDecided and the chat sends the answer.
+    Focus moves to the title when a request arrives and to the first field of each step; Escape steps back.
+    It stays up, disabled, until the agent accepts the answer, and comes back with the reason if it doesn't.
+    The composer and the chat's own New chat wait while it is up, so after a 409 it offers New chat itself.
+*@
+@{
+    var now = Clock.GetUtcNow();
+}
+<section class="ch14-approval" role="dialog" aria-modal="false"
+         aria-labelledby="@_titleId" aria-describedby="@_messageId" @onkeydown="OnKeyDown">
+    <h3 id="@_titleId" class="ch14-approval__title" tabindex="-1" @ref="_title">@Request.Title</h3>
+    <p id="@_messageId" class="ch14-approval__message">@Request.Message</p>
+
+    <dl class="ch14-approval__facts">
+        @foreach (var argument in Arguments())
+        {
+            <div>
+                <dt>@argument.Label</dt>
+                <dd>@argument.Value</dd>
+            </div>
+        }
+        @if (Request.ExpiresAt is { } expiresAt && !Request.IsExpired(now))
+        {
+            <div>
+                <dt>Answer within</dt>
+                <dd><time datetime="@expiresAt.ToString("O")">@Time.TimeLeft(expiresAt, now)</time></dd>
+            </div>
+        }
+    </dl>
+
+    @* A polite live region, present from the first render so screen readers announce what appears in it. *@
+    <p class="ch14-approval__status" role="status">@StatusText(now)</p>
+
+    @if (Request.AlreadyCarriedOut)
+    {
+        @* Nothing to answer: the agent acted on this approval already. Only a check in a new chat is safe. *@
+        <p class="ch14-approval__error" role="alert">@Refusal(Request)</p>
+        <div class="ch14-approval__actions">
+            <button type="button" class="bd-button bd-button--primary" @onclick="OnNewChat">New chat</button>
+        </div>
+    }
+    else if (Request.IsExpired(now))
+    {
+        <p class="ch14-approval__error" role="alert">
+            This request expired, so it can no longer be approved. Dismiss it, then ask Beacon again for a new one.
+        </p>
+        <div class="ch14-approval__actions">
+            <button type="button" class="bd-button" disabled="@_sending"
+                    @onclick="() => DecideAsync(new ApprovalDecision(ApprovalChoice.Dismiss))">Dismiss</button>
+            @if (Refused)
+            {
+                <button type="button" class="bd-button bd-button--quiet" disabled="@_sending" @onclick="OnNewChat">New chat</button>
+            }
+        </div>
+    }
+    else if (_step == Step.Choose)
+    {
+        @if (Request.LastFailure is not null && !_sending)
+        {
+            <p class="ch14-approval__error" role="alert">@Refusal(Request)</p>
+        }
+        <div class="ch14-approval__actions">
+            <button type="button" class="bd-button bd-button--primary" disabled="@_sending"
+                    @onclick="() => DecideAsync(new ApprovalDecision(ApprovalChoice.Approve))">Approve</button>
+            @if (Request.CanEdit)
+            {
+                <button type="button" class="bd-button" @ref="_edit" disabled="@_sending" @onclick="() => Go(Step.Edit)">Edit…</button>
+            }
+            <button type="button" class="bd-button bd-button--stop" @ref="_deny" disabled="@_sending" @onclick="() => Go(Step.Deny)">Deny…</button>
+            @if (Request.LastFailure is not null)
+            {
+                <button type="button" class="bd-button bd-button--quiet" disabled="@_sending"
+                        @onclick="() => DecideAsync(new ApprovalDecision(ApprovalChoice.Dismiss))">Dismiss</button>
+            }
+            @if (Refused)
+            {
+                <button type="button" class="bd-button bd-button--quiet" disabled="@_sending" @onclick="OnNewChat">New chat</button>
+            }
+        </div>
+    }
+    else
+    {
+        <form class="ch14-approval__form" @onsubmit="SubmitAsync" novalidate>
+            @if (_step == Step.Edit)
+            {
+                @for (var i = 0; i < Request.EditableFields.Count; i++)
+                {
+                    var field = Request.EditableFields[i];
+                    var index = i;
+                    <div class="ch14-approval__field">
+                        <label for="@FieldId(field)">@field.Label</label>
+                        @if (field.Kind == EditableKind.Text)
+                        {
+                            <input id="@FieldId(field)" class="bd-composer__input" type="text" maxlength="@field.MaxLength"
+                                   @bind="_values[field.Name]" @ref="_fields[index]" />
+                        }
+                        else
+                        {
+                            <input id="@FieldId(field)" class="bd-composer__input" type="number" inputmode="decimal"
+                                   min="@field.Minimum" max="@field.Maximum" step="@(field.Kind == EditableKind.Integer ? "1" : "0.01")"
+                                   @bind="_values[field.Name]" @ref="_fields[index]" />
+                        }
+                    </div>
+                }
+            }
+
+            <div class="ch14-approval__field">
+                <label for="@_reasonId">@(_step == Step.Deny ? "Why are you declining?" : "Why are you changing it?")</label>
+                <textarea id="@_reasonId" class="bd-composer__input" rows="2" maxlength="@Request.MaxReasonLength"
+                          aria-describedby="@_reasonHintId @(_error is null ? null : _errorId)"
+                          @bind="_reason" @ref="_reasonBox"></textarea>
+                <p id="@_reasonHintId" class="ch14-approval__hint">Beacon reads this, and it goes in the approval log.</p>
+            </div>
+
+            @if (_error is not null)
+            {
+                <p id="@_errorId" class="ch14-approval__error" role="alert">@_error</p>
+            }
+
+            <div class="ch14-approval__actions">
+                @if (_step == Step.Deny)
+                {
+                    <button type="submit" class="bd-button bd-button--stop" disabled="@_sending">Decline</button>
+                }
+                else
+                {
+                    <button type="submit" class="bd-button bd-button--primary" disabled="@_sending">Approve with changes</button>
+                }
+                <button type="button" class="bd-button bd-button--quiet" disabled="@_sending" @onclick="Back">Back</button>
+            </div>
+        </form>
+    }
+</section>

@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Chapter 18's proof: the coordinator's stream on the wire (lifecycle pairing, attribution, parallel
+    specialists, a failure that doesn't end the run, the suspended specialist's interrupt and resume, no
+    nulls), the Desk's client stack and board projection against the agent in memory, bUnit tests of the
+    lanes, and what Agent Framework's MapAGUIServer does with a workflow. No model, no browser, no network.
+  -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Ch18.Tests</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="xunit.v3" />
+    <PackageReference Include="bunit" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
+    <PackageReference Include="AGUI.Client" />
+    <PackageReference Include="AGUI.Formatting" />
+    <PackageReference Include="AGUI.Server" />
+    <PackageReference Include="Microsoft.Extensions.AI" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Beacon.Testing\Beacon.Testing.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.Client.Core\Beacon.Client.Core.csproj" />
+    <ProjectReference Include="..\Ch18.Beacon.Agent\Ch18.Beacon.Agent.csproj" />
+    <ProjectReference Include="..\Ch18.Beacon.Desk\Ch18.Beacon.Desk.csproj" />
+    <!-- An alias: the workflow host compiles the same SpecialistScripts file as the agent. -->
+    <ProjectReference Include="..\Ch18.Beacon.Workflow\Ch18.Beacon.Workflow.csproj" Aliases="workflow" />
+  </ItemGroup>
+
+</Project>

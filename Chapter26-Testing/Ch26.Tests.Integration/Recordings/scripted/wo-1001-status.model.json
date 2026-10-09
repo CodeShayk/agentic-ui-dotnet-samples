@@ -1,0 +1,111 @@
+{
+  "format": "beacon-model-recording/1",
+  "model": "beacon-scripted",
+  "turns": [
+    [
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "functionCall",
+            "name": "get_work_order",
+            "arguments": {
+              "workOrderId": "WO-1001"
+            },
+            "informationalOnly": false,
+            "callId": "call-0001-1"
+          }
+        ],
+        "responseId": "resp-0001",
+        "messageId": "msg-0001",
+        "modelId": "beacon-scripted"
+      }
+    ],
+    [
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": "**WO-1001** is Scheduled "
+          }
+        ],
+        "responseId": "resp-0002",
+        "messageId": "msg-0002",
+        "modelId": "beacon-scripted"
+      },
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": "(High priority): Air "
+          }
+        ],
+        "responseId": "resp-0002",
+        "messageId": "msg-0002",
+        "modelId": "beacon-scripted"
+      },
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": "conditioner short-cycling and "
+          }
+        ],
+        "responseId": "resp-0002",
+        "messageId": "msg-0002",
+        "modelId": "beacon-scripted"
+      },
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": "blowing warm air. "
+          }
+        ],
+        "responseId": "resp-0002",
+        "messageId": "msg-0002",
+        "modelId": "beacon-scripted"
+      },
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": "Customer: Harbor View "
+          }
+        ],
+        "responseId": "resp-0002",
+        "messageId": "msg-0002",
+        "modelId": "beacon-scripted"
+      },
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": "Dental; equipment: Contoso "
+          }
+        ],
+        "responseId": "resp-0002",
+        "messageId": "msg-0002",
+        "modelId": "beacon-scripted"
+      },
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": "Air CA-36X."
+          }
+        ],
+        "responseId": "resp-0002",
+        "messageId": "msg-0002",
+        "modelId": "beacon-scripted"
+      }
+    ]
+  ]
+}

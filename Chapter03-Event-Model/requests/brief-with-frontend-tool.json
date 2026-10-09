@@ -1,0 +1,29 @@
+{
+  "threadId": "t-1",
+  "runId": "r-9",
+  "protocolVersion": "1.0",
+  "messages": [
+    {
+      "id": "user-1",
+      "role": "user",
+      "content": "Brief me on WO-1001"
+    }
+  ],
+  "tools": [
+    {
+      "name": "show_work_order",
+      "description": "Opens a work order on the dispatcher's screen",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "workOrderId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "workOrderId"
+        ]
+      }
+    }
+  ]
+}

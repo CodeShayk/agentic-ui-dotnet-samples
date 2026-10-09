@@ -1,0 +1,16 @@
+@*
+    Beacon Desk's workspace: what Beacon is doing, its plan and the report it is writing on the left, the
+    chat on the right. Every panel reads the same AgentConversation and renders on its own schedule.
+*@
+<DeskShell WorkAreaLabel="Diagnosis">
+    <WorkArea>
+        <div class="ch13-work">
+            <RunStatusLine />
+            <PlanChecklist />
+            <ReportPreview />
+        </div>
+    </WorkArea>
+    <Chat>
+        <DeskChat />
+    </Chat>
+</DeskShell>

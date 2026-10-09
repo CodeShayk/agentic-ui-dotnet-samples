@@ -1,0 +1,38 @@
+@*
+    Beacon Desk's workspace: the work order Beacon opened on the left, the chat on the right. Everything
+    it shows is projected from the conversation's view state (Chapter 7).
+*@
+@{
+    var view = Conversation.View;
+    var transcript = DeskTranscript.From(view);
+    var approval = ApprovalRequest.Current(view);
+}
+<DeskShell>
+    <WorkArea>
+        <WorkOrderCard State="view.State.Document" />
+    </WorkArea>
+    <Chat>
+        <ChatPanel @ref="_panel"
+                   Messages="transcript.Messages"
+                   Streaming="transcript.Streaming"
+                   Status="DeskTranscript.StatusOf(view)"
+                   ThreadId="@view.ThreadId"
+                   RunId="@view.CurrentRun?.RunId"
+                   Error="@DeskTranscript.ErrorOf(view)"
+                   Disabled="@(!RendererInfo.IsInteractive || approval is not null)"
+                   Placeholder="@(approval is null ? "Ask Beacon a question" : "Answer the approval request first")"
+                   OnSend="SendAsync"
+                   OnStop="Conversation.Stop"
+                   OnNewChat="NewChat">
+            <EmptyContent>
+                <p>Ask Beacon about a work order, a part or today's schedule.</p>
+            </EmptyContent>
+            <AfterMessages>
+                @if (approval is not null && !view.IsBusy)
+                {
+                    <ApprovalPrompt @key="approval.Id" Request="approval" OnDecided="approved => DecideAsync(approval, approved)" />
+                }
+            </AfterMessages>
+        </ChatPanel>
+    </Chat>
+</DeskShell>

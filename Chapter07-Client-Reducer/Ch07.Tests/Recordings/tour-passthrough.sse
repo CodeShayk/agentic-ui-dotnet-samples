@@ -1,0 +1,20 @@
+data: {"type":"RUN_STARTED","threadId":"t-1","runId":"r-8","protocolVersion":"1.0"}
+
+data: {"type":"RAW","event":{"kind":"stock.changed","sku":"CAP-45-5","onHand":24,"depot":"Portsmouth"},"source":"contoso-inventory"}
+
+data: {"type":"TEXT_MESSAGE_START","messageId":"msg-r8-1","role":"assistant"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-r8-1","delta":"I've let Priya "}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-r8-1","delta":"know that CAP-45-5 "}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-r8-1","delta":"is in stock "}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-r8-1","delta":"in Portsmouth."}
+
+data: {"type":"TEXT_MESSAGE_END","messageId":"msg-r8-1"}
+
+data: {"type":"CUSTOM","name":"contoso.beacon.notify","value":{"technicianId":"TECH-1","text":"CAP-45-5 is in stock in Portsmouth (24 on hand)."}}
+
+data: {"type":"RUN_FINISHED","threadId":"t-1","runId":"r-8"}
+

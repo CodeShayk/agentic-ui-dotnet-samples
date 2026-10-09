@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Chapter 22's proof: conversations survive a restart of the agent (and a crash mid-run), a restored
+    conversation renders exactly as the live one did, regenerating branches from parentRunId, compaction keeps
+    tool calls with their results and never touches an open question, a full-history client adds nothing twice,
+    and no frame writes null. Plus the Agent Framework sidebar's file-backed session store. All offline.
+  -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Ch22.Tests</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="xunit.v3" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
+    <PackageReference Include="Microsoft.Extensions.TimeProvider.Testing" />
+    <PackageReference Include="AGUI.Client" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Ch22.Beacon.Agent\Ch22.Beacon.Agent.csproj" />
+    <ProjectReference Include="..\Ch22.Beacon.Desk\Ch22.Beacon.Desk.csproj" />
+    <ProjectReference Include="..\Ch22.Beacon.AgentFramework\Ch22.Beacon.AgentFramework.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.Testing\Beacon.Testing.csproj" />
+  </ItemGroup>
+
+</Project>

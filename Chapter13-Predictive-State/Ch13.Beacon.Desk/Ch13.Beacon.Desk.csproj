@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <!--
+    Beacon Desk for Chapter 13: the diagnosis as it happens. A plan checklist and a live service-report
+    preview read the shared state, the chat shows the agent's "What Beacon checked" activity in place,
+    and a status line follows the run's steps. Each panel renders only when its own slice changes, at
+    most every 100 milliseconds. Interactive Server.
+  -->
+  <PropertyGroup>
+    <RootNamespace>Ch13.Beacon.Desk</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AGUI.Client" />
+    <PackageReference Include="Microsoft.Extensions.AI" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Ch13.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Beacon.Desk.Ui\Beacon.Desk.Ui.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.Client.Core\Beacon.Client.Core.csproj" />
+  </ItemGroup>
+
+</Project>

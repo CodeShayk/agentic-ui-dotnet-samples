@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <!--
+    A scripted AG-UI producer for Chapter 3. It answers POST /agent with one hand-scripted Beacon run
+    per event family, built from the AGUI.Abstractions event types, so every family can be seen on the
+    wire (curl -N) and checked with Ch03.ValidateStream. It has no model behind it; Chapter 4 replaces
+    hand-scripted events with the SDK's server adapter.
+  -->
+  <PropertyGroup>
+    <RootNamespace>Ch03.EventTour</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AGUI.Abstractions" />
+  </ItemGroup>
+
+</Project>

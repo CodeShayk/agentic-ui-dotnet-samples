@@ -1,0 +1,63 @@
+@*
+    Beacon Desk's chat, driven by the conversation's view state (Chapter 7). Assistant text renders as
+    Markdown, ordinary tool calls as activity lines and component calls through the component host.
+*@
+@{
+    var view = Conversation.View;
+    var transcript = Project(view);
+}
+<ChatPanel @ref="_panel"
+           Messages="transcript.Messages"
+           Streaming="transcript.Streaming"
+           Status="StatusOf(view)"
+           ThreadId="@view.ThreadId"
+           RunId="@view.CurrentRun?.RunId"
+           Error="@ErrorOf(view)"
+           Disabled="!RendererInfo.IsInteractive"
+           OnSend="SendAsync"
+           OnStop="Conversation.Stop"
+           OnNewChat="NewChat">
+    <EmptyContent>
+        <p>Ask Beacon something it can show you. For example:</p>
+        <ul class="bd-suggestions">
+            @foreach (var prompt in Suggestions)
+            {
+                <li>
+                    <button type="button"
+                            class="bd-button bd-suggestion"
+                            disabled="@(!RendererInfo.IsInteractive)"
+                            @onclick="() => SendAsync(prompt)">@prompt</button>
+                </li>
+            }
+        </ul>
+    </EmptyContent>
+    <MessageTemplate Context="message">
+        @if (transcript.Components.TryGetValue(message.Id, out var component))
+        {
+            <GeneratedComponentHost Component="component" OnAction="OnComponentActionAsync" />
+        }
+        else if (transcript.ToolLines.TryGetValue(message.Id, out var calls))
+        {
+            <ToolActivityLine Calls="calls" />
+        }
+        else if (message.Author == ChatAuthor.Assistant)
+        {
+            <MarkdownView Markdown="@message.Text" />
+        }
+        else
+        {
+            <p class="bd-message__text">@message.Text</p>
+        }
+    </MessageTemplate>
+</ChatPanel>
+
+@code {
+    private static readonly string[] Suggestions =
+    [
+        "Which capacitor fits WO-1001?",
+        "Show today's schedule",
+        "Chart the fault history for EQ-501",
+        "Show me a card for part CAP-99",
+        "Show WO-1001 as an invoice",
+    ];
+}

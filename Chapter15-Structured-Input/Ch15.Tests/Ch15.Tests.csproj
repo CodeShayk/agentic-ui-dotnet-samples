@@ -1,0 +1,44 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Chapter 15's proof: the schema subset (parsing, validation, drafts), the agent's input interrupts on the
+    wire, resume validation (valid, invalid, expired, replayed, unknown, uncovered and abandoned answers),
+    two interrupts in one run, the client conversation end to end and the Desk's generated form in bUnit.
+    Expiry is checked with a fake clock shared by the agent and the client. No model, browser or network.
+  -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Ch15.Tests</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="xunit.v3" />
+    <PackageReference Include="bunit" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
+    <PackageReference Include="Microsoft.Extensions.TimeProvider.Testing" />
+    <PackageReference Include="AGUI.Client" />
+    <PackageReference Include="AGUI.Formatting" />
+    <PackageReference Include="AGUI.Server" />
+    <PackageReference Include="Microsoft.Extensions.AI" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <!-- Beacon Field's status wording and HTTP client have no .NET MAUI dependency, so they're compiled in and tested without the workload. -->
+  <ItemGroup>
+    <Compile Include="..\Ch15.Beacon.Field\FieldStatus.cs" Link="Linked\FieldStatus.cs" />
+    <Compile Include="..\Ch15.Beacon.Field\AgentHttp.cs" Link="Linked\AgentHttp.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Beacon.Client.Core\Beacon.Client.Core.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.Domain\Beacon.Domain.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.Testing\Beacon.Testing.csproj" />
+    <ProjectReference Include="..\Ch15.Forms\Ch15.Forms.csproj" />
+    <ProjectReference Include="..\Ch15.Beacon.Agent\Ch15.Beacon.Agent.csproj" />
+    <ProjectReference Include="..\Ch15.Beacon.Desk\Ch15.Beacon.Desk.csproj" />
+  </ItemGroup>
+
+</Project>

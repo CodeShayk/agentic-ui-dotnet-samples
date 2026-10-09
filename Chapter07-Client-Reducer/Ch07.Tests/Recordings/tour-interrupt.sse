@@ -1,0 +1,26 @@
+data: {"type":"RUN_STARTED","threadId":"t-1","runId":"r-10","protocolVersion":"1.0"}
+
+data: {"type":"TEXT_MESSAGE_START","messageId":"msg-r10-1","role":"assistant"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-r10-1","delta":"CMP-CA36 costs $1,795.00, "}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-r10-1","delta":"which is over "}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-r10-1","delta":"the $500 approval "}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-r10-1","delta":"limit, so a "}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-r10-1","delta":"dispatcher has to "}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-r10-1","delta":"approve this order."}
+
+data: {"type":"TEXT_MESSAGE_END","messageId":"msg-r10-1"}
+
+data: {"type":"TOOL_CALL_START","toolCallId":"call-r10-1","toolCallName":"place_part_order","parentMessageId":"msg-r10-1"}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call-r10-1","delta":"{\"workOrderId\":\"WO-1001\",\"sku\":\"CMP-CA36\",\"quantity\":1}"}
+
+data: {"type":"TOOL_CALL_END","toolCallId":"call-r10-1"}
+
+data: {"type":"RUN_FINISHED","threadId":"t-1","runId":"r-10","outcome":{"type":"interrupt","interrupts":[{"id":"approval-r10-1","reason":"tool_call","message":"Approve ordering 1 x CMP-CA36 ($1,795.00) for WO-1001?","toolCallId":"call-r10-1","responseSchema":{"type":"object","properties":{"approved":{"type":"boolean"}},"required":["approved"]},"expiresAt":"2026-11-16T17:00:00-05:00"}]}}
+

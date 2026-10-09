@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <!--
+    Chapter 23, optional path: Beacon behind Microsoft Agent Framework's MapAGUIServer, with
+    authentication, an authorization policy, a session store partitioned by the caller's claims, the
+    client-message filter and a run budget (agent middleware), CORS, a per-user rate limit and a body
+    limit (endpoint conventions) and input validation (an endpoint filter). No approvals: the output
+    side has no hook, and Beacon's approvals need per-run state the handler builds.
+    Microsoft.Agents.AI.Hosting.AGUI.AspNetCore and Microsoft.Agents.AI.Hosting.AspNetCore are PREVIEW
+    packages (1.23.0-preview.260928.1). AgentSessionStore and InMemoryAgentSessionStore are
+    experimental (MAAI001, suppressed in Directory.Build.props).
+  -->
+  <PropertyGroup>
+    <RootNamespace>Ch23.Beacon.AgentFramework</RootNamespace>
+    <UserSecretsId>beacon-ch23-agentframework</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AGUI.Abstractions" />
+    <PackageReference Include="Microsoft.Agents.AI" />
+    <PackageReference Include="Microsoft.Agents.AI.Hosting.AGUI.AspNetCore" />
+    <PackageReference Include="Microsoft.Agents.AI.Hosting.AspNetCore" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Beacon.AI\Beacon.AI.csproj" />
+    <ProjectReference Include="..\Ch23.Beacon.Security\Ch23.Beacon.Security.csproj" />
+  </ItemGroup>
+
+</Project>

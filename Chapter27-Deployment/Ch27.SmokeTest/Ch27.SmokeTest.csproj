@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Chapter 27: a production smoke test. It checks readiness, that a run without a token gets 401, streams one
+    run and fails if the events arrive in a single burst (something buffered the stream) or the run doesn't end
+    with RUN_FINISHED.
+    Under the AppHost it runs once the agent is healthy; in Azure it is a manually triggered Container
+    Apps job inside the environment, so it reaches the agent through the environment's ingress.
+      Run it alone with: dotnet run (add the argument Smoke:AgentUrl=http://localhost:5270)
+  -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Ch27.SmokeTest</RootNamespace>
+    <ContainerRepository>contoso/beacon-smoke</ContainerRepository>
+    <ContainerFamily>resolute-chiseled-extra</ContainerFamily>
+    <EnableSdkContainerSupport>true</EnableSdkContainerSupport>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Azure.Identity" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Ch27.ServiceDefaults\Ch27.ServiceDefaults.csproj" />
+  </ItemGroup>
+
+</Project>

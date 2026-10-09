@@ -1,0 +1,101 @@
+@*
+    The conversations the agent keeps about one work order, the branches of the open one and, when the agent
+    works from a summary of older turns, what it summarized. Everything here comes from the agent's store; the
+    Desk keeps nothing between sessions.
+*@
+@{
+    var view = Conversation.View;
+    var compaction = CompactionOf(view);
+}
+<div class="ch22-panel">
+    <div class="ch22-panel__picker">
+        <label for="ch22-work-order">Work order</label>
+        <select id="ch22-work-order" class="ch22-input" value="@_workOrderId" @onchange="ChangeWorkOrderAsync" disabled="@view.IsBusy">
+            @foreach (var workOrder in WorkOrders)
+            {
+                <option value="@workOrder">@workOrder</option>
+            }
+        </select>
+        <button type="button" class="bd-button bd-button--quiet" disabled="@view.IsBusy" @onclick="RefreshAsync">Refresh</button>
+    </div>
+
+    <h3 class="ch22-panel__heading">Conversations about @_workOrderId</h3>
+    @if (_error is not null)
+    {
+        <p class="ch22-panel__error" role="alert">@_error</p>
+    }
+    else if (_threads.Count == 0)
+    {
+        <p class="ch22-panel__empty">None yet. A conversation appears here once Beacon has answered in it.</p>
+    }
+    else
+    {
+        <ul class="ch22-threads">
+            @foreach (var thread in _threads)
+            {
+                var open = thread.ThreadId == view.ThreadId;
+                <li class="ch22-threads__item @(open ? "ch22-threads__item--open" : null)">
+                    <button type="button" class="ch22-threads__open" disabled="@(view.IsBusy || open)" aria-current="@(open ? "true" : null)"
+                            @onclick="() => OpenAsync(thread.ThreadId, null)">
+                        <span class="ch22-threads__title">@thread.Title</span>
+                        <span class="ch22-threads__meta">
+                            @thread.UpdatedAt.ToLocalTime().ToString("MMM d, HH:mm", CultureInfo.InvariantCulture) · @thread.RunCount run@(thread.RunCount == 1 ? "" : "s")
+                        </span>
+                        <span class="ch22-threads__badges">
+                            @if (thread.AwaitingInput)
+                            {
+                                <span class="bd-badge ch22-badge--waiting">Waiting for an answer</span>
+                            }
+                            @if (thread.BranchCount > 1)
+                            {
+                                <span class="bd-badge">@thread.BranchCount branches</span>
+                            }
+                            @if (thread.Compacted)
+                            {
+                                <span class="bd-badge">Summarized</span>
+                            }
+                        </span>
+                    </button>
+                </li>
+            }
+        </ul>
+    }
+
+    @if (Sessions.Document is { Leaves.Count: > 1 } document)
+    {
+        <h3 class="ch22-panel__heading">Branches of this conversation</h3>
+        <ul class="ch22-branches">
+            @foreach (var leaf in document.Leaves.Select(id => document.Runs.First(r => r.RunId == id)).OrderByDescending(r => r.StartedAt))
+            {
+                var showing = view.CurrentRun?.RunId == leaf.RunId;
+                <li class="ch22-branches__item">
+                    <span class="ch22-branches__preview">@(leaf.Preview is { } preview ? SafeMarkdown.ToPlainText(preview) : "(no answer)")</span>
+                    @if (showing)
+                    {
+                        <span class="bd-badge">Showing</span>
+                    }
+                    else
+                    {
+                        <button type="button" class="bd-button bd-button--quiet" disabled="@view.IsBusy"
+                                @onclick="() => OpenAsync(document.ThreadId, leaf.RunId)">Open</button>
+                    }
+                </li>
+            }
+        </ul>
+    }
+
+    @if (compaction is not null)
+    {
+        <section class="ch22-compaction" aria-labelledby="ch22-compaction-title">
+            <h3 id="ch22-compaction-title" class="ch22-panel__heading">Beacon is working from a summary</h3>
+            <p>
+                The first @compaction.SummarizedMessages messages reach the model as a summary (about
+                @compaction.EstimatedTokensBefore tokens down to @compaction.EstimatedTokensAfter). The transcript still has every one.
+            </p>
+            <details>
+                <summary>What Beacon remembers of them</summary>
+                <pre class="ch22-compaction__summary">@compaction.Summary</pre>
+            </details>
+        </section>
+    }
+</div>

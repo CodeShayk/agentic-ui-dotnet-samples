@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <!--
+    Beacon's agent for Chapter 12: Chapter 5's pipeline plus a shared work-order sheet. The sheet is
+    AG-UI state: the endpoint validates what the client sends, the pipeline repairs what the server
+    owns, tools change the sheet through STATE_SNAPSHOT and STATE_DELTA, and every run that patched the
+    sheet ends with a snapshot. The dispatcher's context (the day on her board) reaches the model as data.
+  -->
+  <PropertyGroup>
+    <RootNamespace>Ch12.Beacon.Agent</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AGUI.Server" />
+    <PackageReference Include="Microsoft.Extensions.AI" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Ch12.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Beacon.Domain\Beacon.Domain.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.AI\Beacon.AI.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.AGUI.Hosting\Beacon.AGUI.Hosting.csproj" />
+  </ItemGroup>
+
+</Project>

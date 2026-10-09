@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <!--
+    Beacon's agent for Chapter 11: Chapter 5's pipeline with the component catalog offered as server
+    tools whose arguments are the props. The server is the authority: it validates every component
+    call against its schema and its own data, answers it with an accepted or rejected envelope, and
+    refuses calls to tools nobody offered. Arguments stream in pieces so clients can render progressively.
+  -->
+  <PropertyGroup>
+    <RootNamespace>Ch11.Beacon.Agent</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AGUI.Server" />
+    <PackageReference Include="Microsoft.Extensions.AI" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Beacon.Domain\Beacon.Domain.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.AI\Beacon.AI.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.AGUI.Hosting\Beacon.AGUI.Hosting.csproj" />
+    <ProjectReference Include="..\Ch11.Beacon.Components\Ch11.Beacon.Components.csproj" />
+  </ItemGroup>
+
+</Project>

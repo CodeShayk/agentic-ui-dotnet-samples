@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <!--
+    Chapter 25: Beacon's agent with OpenTelemetry traces, metrics and logs. It exports the AG-UI run
+    span (Experimental.AGUI.Server), the generative AI spans and metrics from Microsoft.Extensions.AI,
+    ASP.NET Core and HttpClient instrumentation and a per-run cost metric, over OTLP to the Aspire
+    dashboard (OTEL_EXPORTER_OTLP_ENDPOINT) or to the console when no endpoint is configured.
+    Keep AI:ApiKey in User Secrets: dotnet user-secrets set "AI:ApiKey" "<key>"
+  -->
+  <PropertyGroup>
+    <RootNamespace>Ch25.Beacon.Agent</RootNamespace>
+    <UserSecretsId>beacon-ch25-agent</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="OpenTelemetry.Extensions.Hosting" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.Http" />
+    <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" />
+    <PackageReference Include="OpenTelemetry.Exporter.Console" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Beacon.AI\Beacon.AI.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.AGUI.Hosting\Beacon.AGUI.Hosting.csproj" />
+  </ItemGroup>
+
+</Project>

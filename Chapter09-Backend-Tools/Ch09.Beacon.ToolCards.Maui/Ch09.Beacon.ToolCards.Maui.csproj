@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Beacon Field's half of section 9.4: a .NET MAUI DataTemplateSelector that picks a card template by
+    the type of ToolCard.Body. It references Microsoft.Maui.Controls' platform-neutral build rather than
+    being a MAUI app, so Ch09.Tests can check the selection without the MAUI workload; a Field page sets
+    the templates in XAML and uses the selector as its list's ItemTemplate.
+  -->
+  <PropertyGroup>
+    <RootNamespace>Ch09.Beacon.ToolCards.Maui</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Maui.Controls" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Ch09.Beacon.ToolCards\Ch09.Beacon.ToolCards.csproj" />
+  </ItemGroup>
+
+</Project>

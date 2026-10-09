@@ -1,0 +1,370 @@
+{
+  "format": "beacon-model-recording/1",
+  "model": "llama3.2",
+  "turns": [
+    [
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "functionCall",
+            "name": "check_warranty",
+            "arguments": {
+              "equipmentId": "EQ-501"
+            },
+            "informationalOnly": false,
+            "callId": "8680a577"
+          }
+        ],
+        "responseId": "0d2a50a7c58a463a91cf786715e45e33",
+        "messageId": "0d2a50a7c58a463a91cf786715e45e33",
+        "createdAt": "2026-10-03T17:07:25.2937651\u002B00:00",
+        "modelId": "llama3.2"
+      },
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": ""
+          },
+          {
+            "$type": "usage",
+            "details": {
+              "inputTokenCount": 879,
+              "outputTokenCount": 21,
+              "totalTokenCount": 900
+            }
+          }
+        ],
+        "additionalProperties": {
+          "load_duration": "00:00:00.0146602",
+          "total_duration": "00:00:01.1657859",
+          "prompt_eval_duration": "00:00:00.4558150",
+          "eval_duration": "00:00:00.6905810"
+        },
+        "responseId": "0d2a50a7c58a463a91cf786715e45e33",
+        "messageId": "0d2a50a7c58a463a91cf786715e45e33",
+        "createdAt": "2026-10-03T17:07:25.3269984\u002B00:00",
+        "finishReason": "stop",
+        "modelId": "llama3.2"
+      }
+    ],
+    [
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": "EQ"
+          }
+        ],
+        "responseId": "636fd37af17e43ecac4295c4994205e8",
+        "messageId": "636fd37af17e43ecac4295c4994205e8",
+        "createdAt": "2026-10-03T17:07:25.5461713\u002B00:00",
+        "modelId": "llama3.2"
+      },
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": "-"
+          }
+        ],
+        "responseId": "636fd37af17e43ecac4295c4994205e8",
+        "messageId": "636fd37af17e43ecac4295c4994205e8",
+        "createdAt": "2026-10-03T17:07:25.576374\u002B00:00",
+        "modelId": "llama3.2"
+      },
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": "501"
+          }
+        ],
+        "responseId": "636fd37af17e43ecac4295c4994205e8",
+        "messageId": "636fd37af17e43ecac4295c4994205e8",
+        "createdAt": "2026-10-03T17:07:25.606045\u002B00:00",
+        "modelId": "llama3.2"
+      },
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": " is"
+          }
+        ],
+        "responseId": "636fd37af17e43ecac4295c4994205e8",
+        "messageId": "636fd37af17e43ecac4295c4994205e8",
+        "createdAt": "2026-10-03T17:07:25.6309359\u002B00:00",
+        "modelId": "llama3.2"
+      },
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": " still"
+          }
+        ],
+        "responseId": "636fd37af17e43ecac4295c4994205e8",
+        "messageId": "636fd37af17e43ecac4295c4994205e8",
+        "createdAt": "2026-10-03T17:07:25.6636696\u002B00:00",
+        "modelId": "llama3.2"
+      },
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": " under"
+          }
+        ],
+        "responseId": "636fd37af17e43ecac4295c4994205e8",
+        "messageId": "636fd37af17e43ecac4295c4994205e8",
+        "createdAt": "2026-10-03T17:07:25.6929484\u002B00:00",
+        "modelId": "llama3.2"
+      },
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": " warranty"
+          }
+        ],
+        "responseId": "636fd37af17e43ecac4295c4994205e8",
+        "messageId": "636fd37af17e43ecac4295c4994205e8",
+        "createdAt": "2026-10-03T17:07:25.7222299\u002B00:00",
+        "modelId": "llama3.2"
+      },
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": ","
+          }
+        ],
+        "responseId": "636fd37af17e43ecac4295c4994205e8",
+        "messageId": "636fd37af17e43ecac4295c4994205e8",
+        "createdAt": "2026-10-03T17:07:25.763037\u002B00:00",
+        "modelId": "llama3.2"
+      },
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": " with"
+          }
+        ],
+        "responseId": "636fd37af17e43ecac4295c4994205e8",
+        "messageId": "636fd37af17e43ecac4295c4994205e8",
+        "createdAt": "2026-10-03T17:07:25.8462534\u002B00:00",
+        "modelId": "llama3.2"
+      },
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": " parts"
+          }
+        ],
+        "responseId": "636fd37af17e43ecac4295c4994205e8",
+        "messageId": "636fd37af17e43ecac4295c4994205e8",
+        "createdAt": "2026-10-03T17:07:25.9352821\u002B00:00",
+        "modelId": "llama3.2"
+      },
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": " coverage"
+          }
+        ],
+        "responseId": "636fd37af17e43ecac4295c4994205e8",
+        "messageId": "636fd37af17e43ecac4295c4994205e8",
+        "createdAt": "2026-10-03T17:07:25.9862695\u002B00:00",
+        "modelId": "llama3.2"
+      },
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": " for"
+          }
+        ],
+        "responseId": "636fd37af17e43ecac4295c4994205e8",
+        "messageId": "636fd37af17e43ecac4295c4994205e8",
+        "createdAt": "2026-10-03T17:07:26.0606121\u002B00:00",
+        "modelId": "llama3.2"
+      },
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": " "
+          }
+        ],
+        "responseId": "636fd37af17e43ecac4295c4994205e8",
+        "messageId": "636fd37af17e43ecac4295c4994205e8",
+        "createdAt": "2026-10-03T17:07:26.1010478\u002B00:00",
+        "modelId": "llama3.2"
+      },
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": "10"
+          }
+        ],
+        "responseId": "636fd37af17e43ecac4295c4994205e8",
+        "messageId": "636fd37af17e43ecac4295c4994205e8",
+        "createdAt": "2026-10-03T17:07:26.1769132\u002B00:00",
+        "modelId": "llama3.2"
+      },
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": " years"
+          }
+        ],
+        "responseId": "636fd37af17e43ecac4295c4994205e8",
+        "messageId": "636fd37af17e43ecac4295c4994205e8",
+        "createdAt": "2026-10-03T17:07:26.2161115\u002B00:00",
+        "modelId": "llama3.2"
+      },
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": " and"
+          }
+        ],
+        "responseId": "636fd37af17e43ecac4295c4994205e8",
+        "messageId": "636fd37af17e43ecac4295c4994205e8",
+        "createdAt": "2026-10-03T17:07:26.2531666\u002B00:00",
+        "modelId": "llama3.2"
+      },
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": " labor"
+          }
+        ],
+        "responseId": "636fd37af17e43ecac4295c4994205e8",
+        "messageId": "636fd37af17e43ecac4295c4994205e8",
+        "createdAt": "2026-10-03T17:07:26.2871354\u002B00:00",
+        "modelId": "llama3.2"
+      },
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": " coverage"
+          }
+        ],
+        "responseId": "636fd37af17e43ecac4295c4994205e8",
+        "messageId": "636fd37af17e43ecac4295c4994205e8",
+        "createdAt": "2026-10-03T17:07:26.3286707\u002B00:00",
+        "modelId": "llama3.2"
+      },
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": " that"
+          }
+        ],
+        "responseId": "636fd37af17e43ecac4295c4994205e8",
+        "messageId": "636fd37af17e43ecac4295c4994205e8",
+        "createdAt": "2026-10-03T17:07:26.3689844\u002B00:00",
+        "modelId": "llama3.2"
+      },
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": " has"
+          }
+        ],
+        "responseId": "636fd37af17e43ecac4295c4994205e8",
+        "messageId": "636fd37af17e43ecac4295c4994205e8",
+        "createdAt": "2026-10-03T17:07:26.3977747\u002B00:00",
+        "modelId": "llama3.2"
+      },
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": " expired"
+          }
+        ],
+        "responseId": "636fd37af17e43ecac4295c4994205e8",
+        "messageId": "636fd37af17e43ecac4295c4994205e8",
+        "createdAt": "2026-10-03T17:07:26.4295444\u002B00:00",
+        "modelId": "llama3.2"
+      },
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": "."
+          }
+        ],
+        "responseId": "636fd37af17e43ecac4295c4994205e8",
+        "messageId": "636fd37af17e43ecac4295c4994205e8",
+        "createdAt": "2026-10-03T17:07:26.4610973\u002B00:00",
+        "modelId": "llama3.2"
+      },
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": ""
+          },
+          {
+            "$type": "usage",
+            "details": {
+              "inputTokenCount": 301,
+              "outputTokenCount": 23,
+              "totalTokenCount": 324
+            }
+          }
+        ],
+        "additionalProperties": {
+          "load_duration": "00:00:00.0039529",
+          "total_duration": "00:00:01.1735136",
+          "prompt_eval_duration": "00:00:00.1490449",
+          "eval_duration": "00:00:00.9561970"
+        },
+        "responseId": "636fd37af17e43ecac4295c4994205e8",
+        "messageId": "636fd37af17e43ecac4295c4994205e8",
+        "createdAt": "2026-10-03T17:07:26.5032566\u002B00:00",
+        "finishReason": "stop",
+        "modelId": "llama3.2"
+      }
+    ]
+  ]
+}

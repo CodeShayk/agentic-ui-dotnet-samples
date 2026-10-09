@@ -1,0 +1,30 @@
+@using System.Globalization
+@* The result of get_work_order: what a dispatcher checks first, at a glance. *@
+<article class="ch09-card ch09-card--work-order" aria-label="Work order @Order.Id">
+    <header class="ch09-card__header">
+        <strong class="ch09-card__title">@Order.Id</strong>
+        <span class="ch09-pill">@Words(Order.Status)</span>
+        <span class="ch09-pill ch09-pill--@Order.Priority.ToLowerInvariant()">@Order.Priority priority</span>
+    </header>
+    <p class="ch09-card__summary">@Order.Summary</p>
+    <dl class="ch09-facts">
+        <dt>Customer</dt>
+        <dd>@Order.Customer</dd>
+        <dt>Equipment</dt>
+        <dd>@Order.Equipment (@Order.EquipmentId)</dd>
+        <dt>Scheduled</dt>
+        <dd>@(Order.ScheduledFor?.ToString("ddd MMM d, HH:mm", CultureInfo.InvariantCulture) ?? "Not scheduled")</dd>
+        <dt>Technician</dt>
+        <dd>@(Order.TechnicianId ?? "Unassigned")</dd>
+        <dt>Checklist</dt>
+        <dd>@Order.ChecklistDone of @Order.ChecklistTotal done</dd>
+    </dl>
+</article>
+
+@code {
+    [Parameter, EditorRequired] public WorkOrderBody Order { get; set; } = default!;
+
+    // "InProgress" -> "In progress", "AwaitingParts" -> "Awaiting parts".
+    private static string Words(string value) =>
+        string.Concat(value.Select((c, i) => i > 0 && char.IsUpper(c) ? " " + char.ToLowerInvariant(c) : c.ToString()));
+}

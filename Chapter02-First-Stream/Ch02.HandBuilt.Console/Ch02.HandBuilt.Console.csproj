@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Chapter 2: a console client for the hand-built endpoint. No AGUI.* package: it POSTs the run
+    input with HttpClient and reads the stream with System.Net.ServerSentEvents.SseParser.
+    Chapter 4 replaces it with AGUIChatClient.
+  -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Ch02.HandBuilt.Console</RootNamespace>
+  </PropertyGroup>
+
+</Project>

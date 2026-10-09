@@ -1,0 +1,104 @@
+/* Chapter 19 additions to Beacon Desk: the "About this agent" card, the reasoning panel and the
+   adaptive composer. Colors come from Beacon.Desk.Ui's tokens, so light and dark themes both work. */
+
+.ch19-work {
+    display: grid;
+    gap: 16px;
+    align-content: start;
+}
+
+.ch19-panel__title {
+    font-size: 18px;
+    margin: 0 0 8px;
+}
+
+.ch19-muted {
+    color: var(--bd-muted);
+    margin: 0 0 8px;
+}
+
+.ch19-warning {
+    color: var(--bd-warning);
+    font-weight: 600;
+    margin: 8px 0 0;
+}
+
+.ch19-identity {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 12px;
+    font-weight: 600;
+}
+
+.ch19-features {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.ch19-features th,
+.ch19-features td {
+    text-align: left;
+    padding: 6px 8px;
+    border-bottom: 1px solid var(--bd-border);
+}
+
+.ch19-features thead th {
+    color: var(--bd-muted);
+    font-weight: 600;
+}
+
+.ch19-protocol {
+    margin: 12px 0 0;
+    font-size: 14px;
+}
+
+.ch19-reasoning__text {
+    white-space: pre-wrap;
+    margin: 0 0 8px;
+}
+
+.ch19-attach {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+}
+
+.ch19-attach__file {
+    max-width: 110px;
+    font-size: 12px;
+}
+
+/* With attach controls the actions no longer fit beside the input: put them on their own row. */
+.ch19-composer .bd-composer {
+    grid-template-columns: minmax(0, 1fr);
+}
+
+.ch19-composer .bd-composer__actions {
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.ch19-attach:focus-within {
+    outline: 2px solid var(--bd-focus);
+    outline-offset: 2px;
+}
+
+.ch19-tray {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    list-style: none;
+    margin: 0 0 8px;
+    padding: 0;
+}
+
+.ch19-notes {
+    margin: 0 16px 12px;
+    padding-left: 18px;
+    color: var(--bd-muted);
+    font-size: 13px;
+}

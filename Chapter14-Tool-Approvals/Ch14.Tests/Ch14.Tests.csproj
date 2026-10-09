@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Chapter 14's proof: the approval flow end to end against Ch14.Beacon.Agent in memory (approve, deny,
+    edit, below the threshold), the server's enforcement (forged, replayed, mismatched, expired and
+    cross-thread answers, the mixed-turn bypass), the audit, the official client through Beacon.Client.Core,
+    and bUnit tests of the Desk's approval dialog. No model, no browser, no network.
+  -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Ch14.Tests</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="xunit.v3" />
+    <PackageReference Include="bunit" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
+    <PackageReference Include="Microsoft.Extensions.TimeProvider.Testing" />
+    <PackageReference Include="AGUI.Client" />
+    <PackageReference Include="AGUI.Formatting" />
+    <PackageReference Include="AGUI.Server" />
+    <PackageReference Include="Microsoft.Extensions.AI" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Beacon.Testing\Beacon.Testing.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.Client.Core\Beacon.Client.Core.csproj" />
+    <ProjectReference Include="..\Ch14.Beacon.Agent\Ch14.Beacon.Agent.csproj" />
+    <ProjectReference Include="..\Ch14.Beacon.Desk\Ch14.Beacon.Desk.csproj" />
+  </ItemGroup>
+
+</Project>

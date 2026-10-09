@@ -1,0 +1,53 @@
+@*
+    "How I got here": the steps behind one reply, collapsed by default and placed above the answer, which
+    renders as soon as it arrives whatever the panel is doing. Three levels: the status line is always
+    visible, the steps open on request, and sealed reasoning is acknowledged but never shown. The panel
+    announces nothing itself; ReasoningAnnouncer reads finished steps aloud only while a panel is open.
+*@
+@if (Steps.Count > 0)
+{
+    <section class="ch16-reasoning@(Expanded ? " ch16-reasoning--open" : string.Empty)" aria-label="@Label">
+        <button type="button"
+                class="ch16-reasoning__toggle"
+                aria-expanded="@(Expanded ? "true" : "false")"
+                aria-controls="@_bodyId"
+                @onclick="ToggleAsync">
+            <span class="ch16-reasoning__chevron" aria-hidden="true"></span>
+            <span class="ch16-reasoning__label">@Label</span>
+            <span class="ch16-reasoning__status">@Status</span>
+        </button>
+        <div id="@_bodyId" class="ch16-reasoning__body" hidden="@(!Expanded)">
+            @if (Expanded)
+            {
+                <ol class="ch16-reasoning__steps">
+                    @foreach (var step in Steps)
+                    {
+                        <li @key="step.Id" class="ch16-step ch16-step--@(step.Kind == ReplyStepKind.Thought ? "thought" : "lookup")">
+                            @if (step.Kind == ReplyStepKind.Lookup)
+                            {
+                                <span class="ch16-step__lookup">@step.Text@(step.InProgress ? "…" : string.Empty)</span>
+                            }
+                            else if (step.Text.Length > 0)
+                            {
+                                @* Reasoning is model output: through the sanitizing Markdown view, never raw markup. *@
+                                <MarkdownView Markdown="@step.Text" />
+                            }
+                            else
+                            {
+                                <span class="ch16-step__withheld">Beacon's reasoning for this step isn't shown here.</span>
+                            }
+                        </li>
+                    }
+                </ol>
+
+                @if (Steps.Any(s => s.IsSealed))
+                {
+                    <p class="ch16-reasoning__sealed">
+                        Beacon's model provider sealed its full reasoning. The Desk keeps it, unread, and returns it with
+                        your next question so Beacon can pick up where it left off.
+                    </p>
+                }
+            }
+        </div>
+    </section>
+}

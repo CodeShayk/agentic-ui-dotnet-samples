@@ -1,0 +1,25 @@
+@*
+    Beacon Desk's home screen. The shell and the work area are static server-rendered HTML; only the
+    chat is interactive, in the render mode the hosting page chooses. One island, one decision.
+*@
+<DeskShell>
+    <WorkArea>
+        <div class="bd-card">
+            <h1>Dispatch</h1>
+            <p class="bd-card__meta">Monday, November 16, 2026 · Seacoast and Inland regions</p>
+            @About
+            <p>The work order you're handling will open here. Until then, ask Beacon in the chat.</p>
+        </div>
+    </WorkArea>
+    <Chat>
+        <DeskChat @rendermode="ChatRenderMode" />
+    </Chat>
+</DeskShell>
+
+@code {
+    /// <summary>Where the chat runs: <c>InteractiveServer</c> or <c>InteractiveWebAssembly</c>.</summary>
+    [Parameter, EditorRequired] public IComponentRenderMode? ChatRenderMode { get; set; }
+
+    /// <summary>A sentence or two about where this page's chat runs.</summary>
+    [Parameter] public RenderFragment? About { get; set; }
+}

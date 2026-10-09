@@ -1,0 +1,22 @@
+# run <run-1> (resume: 0)
+RUN_STARTED {"threadId":"<thread-1>","runId":"<run-1>","protocolVersion":"1.0"}
+TEXT_MESSAGE_START {"messageId":"<message-1>","role":"assistant","rawEvent":"…"}
+TEXT_MESSAGE_CONTENT {"messageId":"<message-1>","delta":"I'll order one ","rawEvent":"…"}
+TEXT_MESSAGE_CONTENT {"messageId":"<message-1>","delta":"CMP-CA36 for WO-1001.","rawEvent":"…"}
+TEXT_MESSAGE_END {"messageId":"<message-1>","rawEvent":"…"}
+TOOL_CALL_START {"toolCallId":"<call-1>","toolCallName":"place_part_order","parentMessageId":"<message-1>","rawEvent":"…"}
+TOOL_CALL_ARGS {"toolCallId":"<call-1>","delta":"{\"workOrderId\":\"WO-1001\",\"sku\":\"CMP-CA36\",\"quantity\":1}","rawEvent":"…"}
+TOOL_CALL_END {"toolCallId":"<call-1>","rawEvent":"…"}
+RUN_FINISHED {"threadId":"<thread-1>","runId":"<run-1>","outcome":{"type":"interrupt","interrupts":[{"id":"<interrupt-1>","reason":"tool_call","message":"Approval required for tool call: place_part_order","toolCallId":"<call-1>","responseSchema":{"type":"object","properties":{"approved":{"type":"boolean"}},"required":["approved"]}}]}}
+# run <run-2> (resume: 1)
+RUN_STARTED {"threadId":"<thread-1>","runId":"<run-2>","protocolVersion":"1.0"}
+TOOL_CALL_START {"toolCallId":"<call-1>","toolCallName":"place_part_order","parentMessageId":"<message-2>","rawEvent":"…"}
+TOOL_CALL_ARGS {"toolCallId":"<call-1>","delta":"{\"workOrderId\":\"WO-1001\",\"sku\":\"CMP-CA36\",\"quantity\":1}","rawEvent":"…"}
+TOOL_CALL_END {"toolCallId":"<call-1>","rawEvent":"…"}
+TOOL_CALL_RESULT {"messageId":"<call-1>","toolCallId":"<call-1>","content":{"id":"PO-9001","workOrderId":"WO-1001","sku":"CMP-CA36","quantity":1,"total":1795.00,"status":"Placed","placedAt":"<time>"},"rawEvent":"…"}
+TEXT_MESSAGE_START {"messageId":"<message-3>","role":"assistant","rawEvent":"…"}
+TEXT_MESSAGE_CONTENT {"messageId":"<message-3>","delta":"Order PO-9001 is ","rawEvent":"…"}
+TEXT_MESSAGE_CONTENT {"messageId":"<message-3>","delta":"placed: 1 x ","rawEvent":"…"}
+TEXT_MESSAGE_CONTENT {"messageId":"<message-3>","delta":"CMP-CA36 for $1795.00.","rawEvent":"…"}
+TEXT_MESSAGE_END {"messageId":"<message-3>"}
+RUN_FINISHED {"threadId":"<thread-1>","runId":"<run-2>","outcome":{"type":"success"}}

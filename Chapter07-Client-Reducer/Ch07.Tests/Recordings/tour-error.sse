@@ -1,0 +1,8 @@
+data: {"type":"RUN_STARTED","threadId":"t-1","runId":"r-12","protocolVersion":"1.0"}
+
+data: {"type":"TEXT_MESSAGE_START","messageId":"msg-r12-1","role":"assistant"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-r12-1","delta":"Checking the parts inventory for "}
+
+data: {"type":"RUN_ERROR","message":"The parts inventory service did not respond.","code":"inventory_unavailable"}
+

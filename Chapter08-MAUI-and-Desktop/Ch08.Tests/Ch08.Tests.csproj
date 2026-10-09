@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Chapter 8's proof: the retry rule (before the first event only, with the same run ID) against
+    scripted and in-process transports, what Beacon Field says after a run is cut off, the view model
+    driven by Chapter 7's reducer, and the real agent behind WebApplicationFactory with its faults on,
+    showing that a dropped connection never makes the client order a part twice, and the beacon tool's
+    exit codes. No device, no workload, no network beyond loopback.
+  -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Ch08.Tests</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="xunit.v3" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
+    <PackageReference Include="Microsoft.Extensions.TimeProvider.Testing" />
+    <PackageReference Include="AGUI.Client" />
+    <PackageReference Include="AGUI.Server" />
+    <PackageReference Include="Microsoft.Extensions.AI" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Beacon.Client.Core\Beacon.Client.Core.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.AI\Beacon.AI.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.Domain\Beacon.Domain.csproj" />
+    <ProjectReference Include="..\Ch08.Field.Core\Ch08.Field.Core.csproj" />
+    <ProjectReference Include="..\Ch08.Beacon.Agent\Ch08.Beacon.Agent.csproj" />
+    <ProjectReference Include="..\Ch08.Beacon.Cli\Ch08.Beacon.Cli.csproj" />
+  </ItemGroup>
+
+</Project>

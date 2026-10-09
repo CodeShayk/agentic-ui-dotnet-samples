@@ -1,0 +1,44 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Chapter 9's proof: the tool-call events on the wire (ordering, parallel calls, streamed arguments,
+    OpenAI's chunks), tool errors and what each audience sees, the tools' validation, authorization and
+    idempotency, the card models and Beacon Field's template choice, and bUnit tests of Beacon Desk's chips and cards against streams
+    captured from Ch09.Beacon.Agent with curl -N. No model, no browser, no network.
+  -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Ch09.Tests</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="xunit.v3" />
+    <PackageReference Include="bunit" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
+    <PackageReference Include="AGUI.Client" />
+    <PackageReference Include="AGUI.Formatting" />
+    <PackageReference Include="AGUI.Server" />
+    <PackageReference Include="Microsoft.Extensions.AI" />
+    <PackageReference Include="Microsoft.Extensions.AI.OpenAI" />
+    <PackageReference Include="OpenAI" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Beacon.Client.Core\Beacon.Client.Core.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.Desk.Ui\Beacon.Desk.Ui.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.Testing\Beacon.Testing.csproj" />
+    <ProjectReference Include="..\Ch09.Beacon.ToolCards\Ch09.Beacon.ToolCards.csproj" />
+    <ProjectReference Include="..\Ch09.Beacon.ToolCards.Maui\Ch09.Beacon.ToolCards.Maui.csproj" />
+    <ProjectReference Include="..\Ch09.Beacon.Agent\Ch09.Beacon.Agent.csproj" />
+    <ProjectReference Include="..\Ch09.Beacon.Desk\Ch09.Beacon.Desk.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Recordings\*.sse" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>

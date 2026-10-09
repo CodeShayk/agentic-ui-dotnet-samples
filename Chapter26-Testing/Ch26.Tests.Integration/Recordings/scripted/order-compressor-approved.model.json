@@ -1,0 +1,44 @@
+{
+  "format": "beacon-model-recording/1",
+  "model": "beacon-scripted",
+  "turns": [
+    [
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": "Order PO-9001 is "
+          }
+        ],
+        "responseId": "resp-0004",
+        "messageId": "msg-0004",
+        "modelId": "beacon-scripted"
+      },
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": "placed: 1 x "
+          }
+        ],
+        "responseId": "resp-0004",
+        "messageId": "msg-0004",
+        "modelId": "beacon-scripted"
+      },
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": "CMP-CA36 for $1795.00."
+          }
+        ],
+        "responseId": "resp-0004",
+        "messageId": "msg-0004",
+        "modelId": "beacon-scripted"
+      }
+    ]
+  ]
+}

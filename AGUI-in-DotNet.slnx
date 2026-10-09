@@ -1,0 +1,188 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+    <File Path="global.json" />
+    <File Path="README.md" />
+  </Folder>
+  <Folder Name="/Chapter02-First-Stream/">
+    <Project Path="Chapter02-First-Stream/Ch02.HandBuilt.Agent/Ch02.HandBuilt.Agent.csproj" />
+    <Project Path="Chapter02-First-Stream/Ch02.HandBuilt.Console/Ch02.HandBuilt.Console.csproj" />
+    <Project Path="Chapter02-First-Stream/Ch02.Tests/Ch02.Tests.csproj" />
+  </Folder>
+  <Folder Name="/Chapter03-Event-Model/">
+    <Project Path="Chapter03-Event-Model/Ch03.EventTour/Ch03.EventTour.csproj" />
+    <Project Path="Chapter03-Event-Model/Ch03.StreamValidator/Ch03.StreamValidator.csproj" />
+    <Project Path="Chapter03-Event-Model/Ch03.StreamValidator.Tests/Ch03.StreamValidator.Tests.csproj" />
+    <Project Path="Chapter03-Event-Model/Ch03.ValidateStream/Ch03.ValidateStream.csproj" />
+  </Folder>
+  <Folder Name="/Chapter04-DotNet-SDK/">
+    <Project Path="Chapter04-DotNet-SDK/Ch04.Beacon.Agent/Ch04.Beacon.Agent.csproj" />
+    <Project Path="Chapter04-DotNet-SDK/Ch04.Beacon.Console/Ch04.Beacon.Console.csproj" />
+    <Project Path="Chapter04-DotNet-SDK/Ch04.Tests/Ch04.Tests.csproj" />
+  </Folder>
+  <Folder Name="/Chapter05-Agent-Behind-the-Endpoint/">
+    <Project Path="Chapter05-Agent-Behind-the-Endpoint/Ch05.Beacon.Agent/Ch05.Beacon.Agent.csproj" />
+    <Project Path="Chapter05-Agent-Behind-the-Endpoint/Ch05.Beacon.AgentFramework/Ch05.Beacon.AgentFramework.csproj" />
+    <Project Path="Chapter05-Agent-Behind-the-Endpoint/Ch05.Beacon.Pipeline/Ch05.Beacon.Pipeline.csproj" />
+    <Project Path="Chapter05-Agent-Behind-the-Endpoint/Ch05.Tests/Ch05.Tests.csproj" />
+  </Folder>
+  <Folder Name="/Chapter06-Blazor-Chat/">
+    <Project Path="Chapter06-Blazor-Chat/Ch06.Beacon.Agent/Ch06.Beacon.Agent.csproj" />
+    <Project Path="Chapter06-Blazor-Chat/Ch06.Beacon.Desk/Ch06.Beacon.Desk.csproj" />
+    <Project Path="Chapter06-Blazor-Chat/Ch06.Beacon.Desk.Client/Ch06.Beacon.Desk.Client.csproj" />
+    <Project Path="Chapter06-Blazor-Chat/Ch06.Tests/Ch06.Tests.csproj" />
+  </Folder>
+  <Folder Name="/Chapter07-Client-Reducer/">
+    <Project Path="Chapter07-Client-Reducer/Ch07.Beacon.Agent/Ch07.Beacon.Agent.csproj" />
+    <Project Path="Chapter07-Client-Reducer/Ch07.Beacon.Desk/Ch07.Beacon.Desk.csproj" />
+    <Project Path="Chapter07-Client-Reducer/Ch07.Tests/Ch07.Tests.csproj" />
+  </Folder>
+  <Folder Name="/Chapter08-MAUI-and-Desktop/">
+    <Project Path="Chapter08-MAUI-and-Desktop/Ch08.Beacon.Agent/Ch08.Beacon.Agent.csproj" />
+    <Project Path="Chapter08-MAUI-and-Desktop/Ch08.Beacon.Cli/Ch08.Beacon.Cli.csproj" />
+    <Project Path="Chapter08-MAUI-and-Desktop/Ch08.Beacon.Field/Ch08.Beacon.Field.csproj" />
+    <Project Path="Chapter08-MAUI-and-Desktop/Ch08.Beacon.Field.Hybrid/Ch08.Beacon.Field.Hybrid.csproj" />
+    <Project Path="Chapter08-MAUI-and-Desktop/Ch08.Beacon.Wpf/Ch08.Beacon.Wpf.csproj" />
+    <Project Path="Chapter08-MAUI-and-Desktop/Ch08.Field.Core/Ch08.Field.Core.csproj" />
+    <Project Path="Chapter08-MAUI-and-Desktop/Ch08.Tests/Ch08.Tests.csproj" />
+  </Folder>
+  <Folder Name="/Chapter09-Backend-Tools/">
+    <Project Path="Chapter09-Backend-Tools/Ch09.Beacon.Agent/Ch09.Beacon.Agent.csproj" />
+    <Project Path="Chapter09-Backend-Tools/Ch09.Beacon.Desk/Ch09.Beacon.Desk.csproj" />
+    <Project Path="Chapter09-Backend-Tools/Ch09.Beacon.ToolCards/Ch09.Beacon.ToolCards.csproj" />
+    <Project Path="Chapter09-Backend-Tools/Ch09.Beacon.ToolCards.Maui/Ch09.Beacon.ToolCards.Maui.csproj" />
+    <Project Path="Chapter09-Backend-Tools/Ch09.Tests/Ch09.Tests.csproj" />
+  </Folder>
+  <Folder Name="/Chapter10-Frontend-Tools/">
+    <Project Path="Chapter10-Frontend-Tools/Ch10.Beacon.Agent/Ch10.Beacon.Agent.csproj" />
+    <Project Path="Chapter10-Frontend-Tools/Ch10.Beacon.Desk/Ch10.Beacon.Desk.csproj" />
+    <Project Path="Chapter10-Frontend-Tools/Ch10.Beacon.Field/Ch10.Beacon.Field.csproj" />
+    <Project Path="Chapter10-Frontend-Tools/Ch10.Field.Tools/Ch10.Field.Tools.csproj" />
+    <Project Path="Chapter10-Frontend-Tools/Ch10.Tests/Ch10.Tests.csproj" />
+  </Folder>
+  <Folder Name="/Chapter11-Generative-UI/">
+    <Project Path="Chapter11-Generative-UI/Ch11.Beacon.Agent/Ch11.Beacon.Agent.csproj" />
+    <Project Path="Chapter11-Generative-UI/Ch11.Beacon.Components/Ch11.Beacon.Components.csproj" />
+    <Project Path="Chapter11-Generative-UI/Ch11.Beacon.ComponentViews/Ch11.Beacon.ComponentViews.csproj" />
+    <Project Path="Chapter11-Generative-UI/Ch11.Beacon.Desk/Ch11.Beacon.Desk.csproj" />
+    <Project Path="Chapter11-Generative-UI/Ch11.Beacon.Field/Ch11.Beacon.Field.csproj" />
+    <Project Path="Chapter11-Generative-UI/Ch11.Tests/Ch11.Tests.csproj" />
+  </Folder>
+  <Folder Name="/Chapter12-Shared-State/">
+    <Project Path="Chapter12-Shared-State/Ch12.Beacon.Agent/Ch12.Beacon.Agent.csproj" />
+    <Project Path="Chapter12-Shared-State/Ch12.Beacon.Desk/Ch12.Beacon.Desk.csproj" />
+    <Project Path="Chapter12-Shared-State/Ch12.Tests/Ch12.Tests.csproj" />
+  </Folder>
+  <Folder Name="/Chapter13-Predictive-State/">
+    <Project Path="Chapter13-Predictive-State/Ch13.Beacon.Agent/Ch13.Beacon.Agent.csproj" />
+    <Project Path="Chapter13-Predictive-State/Ch13.Beacon.Desk/Ch13.Beacon.Desk.csproj" />
+    <Project Path="Chapter13-Predictive-State/Ch13.Tests/Ch13.Tests.csproj" />
+  </Folder>
+  <Folder Name="/Chapter14-Tool-Approvals/">
+    <Project Path="Chapter14-Tool-Approvals/Ch14.Beacon.Agent/Ch14.Beacon.Agent.csproj" />
+    <Project Path="Chapter14-Tool-Approvals/Ch14.Beacon.Desk/Ch14.Beacon.Desk.csproj" />
+    <Project Path="Chapter14-Tool-Approvals/Ch14.Tests/Ch14.Tests.csproj" />
+  </Folder>
+  <Folder Name="/Chapter15-Structured-Input/">
+    <Project Path="Chapter15-Structured-Input/Ch15.Beacon.Agent/Ch15.Beacon.Agent.csproj" />
+    <Project Path="Chapter15-Structured-Input/Ch15.Beacon.Desk/Ch15.Beacon.Desk.csproj" />
+    <Project Path="Chapter15-Structured-Input/Ch15.Beacon.Field/Ch15.Beacon.Field.csproj" />
+    <Project Path="Chapter15-Structured-Input/Ch15.Forms/Ch15.Forms.csproj" />
+    <Project Path="Chapter15-Structured-Input/Ch15.Tests/Ch15.Tests.csproj" />
+  </Folder>
+  <Folder Name="/Chapter16-Reasoning/">
+    <Project Path="Chapter16-Reasoning/Ch16.Beacon.Agent/Ch16.Beacon.Agent.csproj" />
+    <Project Path="Chapter16-Reasoning/Ch16.Beacon.Desk/Ch16.Beacon.Desk.csproj" />
+    <Project Path="Chapter16-Reasoning/Ch16.Tests/Ch16.Tests.csproj" />
+  </Folder>
+  <Folder Name="/Chapter17-Multimodal/">
+    <Project Path="Chapter17-Multimodal/Ch17.Beacon.Agent/Ch17.Beacon.Agent.csproj" />
+    <Project Path="Chapter17-Multimodal/Ch17.Beacon.Desk/Ch17.Beacon.Desk.csproj" />
+    <Project Path="Chapter17-Multimodal/Ch17.Beacon.Field/Ch17.Beacon.Field.csproj" />
+    <Project Path="Chapter17-Multimodal/Ch17.Field.Capture/Ch17.Field.Capture.csproj" />
+    <Project Path="Chapter17-Multimodal/Ch17.Media/Ch17.Media.csproj" />
+    <Project Path="Chapter17-Multimodal/Ch17.Tests/Ch17.Tests.csproj" />
+  </Folder>
+  <Folder Name="/Chapter18-Subagents/">
+    <Project Path="Chapter18-Subagents/Ch18.Beacon.Agent/Ch18.Beacon.Agent.csproj" />
+    <Project Path="Chapter18-Subagents/Ch18.Beacon.Desk/Ch18.Beacon.Desk.csproj" />
+    <Project Path="Chapter18-Subagents/Ch18.Beacon.Workflow/Ch18.Beacon.Workflow.csproj" />
+    <Project Path="Chapter18-Subagents/Ch18.Tests/Ch18.Tests.csproj" />
+  </Folder>
+  <Folder Name="/Chapter19-Capabilities/">
+    <Project Path="Chapter19-Capabilities/Ch19.Beacon.Adaptive/Ch19.Beacon.Adaptive.csproj" />
+    <Project Path="Chapter19-Capabilities/Ch19.Beacon.Agent/Ch19.Beacon.Agent.csproj" />
+    <Project Path="Chapter19-Capabilities/Ch19.Beacon.Desk/Ch19.Beacon.Desk.csproj" />
+    <Project Path="Chapter19-Capabilities/Ch19.Beacon.Field/Ch19.Beacon.Field.csproj" />
+    <Project Path="Chapter19-Capabilities/Ch19.Tests/Ch19.Tests.csproj" />
+  </Folder>
+  <Folder Name="/Chapter20-Declarative-UI/">
+    <Project Path="Chapter20-Declarative-UI/Ch20.Beacon.Agent/Ch20.Beacon.Agent.csproj" />
+    <Project Path="Chapter20-Declarative-UI/Ch20.Beacon.Desk/Ch20.Beacon.Desk.csproj" />
+    <Project Path="Chapter20-Declarative-UI/Ch20.DeclarativeUi/Ch20.DeclarativeUi.csproj" />
+    <Project Path="Chapter20-Declarative-UI/Ch20.Tests/Ch20.Tests.csproj" />
+  </Folder>
+  <Folder Name="/Chapter21-MCP-and-A2A/">
+    <Project Path="Chapter21-MCP-and-A2A/Ch21.Beacon.Agent/Ch21.Beacon.Agent.csproj" />
+    <Project Path="Chapter21-MCP-and-A2A/Ch21.ManualsMcpServer/Ch21.ManualsMcpServer.csproj" />
+    <Project Path="Chapter21-MCP-and-A2A/Ch21.SupplierAgent/Ch21.SupplierAgent.csproj" />
+    <Project Path="Chapter21-MCP-and-A2A/Ch21.Tests/Ch21.Tests.csproj" />
+  </Folder>
+  <Folder Name="/Chapter22-Sessions/">
+    <Project Path="Chapter22-Sessions/Ch22.Beacon.Agent/Ch22.Beacon.Agent.csproj" />
+    <Project Path="Chapter22-Sessions/Ch22.Beacon.AgentFramework/Ch22.Beacon.AgentFramework.csproj" />
+    <Project Path="Chapter22-Sessions/Ch22.Beacon.Desk/Ch22.Beacon.Desk.csproj" />
+    <Project Path="Chapter22-Sessions/Ch22.Tests/Ch22.Tests.csproj" />
+  </Folder>
+  <Folder Name="/Chapter23-Security/">
+    <Project Path="Chapter23-Security/Ch23.Beacon.Agent/Ch23.Beacon.Agent.csproj" />
+    <Project Path="Chapter23-Security/Ch23.Beacon.AgentFramework/Ch23.Beacon.AgentFramework.csproj" />
+    <Project Path="Chapter23-Security/Ch23.Beacon.Security/Ch23.Beacon.Security.csproj" />
+    <Project Path="Chapter23-Security/Ch23.Tests/Ch23.Tests.csproj" />
+  </Folder>
+  <Folder Name="/Chapter24-Transports/">
+    <Project Path="Chapter24-Transports/Ch24.Beacon.Agent/Ch24.Beacon.Agent.csproj" />
+    <Project Path="Chapter24-Transports/Ch24.Beacon.Console/Ch24.Beacon.Console.csproj" />
+    <Project Path="Chapter24-Transports/Ch24.Proxy/Ch24.Proxy.csproj" />
+    <Project Path="Chapter24-Transports/Ch24.Tests/Ch24.Tests.csproj" />
+  </Folder>
+  <Folder Name="/Chapter25-Observability/">
+    <Project Path="Chapter25-Observability/Ch25.Beacon.Agent/Ch25.Beacon.Agent.csproj" />
+    <Project Path="Chapter25-Observability/Ch25.Beacon.Console/Ch25.Beacon.Console.csproj" />
+    <Project Path="Chapter25-Observability/Ch25.Tests/Ch25.Tests.csproj" />
+  </Folder>
+  <Folder Name="/Chapter26-Testing/">
+    <Project Path="Chapter26-Testing/Ch26.Beacon.Agent/Ch26.Beacon.Agent.csproj" />
+    <Project Path="Chapter26-Testing/Ch26.Beacon.Desk/Ch26.Beacon.Desk.csproj" />
+    <Project Path="Chapter26-Testing/Ch26.Tests.EndToEnd/Ch26.Tests.EndToEnd.csproj" />
+    <Project Path="Chapter26-Testing/Ch26.Tests.Integration/Ch26.Tests.Integration.csproj" />
+    <Project Path="Chapter26-Testing/Ch26.Tests.Unit/Ch26.Tests.Unit.csproj" />
+  </Folder>
+  <Folder Name="/Chapter27-Deployment/">
+    <Project Path="Chapter27-Deployment/Ch27.AppHost/Ch27.AppHost.csproj" />
+    <Project Path="Chapter27-Deployment/Ch27.Beacon.Agent/Ch27.Beacon.Agent.csproj" />
+    <Project Path="Chapter27-Deployment/Ch27.Beacon.Desk/Ch27.Beacon.Desk.csproj" />
+    <Project Path="Chapter27-Deployment/Ch27.Beacon.Field.Core/Ch27.Beacon.Field.Core.csproj" />
+    <Project Path="Chapter27-Deployment/Ch27.ServiceDefaults/Ch27.ServiceDefaults.csproj" />
+    <Project Path="Chapter27-Deployment/Ch27.SmokeTest/Ch27.SmokeTest.csproj" />
+    <Project Path="Chapter27-Deployment/Ch27.Tests/Ch27.Tests.csproj" />
+  </Folder>
+  <Folder Name="/Online-JsonPatch-Recipes/">
+    <Project Path="Online-JsonPatch-Recipes/JsonPatchRecipes/JsonPatchRecipes.csproj" />
+    <Project Path="Online-JsonPatch-Recipes/JsonPatchRecipes.Tests/JsonPatchRecipes.Tests.csproj" />
+  </Folder>
+  <Folder Name="/Online-StreamOptions-Cookbook/">
+    <Project Path="Online-StreamOptions-Cookbook/StreamOptionsCookbook/StreamOptionsCookbook.csproj" />
+    <Project Path="Online-StreamOptions-Cookbook/StreamOptionsCookbook.Tests/StreamOptionsCookbook.Tests.csproj" />
+  </Folder>
+  <Folder Name="/Shared/">
+    <Project Path="Shared/Beacon.AGUI.Hosting/Beacon.AGUI.Hosting.csproj" />
+    <Project Path="Shared/Beacon.AI/Beacon.AI.csproj" />
+    <Project Path="Shared/Beacon.Client.Core/Beacon.Client.Core.csproj" />
+    <Project Path="Shared/Beacon.Desk.Ui/Beacon.Desk.Ui.csproj" />
+    <Project Path="Shared/Beacon.Domain/Beacon.Domain.csproj" />
+    <Project Path="Shared/Beacon.Shared.Tests/Beacon.Shared.Tests.csproj" />
+    <Project Path="Shared/Beacon.Testing/Beacon.Testing.csproj" />
+  </Folder>
+</Solution>

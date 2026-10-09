@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="Ch17.Beacon.Field.ChatPage"
+             xmlns:local="clr-namespace:Ch17.Beacon.Field"
+             Title="Beacon Field">
+
+    <Grid RowDefinitions="Auto,*,Auto,Auto,Auto" Padding="12" RowSpacing="8">
+
+        <Label x:Name="StatusLabel"
+               Grid.Row="0"
+               Text="Ready"
+               FontSize="13"
+               SemanticProperties.Description="Conversation status" />
+
+        <CollectionView x:Name="Transcript" Grid.Row="1" ItemsUpdatingScrollMode="KeepLastItemInView">
+            <CollectionView.EmptyView>
+                <Label Text="Photograph a nameplate, record a noise or attach a PDF, and ask Beacon about it."
+                       Margin="0,24" HorizontalTextAlignment="Center" />
+            </CollectionView.EmptyView>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="local:FieldLine">
+                    <VerticalStackLayout Padding="4,6" Spacing="2">
+                        <Label Text="{Binding Author}" FontAttributes="Bold" FontSize="12" />
+                        <Label Text="{Binding Text}" LineBreakMode="WordWrap" />
+                        <Label Text="{Binding Attachments}" IsVisible="{Binding HasAttachments}" FontSize="12" LineBreakMode="WordWrap" />
+                    </VerticalStackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <VerticalStackLayout Grid.Row="2" Spacing="4">
+            <CollectionView x:Name="Tray" SemanticProperties.Description="Attachments to send">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="local:TrayLine">
+                        <Grid ColumnDefinitions="*,Auto" Padding="4,2">
+                            <Label Text="{Binding Detail}" VerticalOptions="Center" LineBreakMode="TailTruncation" />
+                            <Button Grid.Column="1"
+                                    Text="Remove"
+                                    CommandParameter="{Binding Item}"
+                                    SemanticProperties.Description="{Binding Name, StringFormat='Remove {0}'}"
+                                    Clicked="OnRemoveClicked" />
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            <Label x:Name="BudgetLabel" FontSize="12" />
+        </VerticalStackLayout>
+
+        <FlexLayout Grid.Row="3" Wrap="Wrap" JustifyContent="Start">
+            <Button x:Name="PhotoButton" Text="Photo" Margin="0,0,8,0" Clicked="OnPhotoClicked"
+                    SemanticProperties.Hint="Takes a photo with the camera, or picks one if there is no camera" />
+            <Button x:Name="RecordButton" Text="Record" Margin="0,0,8,0" Clicked="OnRecordClicked"
+                    SemanticProperties.Hint="Records the noise; tap again to stop" />
+            <Button x:Name="FileButton" Text="Attach file" Clicked="OnFileClicked"
+                    SemanticProperties.Hint="Attaches a photo, recording or PDF from this device" />
+        </FlexLayout>
+
+        <Grid Grid.Row="4" ColumnDefinitions="*,Auto,Auto" ColumnSpacing="8">
+            <Entry x:Name="Composer"
+                   Placeholder="Ask Beacon"
+                   ReturnType="Send"
+                   Completed="OnSendClicked"
+                   SemanticProperties.Description="Message to Beacon" />
+            <Button x:Name="SendButton" Grid.Column="1" Text="Send" Clicked="OnSendClicked" />
+            <Button x:Name="StopButton" Grid.Column="2" Text="Stop" Clicked="OnStopClicked" IsEnabled="False" />
+        </Grid>
+    </Grid>
+
+</ContentPage>

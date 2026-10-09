@@ -1,0 +1,171 @@
+@implements IDisposable
+@using System.Text.Json
+@*
+    A developer's view of the conversation's view state, one section per slice. Later chapters replace
+    these sections with real components (tool cards, the shared work order, activity widgets); each
+    one reads its slice the same way.
+*@
+@{
+    var view = Conversation.View;
+}
+<div class="bd-card ch07-inspector">
+    <h1>View state</h1>
+    <p class="bd-card__meta">
+        Thread <code>@view.ThreadId</code> · @view.Status · @view.Runs.Count @(view.Runs.Count == 1 ? "run" : "runs")
+    </p>
+
+    <SliceView Title="Runs" Slice="view.Runs" Context="runs">
+        @if (runs.IsEmpty)
+        {
+            <p class="ch07-empty">No runs yet.</p>
+        }
+        else
+        {
+            <ol class="ch07-list">
+                @foreach (var run in runs)
+                {
+                    <li><code>@run.RunId</code> @run.Outcome @UsageOf(run)</li>
+                }
+            </ol>
+        }
+    </SliceView>
+
+    <SliceView Title="Transcript" Slice="view.Messages" Context="messages">
+        <ol class="ch07-list">
+            @foreach (var message in messages)
+            {
+                <li>
+                    <span class="ch07-role">@message.Role</span> <code>@message.Id</code>
+                    @Describe(message)
+                    @if (message.SubagentRunId is { } owner)
+                    {
+                        <span class="ch07-owner">by @owner</span>
+                    }
+                </li>
+            }
+        </ol>
+        @if (view.LastReconciliation is { } r)
+        {
+            <p class="ch07-note">Last MESSAGES_SNAPSHOT: @r.Replaced replaced (@r.Changed changed), @r.Added added, @r.Dropped dropped, @r.Kept kept.</p>
+        }
+    </SliceView>
+
+    <SliceView Title="Tool calls" Slice="view.ToolCalls" Context="calls">
+        @if (calls.IsEmpty)
+        {
+            <p class="ch07-empty">No tool calls yet.</p>
+        }
+        else
+        {
+            <ol class="ch07-list">
+                @foreach (var call in calls)
+                {
+                    <li><code>@call.Name</code> @call.Status (@call.Executor) <code>@call.ArgumentsText</code></li>
+                }
+            </ol>
+        }
+    </SliceView>
+
+    <SliceView Title="Shared state" Slice="view.State" Context="state">
+        @if (!state.HasValue)
+        {
+            <p class="ch07-empty">No shared state yet.</p>
+        }
+        else
+        {
+            <p>Version @state.Version, last changed by @state.LastChangedBy@(state.NeedsResync ? " · out of sync until the next snapshot" : "")</p>
+            <pre class="ch07-json">@state.Document?.ToJsonString(Indented)</pre>
+        }
+    </SliceView>
+
+    <SliceView Title="Steps" Slice="view.Steps" Context="steps">
+        @if (steps.IsEmpty)
+        {
+            <p class="ch07-empty">None yet.</p>
+        }
+        <ol class="ch07-list">
+            @foreach (var step in steps)
+            {
+                <li><code>@step.Name</code> @(step.IsActive ? "active" : "finished")</li>
+            }
+        </ol>
+    </SliceView>
+
+    <SliceView Title="Subagents" Slice="view.Subagents" Context="subagents">
+        @if (subagents.IsEmpty)
+        {
+            <p class="ch07-empty">None yet.</p>
+        }
+        <ol class="ch07-list">
+            @foreach (var subagent in subagents)
+            {
+                <li><code>@subagent.Name</code> @subagent.Status</li>
+            }
+        </ol>
+    </SliceView>
+
+    <SliceView Title="Interrupts" Slice="view.Interrupts" Context="interrupts">
+        @if (interrupts.IsEmpty)
+        {
+            <p class="ch07-empty">None.</p>
+        }
+        <ol class="ch07-list">
+            @foreach (var interrupt in interrupts)
+            {
+                <li><code>@interrupt.Id</code> @interrupt.Kind: @interrupt.Message @(interrupt.IsAnswered ? "(answered)" : "")</li>
+            }
+        </ol>
+    </SliceView>
+
+    <SliceView Title="Warnings" Slice="view.Warnings" Context="warnings">
+        @if (warnings.IsEmpty)
+        {
+            <p class="ch07-empty">None.</p>
+        }
+        <ol class="ch07-list">
+            @foreach (var warning in warnings)
+            {
+                <li>@warning</li>
+            }
+        </ol>
+    </SliceView>
+</div>
+
+@code {
+    private static readonly JsonSerializerOptions Indented = new() { WriteIndented = true };
+    private RenderThrottle _throttle = default!;
+
+    [Inject] private AgentConversation Conversation { get; set; } = default!;
+
+    protected override void OnInitialized()
+    {
+        // A slower beat than the chat: nobody reads an inspector at 20 frames a second.
+        _throttle = new RenderThrottle(() => InvokeAsync(StateHasChanged), TimeSpan.FromMilliseconds(250));
+        Conversation.Changed += OnChanged;
+    }
+
+    private void OnChanged(object? sender, ConversationChangedEventArgs e) => _ = _throttle.RequestAsync();
+
+    private static string UsageOf(RunView run) =>
+        run.Usage.Sum(u => u.TotalTokens ?? 0) is var total and > 0 ? $"· {total:N0} tokens" : "";
+
+    private static string Describe(MessageView message) => message switch
+    {
+        UserMessageView user => Quote(user.Text),
+        AssistantMessageView assistant => $"{Quote(assistant.Text)}{(assistant.ToolCallIds.Count > 0 ? $" + {assistant.ToolCallIds.Count} tool call(s)" : "")}{(assistant.IsStreaming ? " (streaming)" : "")}{(assistant.IsPartial ? " (partial)" : "")}",
+        ToolMessageView tool => $"result for {tool.ToolCallId}, {tool.Content.Length:N0} characters",
+        ReasoningMessageView reasoning => $"{Quote(reasoning.Text)}{(reasoning.EncryptedValue is null ? "" : " + encrypted value")}",
+        ActivityMessageView activity => $"{activity.ActivityType}: {activity.Content.ToJsonString()}",
+        SystemMessageView system => Quote(system.Text),
+        _ => "",
+    };
+
+    private static string Quote(string text) =>
+        text.Length == 0 ? "(no text)" : $"“{(text.Length > 60 ? text[..60] + "…" : text)}”";
+
+    public void Dispose()
+    {
+        Conversation.Changed -= OnChanged;
+        _throttle.Dispose();
+    }
+}

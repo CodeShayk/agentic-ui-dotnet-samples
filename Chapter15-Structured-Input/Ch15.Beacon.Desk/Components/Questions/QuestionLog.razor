@@ -1,0 +1,70 @@
+@*
+    Every question Beacon asked in this conversation, newest last: waiting, expired, answered (with what the
+    Desk sent) or skipped. It reads the conversation's interrupts and the circuit's record of what was sent.
+*@
+@implements IDisposable
+@inject AgentConversation Conversation
+@inject SentAnswers Sent
+@inject TimeProvider Clock
+@inject DispatcherTime Time
+
+@{
+    var now = Clock.GetUtcNow();
+}
+<div class="ch15-log bd-card">
+    <h1>Beacon's questions</h1>
+    @if (Conversation.View.Interrupts.Where(i => i.Kind == InterruptKind.Input).ToList() is { Count: > 0 } asked)
+    {
+        <ol class="ch15-log__list">
+            @foreach (var interrupt in asked)
+            {
+                var question = interrupt.ToQuestion();
+                <li class="ch15-log__item">
+                    <h2>@question.Title</h2>
+                    <p>@interrupt.Message</p>
+                    <p class="ch15-log__status">@Status(interrupt, question, now)</p>
+                </li>
+            }
+        </ol>
+    }
+    else
+    {
+        <p>When Beacon needs something only the technician on site can tell it, such as a serial number or a
+           meter reading, it asks with a form in the chat. Each question is listed here.</p>
+    }
+</div>
+
+@code {
+    protected override void OnInitialized()
+    {
+        Conversation.Changed += OnChanged;
+        Sent.Changed += OnChanged;
+    }
+
+    private void OnChanged(object? sender, EventArgs e) => _ = InvokeAsync(StateHasChanged);
+
+    private string Status(InterruptView interrupt, FormQuestion question, DateTimeOffset now)
+    {
+        // Open until the run that takes the answer starts, so "waiting" covers an answer still on its way.
+        if (!interrupt.IsAnswered)
+        {
+            var by = question.ExpiresAt is { } expiresAt ? Time.ClockTime(expiresAt) : null;
+            return question.IsExpired(now) ? $"Expired at {by}; it can only be skipped."
+                : interrupt.LastAnswerFailure is not null ? $"Beacon didn't take the last answer; still waiting until {by}."
+                : $"Waiting for an answer until {by}.";
+        }
+
+        return Sent.Find(question.Id) switch
+        {
+            { Abandoned: true } => "Skipped.",
+            { } sent => $"Answered: {sent.Summary}",
+            null => "Answered.",
+        };
+    }
+
+    public void Dispose()
+    {
+        Conversation.Changed -= OnChanged;
+        Sent.Changed -= OnChanged;
+    }
+}

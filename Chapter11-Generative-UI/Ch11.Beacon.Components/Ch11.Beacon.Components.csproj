@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Beacon's component contract (Chapter 11): the catalog of components the agent may show, each with
+    its tool name, its prop schema and its typed props, plus the result envelope the server answers
+    every component call with and a validator for the schema keywords the catalog uses. The agent and
+    both clients reference it; it depends on nothing but System.Text.Json.
+  -->
+  <PropertyGroup>
+    <RootNamespace>Ch11.Beacon.Components</RootNamespace>
+    <IsAotCompatible>true</IsAotCompatible>
+  </PropertyGroup>
+
+</Project>

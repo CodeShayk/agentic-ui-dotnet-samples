@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <!--
+    Chapter 21: Contoso Climate's equipment manuals as an MCP server (Streamable HTTP, stateless).
+    It exposes read-only search and section tools, plus a write tool that Beacon's allow-list never
+    offers to its model. The manual text is fictional and fixed, so every capture is reproducible;
+    one section carries a planted prompt-injection attempt for section 21.5.
+  -->
+  <PropertyGroup>
+    <RootNamespace>Ch21.ManualsMcpServer</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ModelContextProtocol.AspNetCore" />
+  </ItemGroup>
+
+</Project>

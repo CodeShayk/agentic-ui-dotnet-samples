@@ -1,0 +1,91 @@
+@namespace Beacon.Desk.Ui
+@*
+    Beacon Desk's chat panel: header and status, transcript, composer and Stop button. It is purely
+    presentational. The caller owns the conversation and passes it in; the panel raises OnSend,
+    OnStop and OnNewChat and never talks to an agent itself.
+*@
+<section class="bd-chat-panel" aria-labelledby="@_titleId">
+    <header class="bd-chat-panel__header">
+        <div class="bd-chat-panel__heading">
+            <h2 id="@_titleId" class="bd-chat-panel__title">@Title</h2>
+            @HeaderContent
+            @if (OnNewChat.HasDelegate)
+            {
+                <button type="button"
+                        class="bd-button bd-button--quiet"
+                        disabled="@(Disabled || Status == ChatStatus.Streaming)"
+                        @onclick="OnNewChat">New chat</button>
+            }
+        </div>
+        <ChatStatusBar Status="Status" ThreadId="@ThreadId" RunId="@RunId" Error="@Error" AssistantName="@AssistantName" />
+    </header>
+
+    <ChatTranscript Messages="Messages"
+                    Streaming="Streaming"
+                    IsResponding="@(Status == ChatStatus.Streaming && Streaming is null)"
+                    AssistantName="@AssistantName"
+                    UserName="@UserName"
+                    EmptyContent="EmptyContent"
+                    MessageTemplate="MessageTemplate"
+                    AfterMessages="AfterMessages" />
+
+    <ChatComposer @ref="_composer"
+                  OnSend="OnSend"
+                  Disabled="Disabled"
+                  Busy="@(Status == ChatStatus.Streaming)"
+                  Placeholder="@Placeholder">
+        <Actions>
+            <StopButton IsStreaming="@(Status == ChatStatus.Streaming)" OnStop="OnStop" />
+        </Actions>
+    </ChatComposer>
+</section>
+
+@code {
+    private readonly string _titleId = $"bd-chat-title-{Guid.NewGuid():N}";
+    private ChatComposer? _composer;
+
+    [Parameter] public string Title { get; set; } = "Beacon";
+
+    /// <summary>Finished messages, oldest first.</summary>
+    [Parameter, EditorRequired] public IReadOnlyList<TranscriptMessage> Messages { get; set; } = [];
+
+    /// <summary>The message being streamed, if any.</summary>
+    [Parameter] public TranscriptMessage? Streaming { get; set; }
+
+    [Parameter] public ChatStatus Status { get; set; }
+
+    [Parameter] public string? ThreadId { get; set; }
+
+    [Parameter] public string? RunId { get; set; }
+
+    /// <summary>Shown when <see cref="Status"/> is <see cref="ChatStatus.Error"/>.</summary>
+    [Parameter] public string? Error { get; set; }
+
+    /// <summary>Disables the composer, for example until the component is interactive.</summary>
+    [Parameter] public bool Disabled { get; set; }
+
+    [Parameter] public EventCallback<string> OnSend { get; set; }
+
+    [Parameter] public EventCallback OnStop { get; set; }
+
+    /// <summary>When set, the header shows a New chat button that raises it.</summary>
+    [Parameter] public EventCallback OnNewChat { get; set; }
+
+    [Parameter] public string AssistantName { get; set; } = "Beacon";
+
+    [Parameter] public string UserName { get; set; } = "You";
+
+    [Parameter] public string Placeholder { get; set; } = "Ask Beacon a question";
+
+    /// <summary>Extra content in the header, next to the title.</summary>
+    [Parameter] public RenderFragment? HeaderContent { get; set; }
+
+    [Parameter] public RenderFragment? EmptyContent { get; set; }
+
+    [Parameter] public RenderFragment<TranscriptMessage>? MessageTemplate { get; set; }
+
+    [Parameter] public RenderFragment? AfterMessages { get; set; }
+
+    /// <summary>Moves keyboard focus to the composer, for example after a run is stopped.</summary>
+    public ValueTask FocusComposerAsync() => _composer?.FocusAsync() ?? ValueTask.CompletedTask;
+}

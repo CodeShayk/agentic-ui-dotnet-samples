@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <!--
+    Beacon's agent for Chapter 15. When the model needs something only the technician on site can supply
+    (WO-1003's heat pump has no serial number on record, and nobody has measured its fan motor), the run
+    ends with an input interrupt carrying a response schema, a message, an expiry and metadata. The server
+    records every request it raises, validates each answer against the schema it sent, honors expiresAt,
+    accepts each answer once and records the serial number through IFieldServiceStore.UpdateEquipment.
+  -->
+  <PropertyGroup>
+    <RootNamespace>Ch15.Beacon.Agent</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AGUI.Server" />
+    <PackageReference Include="Microsoft.Extensions.AI" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Beacon.Domain\Beacon.Domain.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.AI\Beacon.AI.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.AGUI.Hosting\Beacon.AGUI.Hosting.csproj" />
+    <ProjectReference Include="..\Ch15.Forms\Ch15.Forms.csproj" />
+  </ItemGroup>
+
+</Project>

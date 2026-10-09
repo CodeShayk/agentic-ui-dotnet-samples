@@ -1,0 +1,50 @@
+@*
+    One assistant message's tool calls, in the order the agent opened them: a status chip each and,
+    once its result is in, a card. Each call is keyed by its toolCallId, so a call that changes
+    re-renders alone and the order never depends on when results arrive. Every string here came from
+    the model or a tool and renders as text.
+*@
+<ol class="ch09-tools" aria-label="Beacon's lookups">
+    @foreach (var card in Cards)
+    {
+        <li @key="card.CallId" class="ch09-tool ch09-tool--@card.State.ToString().ToLowerInvariant()" aria-busy="@(card.IsBusy ? "true" : "false")">
+            <div class="ch09-chip">
+                <span class="ch09-chip__mark" aria-hidden="true"></span>
+                <span class="ch09-chip__text">@card.Headline</span>
+                <code class="ch09-chip__name">@card.ToolName</code>
+            </div>
+
+            @if (card.Error is { } error)
+            {
+                <p class="ch09-tool__error">@error</p>
+            }
+
+            @switch (card.Body)
+            {
+                case WorkOrderBody workOrder:
+                    <WorkOrderCard Order="workOrder" />
+                    break;
+                case PartsBody parts:
+                    <PartsTable Parts="parts" />
+                    break;
+                case WarrantyBody warranty:
+                    <WarrantyBadge Warranty="warranty" />
+                    break;
+                case ChecklistBody checklist:
+                    <p class="ch09-checklist">
+                        @checklist.ItemId (@checklist.Text) is @(checklist.Done ? "done" : "not done")@(checklist.Changed ? "" : ", unchanged").
+                        @checklist.DoneCount of @checklist.ItemCount items done.
+                    </p>
+                    break;
+                case TextBody text:
+                    <p class="ch09-tool__text">@text.Text</p>
+                    break;
+            }
+        </li>
+    }
+</ol>
+
+@code {
+    /// <summary>The cards for one assistant message's calls, in call order.</summary>
+    [Parameter, EditorRequired] public IReadOnlyList<ToolCard> Cards { get; set; } = [];
+}

@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <!--
+    Beacon's agent for Chapter 20. Asked for an inspection checklist, the model reads the inspection
+    template for the unit's model and describes a form in A2UI v0.9 through render_a2ui. The server
+    validates the description against Beacon's field-forms catalog and the template, records what it
+    issued, and sends the surface as an ACTIVITY_SNAPSHOT of type a2ui-surface. When the dispatcher submits
+    the form, the action arrives in forwardedProps; the server checks it against its record, writes the
+    inspection to the work order and tells the model through a synthetic log_a2ui_event call.
+  -->
+  <PropertyGroup>
+    <RootNamespace>Ch20.Beacon.Agent</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AGUI.Server" />
+    <PackageReference Include="Microsoft.Extensions.AI" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Beacon.Domain\Beacon.Domain.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.AI\Beacon.AI.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.AGUI.Hosting\Beacon.AGUI.Hosting.csproj" />
+    <ProjectReference Include="..\Ch20.DeclarativeUi\Ch20.DeclarativeUi.csproj" />
+  </ItemGroup>
+
+</Project>

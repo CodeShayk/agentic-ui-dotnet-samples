@@ -1,0 +1,29 @@
+@inherits ProgressPanel<RunStatusLine.Status>
+@*
+    What Beacon is doing, from the run's STEP_STARTED / STEP_FINISHED markers, and a polite live region
+    that speaks only at milestones (a plan step done, the report saved), never at every delta.
+*@
+<div class="ch13-status" data-renders="@CountRender()">
+    <span class="ch13-status__phase @(Gate.Current.Phase.IsBusy ? "ch13-status__phase--busy" : "")">@Gate.Current.Phase.Label</span>
+    <span class="bd-visually-hidden" role="status" aria-live="polite">@Gate.Current.Milestone</span>
+</div>
+
+@code {
+    /// <summary>The line's projection: the phase and the latest milestone worth announcing.</summary>
+    public sealed record Status(PhaseView Phase, string? Milestone);
+
+    protected override Status Project(ConversationView view)
+    {
+        var plan = PlanView.From(view);
+        var report = ReportView.From(view);
+        var milestone = report?.Status switch
+        {
+            ReportStatus.Saved => $"Service report saved to {report.WorkOrderId}.",
+            ReportStatus.Rejected => $"The service report was not saved: {report.Error}",
+            _ when plan is { DoneCount: > 0 } => $"Step {plan.DoneCount} of {plan.Steps.Count} done: {plan.Steps.Last(s => s.Status == PlanStepStatus.Done).Title}.",
+            _ => null,
+        };
+
+        return new Status(PhaseView.From(view), milestone);
+    }
+}

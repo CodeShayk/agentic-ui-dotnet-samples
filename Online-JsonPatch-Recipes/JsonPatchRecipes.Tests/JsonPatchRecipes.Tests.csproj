@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    The recipes' proof: one test class per recipe, and round trips that apply every patch the server-side
+    recipes build with Beacon.Client.Core's JsonPatch.Apply, the applier Beacon's clients use. No model, no
+    network. Set JSON_PATCH_CAPTURE_DIR to write each recipe's patch to a .json file.
+  -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>JsonPatchRecipes.Tests</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="xunit.v3" />
+    <PackageReference Include="AGUI.Abstractions" />
+    <PackageReference Include="Microsoft.Extensions.AI" />
+    <PackageReference Include="Microsoft.AspNetCore.JsonPatch.SystemTextJson" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\JsonPatchRecipes\JsonPatchRecipes.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.Client.Core\Beacon.Client.Core.csproj" />
+  </ItemGroup>
+
+</Project>

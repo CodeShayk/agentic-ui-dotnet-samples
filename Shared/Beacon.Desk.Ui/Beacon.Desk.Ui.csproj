@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <!--
+    Beacon Desk's user interface kit (Chapter 6): the layout and styles, safe Markdown rendering and the
+    presentational chat components (transcript, composer, Stop button, status). Components take
+    parameters and raise callbacks; they never call the agent themselves, so a page, a reducer
+    (Chapter 7) or a test can drive them. Runs in every Blazor render mode and in Blazor Hybrid.
+  -->
+  <PropertyGroup>
+    <RootNamespace>Beacon.Desk.Ui</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <SupportedPlatform Include="browser" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" />
+    <PackageReference Include="Markdig" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,24 @@
+data: {"type":"RUN_STARTED","threadId":"t-1","runId":"r-4-prev","protocolVersion":"1.0"}
+
+data: {"type":"MESSAGES_SNAPSHOT","messages":[{"id":"user-r4prev-1","role":"user","content":"What is the status of WO-1001?"},{"role":"assistant","content":"Let me pull up WO-1001.","toolCalls":[{"id":"call-r4prev-1","type":"function","function":{"name":"get_work_order","arguments":"{\"workOrderId\":\"WO-1001\"}"}}],"id":"msg-r4prev-1"},{"role":"tool","content":"{\"id\":\"WO-1001\",\"status\":\"Scheduled\"}","toolCallId":"call-r4prev-1","id":"result-r4prev-1"},{"role":"assistant","content":"WO-1001 is scheduled for 9:00 today with Priya Raman.","id":"msg-r4prev-2"}]}
+
+data: {"type":"RUN_FINISHED","threadId":"t-1","runId":"r-4-prev"}
+
+data: {"type":"RUN_STARTED","threadId":"t-1","runId":"r-4","protocolVersion":"1.0"}
+
+data: {"type":"TEXT_MESSAGE_START","messageId":"msg-r4-1","role":"assistant"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-r4-1","delta":"Picking up where "}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-r4-1","delta":"we left off: "}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-r4-1","delta":"WO-1001 is still "}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-r4-1","delta":"scheduled for 9:00 "}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-r4-1","delta":"with Priya."}
+
+data: {"type":"TEXT_MESSAGE_END","messageId":"msg-r4-1"}
+
+data: {"type":"RUN_FINISHED","threadId":"t-1","runId":"r-4"}
+

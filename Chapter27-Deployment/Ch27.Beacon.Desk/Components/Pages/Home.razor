@@ -1,0 +1,23 @@
+@page "/"
+@inject IConfiguration Configuration
+
+<PageTitle>Beacon Desk</PageTitle>
+
+<DeskShell>
+    <WorkArea>
+        <div class="bd-card">
+            <h1>Dispatch</h1>
+            <p class="bd-card__meta">Monday, November 16, 2026 · Seacoast and Inland regions</p>
+            <p>The work order you're handling will open here. Until then, ask Beacon in the chat.</p>
+        </div>
+    </WorkArea>
+    <Chat>
+        @* Interactive Server: the Desk's server calls the agent, which stays off the public internet. *@
+        <DeskChat @rendermode="InteractiveServer" RunTimeout="RunTimeout" />
+    </Chat>
+</DeskShell>
+
+@code {
+    // Longer than the agent's run budget, so the agent's RUN_ERROR arrives before the Desk gives up.
+    private TimeSpan RunTimeout => TimeSpan.FromSeconds(Configuration.GetValue("BeaconAgent:RunTimeoutSeconds", 240));
+}

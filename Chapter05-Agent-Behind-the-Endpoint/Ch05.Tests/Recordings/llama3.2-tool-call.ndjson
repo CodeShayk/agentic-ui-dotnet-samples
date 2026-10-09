@@ -1,0 +1,2 @@
+{"model":"llama3.2","created_at":"2026-10-02T22:34:35.6732669Z","message":{"role":"assistant","content":"","tool_calls":[{"id":"call_5x2fu5k3","function":{"index":0,"name":"get_work_order","arguments":{"workOrderId":"WO-1001"}}}]},"done":false}
+{"model":"llama3.2","created_at":"2026-10-02T22:34:35.7122261Z","message":{"role":"assistant","content":""},"done":true,"done_reason":"stop","total_duration":1240592600,"load_duration":3528000,"prompt_eval_count":679,"prompt_eval_cached_count":678,"prompt_eval_duration":125344000,"eval_count":18,"eval_duration":1031434000}

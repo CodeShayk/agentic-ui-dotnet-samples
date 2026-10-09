@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <!--
+    Chapter 21: Northwind Supply's parts agent, a remote agent Beacon reaches over A2A (JSON-RPC
+    binding). It answers availability and lead-time questions for SKUs from a fixed catalog, so every
+    answer is deterministic. One catalog entry carries a note aimed at AI agents (section 21.5).
+    The A2A .NET SDK is a preview (A2A 1.0.0-preview2).
+  -->
+  <PropertyGroup>
+    <RootNamespace>Ch21.SupplierAgent</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="A2A.AspNetCore" />
+  </ItemGroup>
+
+</Project>

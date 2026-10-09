@@ -1,0 +1,23 @@
+@namespace Beacon.Desk.Ui
+@*
+    Stops the current run. It stays in place when idle (disabled) so the layout doesn't shift when a
+    run starts (a disabled button leaves the tab order); the page moves focus back to the composer once
+    the run has stopped.
+*@
+<button type="button"
+        class="bd-button bd-button--stop"
+        disabled="@(!IsStreaming)"
+        @onclick="OnStop">
+    <span class="bd-button__icon bd-button__icon--stop" aria-hidden="true"></span>
+    @Label
+</button>
+
+@code {
+    /// <summary>Whether a run is in progress. The button is enabled only then.</summary>
+    [Parameter] public bool IsStreaming { get; set; }
+
+    /// <summary>Raised when the user asks to stop the run.</summary>
+    [Parameter] public EventCallback OnStop { get; set; }
+
+    [Parameter] public string Label { get; set; } = "Stop";
+}

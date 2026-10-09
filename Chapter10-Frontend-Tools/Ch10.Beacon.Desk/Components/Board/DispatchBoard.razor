@@ -1,0 +1,130 @@
+@*
+    Dana's dispatch board: the open work order, today's schedule and her part order draft. The dispatcher
+    changes it with clicks, Beacon with the Desk's frontend tools, and both go through the circuit's
+    DeskScreen. Beacon's changes are announced politely and never move focus away from what Dana is doing.
+*@
+@implements IDisposable
+@inject DeskScreen Screen
+@inject IFieldServiceStore Store
+
+@{
+    var state = Screen.State;
+    var workOrder = state.OpenWorkOrderId is { } id ? Store.GetWorkOrder(id) : null;
+}
+
+<div class="ch10-board">
+    <p class="bd-visually-hidden" aria-live="polite" role="status">@state.LastAgentAction</p>
+
+    <section class="bd-card ch10-panel" aria-labelledby="wo-heading">
+        @if (workOrder is null)
+        {
+            <h1 id="wo-heading">Work orders</h1>
+            <p class="bd-card__meta">No work order is open. Pick one, or ask Beacon to open it.</p>
+            <ul class="ch10-wo-list">
+                @foreach (var item in Store.ListWorkOrders())
+                {
+                    <li>
+                        <button type="button" class="bd-button bd-button--quiet" @onclick="() => Screen.OpenWorkOrder(item.Id, byAgent: false)">
+                            <strong>@item.Id</strong> @item.Summary
+                        </button>
+                    </li>
+                }
+            </ul>
+        }
+        else
+        {
+            var customer = Store.GetCustomer(workOrder.CustomerId);
+            var equipment = Store.GetEquipment(workOrder.EquipmentId);
+            <h1 id="wo-heading">@workOrder.Id</h1>
+            <p class="bd-card__meta">@workOrder.Summary</p>
+            <dl class="ch10-facts">
+                <dt>Status</dt><dd>@workOrder.Status · @workOrder.Priority priority</dd>
+                <dt>Customer</dt><dd>@customer?.Name, @customer?.Address</dd>
+                <dt>Equipment</dt><dd>@equipment?.Id · @equipment?.Manufacturer @equipment?.Model</dd>
+                <dt>Assigned</dt><dd>@(TechnicianName(workOrder.AssignedTechnicianId) ?? "Not assigned") @(workOrder.ScheduledFor is { } at ? $"at {at:H:mm}" : "")</dd>
+            </dl>
+            <h2 class="ch10-subheading">Checklist</h2>
+            <ul class="ch10-checklist">
+                @foreach (var item in workOrder.Checklist)
+                {
+                    <li class="@(item.Done ? "ch10-done" : null)">@item.Text</li>
+                }
+            </ul>
+            <button type="button" class="bd-button bd-button--quiet" @onclick="Screen.CloseWorkOrder">All work orders</button>
+        }
+    </section>
+
+    <section class="bd-card ch10-panel" aria-labelledby="schedule-heading">
+        <h2 id="schedule-heading">Today's schedule <span class="ch10-date">Monday, November 16</span></h2>
+        <table class="ch10-schedule">
+            <thead>
+                <tr><th scope="col">Technician</th><th scope="col">Slots</th></tr>
+            </thead>
+            <tbody>
+                @foreach (var technician in Store.ListTechnicians())
+                {
+                    <tr>
+                        <th scope="row">@technician.Name</th>
+                        <td>
+                            @foreach (var slot in Store.GetSchedule(SeedData.Today, technician.Id))
+                            {
+                                var highlighted = state.HighlightedSlot is { } h && h.TechnicianId == slot.TechnicianId && h.Start == slot.Start;
+                                <span class="ch10-slot @(highlighted ? "ch10-slot--highlighted" : null) @(slot.WorkOrderId is null ? "ch10-slot--free" : null)">
+                                    @slot.Start.ToString("H:mm", CultureInfo.InvariantCulture)–@slot.End.ToString("H:mm", CultureInfo.InvariantCulture)
+                                    @(slot.WorkOrderId ?? "free")
+                                    @if (highlighted)
+                                    {
+                                        <span class="bd-badge">Highlighted by Beacon</span>
+                                    }
+                                </span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        @if (state.HighlightedSlot is not null)
+        {
+            <button type="button" class="bd-button bd-button--quiet" @onclick="Screen.ClearHighlight">Clear highlight</button>
+        }
+    </section>
+
+    <section class="bd-card ch10-panel" aria-labelledby="draft-heading">
+        <h2 id="draft-heading">Part order draft</h2>
+        @if (state.Draft.FilledByBeacon)
+        {
+            <p class="ch10-note" role="note">Filled in by Beacon. Review it before you save.</p>
+        }
+        <div class="ch10-form">
+            <label>Work order <input value="@state.Draft.WorkOrderId" @onchange="e => Edit(state.Draft with { WorkOrderId = Text(e) })" /></label>
+            <label>Part SKU <input value="@state.Draft.Sku" @onchange="e => Edit(state.Draft with { Sku = Text(e) })" /></label>
+            <label>Quantity <input type="number" min="1" max="10" value="@state.Draft.Quantity" @onchange="e => Edit(state.Draft with { Quantity = Quantity(e, state.Draft.Quantity) })" /></label>
+        </div>
+        <div class="ch10-actions">
+            <button type="button" class="bd-button bd-button--primary" disabled="@state.Draft.IsEmpty" @onclick="Screen.SaveDraft">Save draft</button>
+            <button type="button" class="bd-button bd-button--quiet" disabled="@state.Draft.IsEmpty" @onclick="Screen.ClearDraft">Clear</button>
+            @if (state.Draft.SavedAt is { } saved)
+            {
+                <span class="ch10-note">Saved at @saved.ToLocalTime().ToString("H:mm", CultureInfo.InvariantCulture)</span>
+            }
+        </div>
+    </section>
+</div>
+
+@code {
+    protected override void OnInitialized() => Screen.Changed += OnScreenChanged;
+
+    // Raised on whichever thread changed the screen: a tool runs on a thread-pool thread mid-turn.
+    private void OnScreenChanged(object? sender, EventArgs e) => _ = InvokeAsync(StateHasChanged);
+
+    private void Edit(PartOrderDraft draft) => Screen.EditDraft(draft);
+
+    private static string Text(ChangeEventArgs e) => (e.Value?.ToString() ?? "").Trim().ToUpperInvariant();
+
+    private static int Quantity(ChangeEventArgs e, int current) =>
+        int.TryParse(e.Value?.ToString(), NumberStyles.Integer, CultureInfo.InvariantCulture, out var value) && value is >= 1 and <= 10 ? value : current;
+
+    private string? TechnicianName(string? id) => Store.ListTechnicians().FirstOrDefault(t => t.Id == id)?.Name;
+
+    public void Dispose() => Screen.Changed -= OnScreenChanged;
+}

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="Ch19.Beacon.Field.ChatPage"
+             xmlns:local="clr-namespace:Ch19.Beacon.Field"
+             Title="Beacon Field">
+
+    <Grid RowDefinitions="Auto,*,Auto,Auto,Auto,Auto" Padding="12" RowSpacing="8">
+
+        <Label x:Name="AgentLabel"
+               Grid.Row="0"
+               Text="Reading the agent's capabilities…"
+               FontSize="13" />
+
+        <CollectionView x:Name="Transcript" Grid.Row="1" ItemsUpdatingScrollMode="KeepLastItemInView">
+            <CollectionView.EmptyView>
+                <Label Text="Ask Beacon about the unit in front of you."
+                       Margin="0,24" HorizontalTextAlignment="Center" />
+            </CollectionView.EmptyView>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="local:FieldLine">
+                    <VerticalStackLayout Padding="4,6" Spacing="2">
+                        <Label Text="{Binding Author}" FontAttributes="Bold" FontSize="12" />
+                        <Label Text="{Binding Text}" LineBreakMode="WordWrap" />
+                    </VerticalStackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <Label x:Name="TrayLabel" Grid.Row="2" IsVisible="False" FontSize="13" />
+
+        <Label x:Name="NotesLabel" Grid.Row="3" IsVisible="False" FontSize="13" />
+
+        <HorizontalStackLayout Grid.Row="4" Spacing="8">
+            <Button x:Name="PhotoButton" IsVisible="False" Clicked="OnPhotoClicked" />
+            <Button x:Name="VoiceButton" IsVisible="False" Clicked="OnVoiceClicked" />
+            <Button x:Name="NewChatButton" Text="New chat" Clicked="OnNewChatClicked" />
+        </HorizontalStackLayout>
+
+        <Grid Grid.Row="5" ColumnDefinitions="*,Auto,Auto" ColumnSpacing="8">
+            <Entry x:Name="Composer"
+                   Placeholder="Ask Beacon"
+                   ReturnType="Send"
+                   Completed="OnSendClicked"
+                   SemanticProperties.Description="Message to Beacon" />
+            <Button x:Name="SendButton" Grid.Column="1" Text="Send" Clicked="OnSendClicked" />
+            <Button x:Name="StopButton" Grid.Column="2" Text="Stop" Clicked="OnStopClicked" IsEnabled="False" />
+        </Grid>
+    </Grid>
+
+</ContentPage>

@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <!--
+    Chapter 22's sidebar: the same idea through Microsoft Agent Framework. MapAGUIServer keys an agent's session by
+    the AG-UI thread ID; this host registers a file-backed AgentSessionStore under the agent's name, so sessions
+    survive a restart. With a session store the client sends only its new messages (Chapter 5).
+    Microsoft.Agents.AI.Hosting.AGUI.AspNetCore is a PREVIEW package (1.23.0-preview.260928.1); AgentSessionStore
+    is experimental (MAAI001, suppressed in Directory.Build.props). No authentication or isolation: Chapter 23.
+  -->
+  <PropertyGroup>
+    <RootNamespace>Ch22.Beacon.AgentFramework</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AGUI.Abstractions" />
+    <PackageReference Include="Microsoft.Agents.AI" />
+    <PackageReference Include="Microsoft.Agents.AI.Hosting.AGUI.AspNetCore" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Beacon.Domain\Beacon.Domain.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.AI\Beacon.AI.csproj" />
+  </ItemGroup>
+
+</Project>

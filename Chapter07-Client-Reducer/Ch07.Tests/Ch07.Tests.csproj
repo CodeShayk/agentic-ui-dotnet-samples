@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Chapter 7's proof: Beacon.Client.Core's reducer and conversation service against streams captured
+    with curl -N from Chapter 3's event tour and this chapter's agent, replayed through the real
+    AGUIChatClient. Plus JSON Patch edge cases, snapshot reconciliation, failure classification and an
+    in-process run against Ch07.Beacon.Agent. No model, no browser, no network.
+  -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Ch07.Tests</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="xunit.v3" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
+    <PackageReference Include="AGUI.Client" />
+    <PackageReference Include="AGUI.Formatting" />
+    <PackageReference Include="Microsoft.Extensions.AI" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Beacon.Client.Core\Beacon.Client.Core.csproj" />
+    <ProjectReference Include="..\Ch07.Beacon.Agent\Ch07.Beacon.Agent.csproj" />
+    <ProjectReference Include="..\Ch07.Beacon.Desk\Ch07.Beacon.Desk.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Recordings\*.sse" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>

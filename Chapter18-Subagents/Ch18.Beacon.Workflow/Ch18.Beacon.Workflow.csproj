@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <!--
+    Chapter 18's sidebar: the same three specialists as Microsoft Agent Framework agents in a concurrent
+    workflow, hosted with MapAGUIServer (Microsoft.Agents.AI.Hosting.AGUI.AspNetCore, a preview). It exists
+    to show what such a workflow puts on the AG-UI stream, and what it leaves out.
+  -->
+  <PropertyGroup>
+    <RootNamespace>Ch18.Beacon.Workflow</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Agents.AI" />
+    <PackageReference Include="Microsoft.Agents.AI.Workflows" />
+    <PackageReference Include="Microsoft.Agents.AI.Hosting.AGUI.AspNetCore" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Beacon.Domain\Beacon.Domain.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.AI\Beacon.AI.csproj" />
+  </ItemGroup>
+
+  <!-- The scripted model's behaviors for the specialists, shared with Ch18.Beacon.Agent. -->
+  <ItemGroup>
+    <Compile Include="..\Ch18.Beacon.Agent\Specialists\SpecialistScripts.cs" Link="SpecialistScripts.cs" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Chapter 23: the red-team suite. Forged history, forged and replayed approvals, cross-user thread
+    access, oversized and malformed input, missing and wrong-role tokens, prompt injection through tool
+    results and state tampering, against both hosts; plus the two SDK behaviors that motivate the
+    server-side approval store. Everything runs offline with a scripted model.
+  -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Ch23.Tests</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="xunit.v3" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
+    <PackageReference Include="AGUI.Client" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Ch23.Beacon.Agent\Ch23.Beacon.Agent.csproj" />
+    <ProjectReference Include="..\Ch23.Beacon.AgentFramework\Ch23.Beacon.AgentFramework.csproj" />
+    <ProjectReference Include="..\Ch23.Beacon.Security\Ch23.Beacon.Security.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.Testing\Beacon.Testing.csproj" />
+  </ItemGroup>
+
+</Project>

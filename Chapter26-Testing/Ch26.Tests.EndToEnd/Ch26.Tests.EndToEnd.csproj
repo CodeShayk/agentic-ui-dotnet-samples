@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    The top of Chapter 26's pyramid: Beacon's agent and Beacon Desk running as real processes on their
+    usual ports, driven through a real browser with Playwright for .NET. Skipped unless RUN_E2E_TESTS=true.
+    The tests use the installed Microsoft Edge (Channel = "msedge"), so no browser download is needed.
+    Build the agent and the Desk first: the fixture starts them with dotnet run, without building.
+  -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Ch26.Tests.EndToEnd</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="xunit.v3" />
+    <PackageReference Include="Microsoft.Playwright" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
+  </ItemGroup>
+
+  <!-- Only for SuiteSetupTests, which checks the Desk's HTTP client in memory; the journeys run the built apps. -->
+  <ItemGroup>
+    <ProjectReference Include="..\Ch26.Beacon.Desk\Ch26.Beacon.Desk.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+</Project>

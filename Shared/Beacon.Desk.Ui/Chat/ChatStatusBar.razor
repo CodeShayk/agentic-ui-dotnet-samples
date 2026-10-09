@@ -1,0 +1,49 @@
+@namespace Beacon.Desk.Ui
+@*
+    What the chat is doing, plus the AG-UI thread and run IDs for support and debugging. The status
+    text is a polite status region; an error is an alert, which screen readers announce at once.
+*@
+<div class="bd-status bd-status--@Status.ToString().ToLowerInvariant()">
+    <span class="bd-status__dot" aria-hidden="true"></span>
+    <span class="bd-status__text" role="status">@StatusText</span>
+    @if (!string.IsNullOrEmpty(ThreadId) || !string.IsNullOrEmpty(RunId))
+    {
+        <span class="bd-status__ids">
+            @if (!string.IsNullOrEmpty(ThreadId))
+            {
+                <span class="bd-status__id">Thread <code>@ThreadId</code></span>
+            }
+            @if (!string.IsNullOrEmpty(RunId))
+            {
+                <span class="bd-status__id">Run <code>@RunId</code></span>
+            }
+        </span>
+    }
+</div>
+@if (Status == ChatStatus.Error && !string.IsNullOrEmpty(Error))
+{
+    <p class="bd-status__error" role="alert">@Error</p>
+}
+
+@code {
+    [Parameter] public ChatStatus Status { get; set; }
+
+    /// <summary>The AG-UI thread ID of the conversation, from <c>RUN_STARTED</c>.</summary>
+    [Parameter] public string? ThreadId { get; set; }
+
+    /// <summary>The AG-UI run ID of the latest run, from <c>RUN_STARTED</c>.</summary>
+    [Parameter] public string? RunId { get; set; }
+
+    /// <summary>A message for the user when <see cref="Status"/> is <see cref="ChatStatus.Error"/>.</summary>
+    [Parameter] public string? Error { get; set; }
+
+    [Parameter] public string AssistantName { get; set; } = "Beacon";
+
+    private string StatusText => Status switch
+    {
+        ChatStatus.Streaming => $"{AssistantName} is responding…",
+        ChatStatus.Stopped => "Stopped. The partial answer is kept.",
+        ChatStatus.Error => "Something went wrong.",
+        _ => "Ready",
+    };
+}

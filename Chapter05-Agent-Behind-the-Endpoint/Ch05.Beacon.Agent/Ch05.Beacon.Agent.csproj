@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <!--
+    Chapter 5: Beacon's agent as an explicit Microsoft.Extensions.AI pipeline (instruction policy,
+    server-owned options, function invocation, logging, telemetry) around a model chosen by
+    configuration, hosted with the book's endpoint glue on AGUI.Server.
+    Keep AI:ApiKey in User Secrets: dotnet user-secrets set "AI:ApiKey" "<key>"
+  -->
+  <PropertyGroup>
+    <RootNamespace>Ch05.Beacon.Agent</RootNamespace>
+    <UserSecretsId>beacon-ch05-agent</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Beacon.AI\Beacon.AI.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.AGUI.Hosting\Beacon.AGUI.Hosting.csproj" />
+    <ProjectReference Include="..\Ch05.Beacon.Pipeline\Ch05.Beacon.Pipeline.csproj" />
+  </ItemGroup>
+
+</Project>

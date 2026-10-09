@@ -1,0 +1,60 @@
+# Build every chapter and run the whole test suite.
+#
+# Windows runner, because the solution includes .NET MAUI (Beacon Field) and WPF projects that
+# target net11.0-windows. Browser tests (RUN_E2E_TESTS) and live-model tests (RUN_MODEL_TESTS)
+# skip themselves by default, so this job needs no model, key or secret.
+
+name: Build and test
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  DOTNET_NOLOGO: "true"
+  DOTNET_CLI_TELEMETRY_OPTOUT: "true"
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: "true"
+  SOLUTION: AGUI-in-DotNet.slnx
+
+jobs:
+  build-and-test:
+    name: Build and test
+    runs-on: windows-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-dotnet@v6
+        with:
+          global-json-file: global.json
+
+      - name: Install the .NET MAUI workload
+        run: dotnet workload install maui-windows
+
+      - name: Restore
+        run: dotnet restore ${{ env.SOLUTION }}
+
+      - name: Build
+        run: dotnet build ${{ env.SOLUTION }} --no-restore --configuration Release
+
+      - name: Test
+        run: dotnet test --solution ${{ env.SOLUTION }} --no-build --configuration Release --report-xunit-trx --results-directory ${{ github.workspace }}/TestResults
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: test-results
+          path: |
+            TestResults/
+            **/*.received.*
+          if-no-files-found: ignore

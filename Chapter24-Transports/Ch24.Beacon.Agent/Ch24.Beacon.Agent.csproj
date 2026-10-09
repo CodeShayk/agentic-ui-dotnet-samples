@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <!--
+    Chapter 24: Beacon's agent tuned for real networks. One endpoint (/agent) streams Server-Sent
+    Events or protobuf by content negotiation, opens each run before the model answers, sends SSE
+    comment heartbeats through idle proxies, strips the SDK's rawEvent copy, refuses a run ID it has
+    already received and sheds load with a concurrency limit. /agent/baseline serves the same model
+    through Chapter 4's glue, unchanged, so the two can be measured side by side.
+  -->
+  <PropertyGroup>
+    <RootNamespace>Ch24.Beacon.Agent</RootNamespace>
+    <UserSecretsId>beacon-ch24-agent</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AGUI.Abstractions" />
+    <PackageReference Include="AGUI.Formatting" />
+    <PackageReference Include="AGUI.Protobuf" />
+    <PackageReference Include="AGUI.Server" />
+    <PackageReference Include="Microsoft.Extensions.AI" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Beacon.AI\Beacon.AI.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.AGUI.Hosting\Beacon.AGUI.Hosting.csproj" />
+  </ItemGroup>
+
+</Project>

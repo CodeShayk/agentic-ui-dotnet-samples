@@ -1,0 +1,42 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Chapter 10's proof: mixed invocation end to end against the real agent in-process (a frontend tool and
+    a backend tool in one turn, from the Desk and from the Field), result validation (deferred calls included), confirmation gating,
+    unknown-tool handling and the agent never running a client-owned tool. Device tools run against fakes.
+    No model, no browser, no device, no network.
+  -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Ch10.Tests</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="xunit.v3" />
+    <PackageReference Include="bunit" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
+    <PackageReference Include="AGUI.Client" />
+    <PackageReference Include="AGUI.Formatting" />
+    <PackageReference Include="AGUI.Server" />
+    <PackageReference Include="Microsoft.Extensions.AI" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <!-- Beacon Field's status wording and HTTP client have no .NET MAUI dependency, so they're compiled in and tested without the workload. -->
+  <ItemGroup>
+    <Compile Include="..\Ch10.Beacon.Field\FieldStatus.cs" Link="Linked\FieldStatus.cs" />
+    <Compile Include="..\Ch10.Beacon.Field\AgentHttp.cs" Link="Linked\AgentHttp.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Beacon.Client.Core\Beacon.Client.Core.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.Testing\Beacon.Testing.csproj" />
+    <ProjectReference Include="..\Ch10.Beacon.Agent\Ch10.Beacon.Agent.csproj" />
+    <ProjectReference Include="..\Ch10.Beacon.Desk\Ch10.Beacon.Desk.csproj" />
+    <ProjectReference Include="..\Ch10.Field.Tools\Ch10.Field.Tools.csproj" />
+  </ItemGroup>
+
+</Project>

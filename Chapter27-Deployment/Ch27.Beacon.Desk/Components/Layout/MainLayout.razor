@@ -1,0 +1,26 @@
+@inherits LayoutComponentBase
+@using System.Security.Claims
+
+<DeskChrome UserName="@_userName">
+    <ChildContent>
+        @Body
+    </ChildContent>
+</DeskChrome>
+
+@code {
+    [CascadingParameter] private Task<AuthenticationState>? Authentication { get; set; }
+
+    private string? _userName;
+
+    // The signed-in user, from the cookie (development) or Microsoft Entra ID (deployed): "Dana Kim · Dispatcher".
+    protected override async Task OnParametersSetAsync()
+    {
+        if (Authentication is not null && (await Authentication).User is { Identity.IsAuthenticated: true } user)
+        {
+            var role = user.FindFirstValue(ClaimTypes.Role);
+            _userName = role is { Length: > 0 }
+                ? $"{user.Identity.Name} · {char.ToUpperInvariant(role[0])}{role[1..]}"
+                : user.Identity.Name;
+        }
+    }
+}

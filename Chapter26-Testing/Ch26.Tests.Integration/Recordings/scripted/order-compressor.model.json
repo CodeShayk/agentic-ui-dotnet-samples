@@ -1,0 +1,51 @@
+{
+  "format": "beacon-model-recording/1",
+  "model": "beacon-scripted",
+  "turns": [
+    [
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": "I\u0027ll order one "
+          }
+        ],
+        "responseId": "resp-0003",
+        "messageId": "msg-0003",
+        "modelId": "beacon-scripted"
+      },
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "text",
+            "text": "CMP-CA36 for WO-1001."
+          }
+        ],
+        "responseId": "resp-0003",
+        "messageId": "msg-0003",
+        "modelId": "beacon-scripted"
+      },
+      {
+        "role": "assistant",
+        "contents": [
+          {
+            "$type": "functionCall",
+            "name": "place_part_order",
+            "arguments": {
+              "workOrderId": "WO-1001",
+              "sku": "CMP-CA36",
+              "quantity": 1
+            },
+            "informationalOnly": false,
+            "callId": "call-0003-1"
+          }
+        ],
+        "responseId": "resp-0003",
+        "messageId": "msg-0003",
+        "modelId": "beacon-scripted"
+      }
+    ]
+  ]
+}

@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Chapter 24: the transport decisions as tested behavior. Content negotiation (SSE by default,
+    protobuf only when asked, 406 otherwise), identical events over both formats, heartbeats in SSE
+    silences and none in protobuf, RUN_STARTED before the model answers, cancellation on disconnect,
+    the concurrency limit, the run budget, the run-ID ledger and the client's retry-before-first-event
+    rule. The agent runs in memory on the scripted model.
+  -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Ch24.Tests</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="xunit.v3" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
+    <PackageReference Include="AGUI.Client" />
+    <PackageReference Include="AGUI.Protobuf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Ch24.Beacon.Agent\Ch24.Beacon.Agent.csproj" />
+    <ProjectReference Include="..\Ch24.Beacon.Console\Ch24.Beacon.Console.csproj" />
+    <ProjectReference Include="..\Ch24.Proxy\Ch24.Proxy.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.Testing\Beacon.Testing.csproj" />
+  </ItemGroup>
+
+</Project>

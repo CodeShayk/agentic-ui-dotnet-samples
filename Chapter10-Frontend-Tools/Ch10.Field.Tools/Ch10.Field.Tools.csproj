@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Beacon Field's frontend tools (get_location, take_photo, scan_part_label), written against small
+    device interfaces instead of .NET MAUI, so the tools, their consent rules and their results are
+    testable with fakes and without the MAUI workload. Ch10.Beacon.Field supplies MAUI Essentials
+    implementations of the interfaces.
+  -->
+  <PropertyGroup>
+    <RootNamespace>Ch10.Field.Tools</RootNamespace>
+    <!-- .NET MAUI trims on Android and iOS; the analyzers keep the tools safe for it. -->
+    <IsAotCompatible>true</IsAotCompatible>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.AI" />
+  </ItemGroup>
+
+</Project>

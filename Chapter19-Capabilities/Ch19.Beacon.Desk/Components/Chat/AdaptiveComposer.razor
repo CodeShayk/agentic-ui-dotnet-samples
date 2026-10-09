@@ -1,0 +1,103 @@
+@*
+    The Desk's composer, fitted to the plan: an attach control for each input the plan offers, a visible
+    note for each one it marks unconfirmed or explains, and the attachments waiting to be sent.
+*@
+<div class="ch19-composer">
+    @if (Tray.Items.Count > 0)
+    {
+        <ul class="ch19-tray" aria-label="Attachments to send">
+            @foreach (var item in Tray.Items)
+            {
+                <li class="bd-badge">
+                    @item.FileName
+                    <button type="button" class="bd-button bd-button--quiet" aria-label="@($"Remove {item.FileName}")"
+                            @onclick="() => RemoveAsync(item)">×</button>
+                </li>
+            }
+        </ul>
+    }
+
+    <ChatComposer OnSend="OnSend" Disabled="Disabled" Busy="Busy" Placeholder="Ask Beacon a question">
+        <Actions>
+            @foreach (var input in Inputs.Where(i => i.Button.IsVisible))
+            {
+                <label class="bd-button ch19-attach" data-input="@input.Button.Feature">
+                    @input.Button.Text
+                    <InputFile class="ch19-attach__file" accept="@input.Accept" disabled="@(Disabled || Busy)"
+                               aria-describedby="@(input.Button.Caption is null ? null : NoteId(input.Button.Feature))"
+                               OnChange="e => AttachAsync(input.Button.Feature, e)" />
+                </label>
+            }
+            <StopButton IsStreaming="Busy" OnStop="OnStop" />
+        </Actions>
+    </ChatComposer>
+
+    @if (Inputs.Any(i => i.Button.Caption is not null))
+    {
+        <ul class="ch19-notes">
+            @foreach (var input in Inputs.Where(i => i.Button.Caption is not null))
+            {
+                <li id="@NoteId(input.Button.Feature)" data-note="@input.Button.Feature">@input.Button.Caption</li>
+            }
+        </ul>
+    }
+
+    @if (_refusal is not null)
+    {
+        <p class="ch19-warning" role="alert">@_refusal</p>
+    }
+</div>
+
+@code {
+    private string? _refusal;
+
+    [Parameter, EditorRequired] public AttachmentTray Tray { get; set; } = default!;
+
+    [Parameter] public EventCallback<string> OnSend { get; set; }
+
+    [Parameter] public EventCallback OnStop { get; set; }
+
+    /// <summary>Raised when an attachment is added or removed, so the owner can re-render.</summary>
+    [Parameter] public EventCallback OnTrayChanged { get; set; }
+
+    [Parameter] public bool Busy { get; set; }
+
+    [Parameter] public bool Disabled { get; set; }
+
+    private sealed record DeskInput(InputButton Button, string Accept);
+
+    // The Desk's inputs. The plan decides how each one appears; this list only says what files they take.
+    private IEnumerable<DeskInput> Inputs =>
+    [
+        new(InputButton.For(Tray.Plan[BeaconFeature.PhotoInput]), "image/png,image/jpeg,image/webp"),
+        new(InputButton.For(Tray.Plan[BeaconFeature.DocumentInput]), "application/pdf"),
+    ];
+
+    private static string NoteId(BeaconFeature feature) => $"ch19-note-{feature}";
+
+    private async Task AttachAsync(BeaconFeature feature, InputFileChangeEventArgs e)
+    {
+        var file = e.File;
+        var limit = Tray.Plan.MaxAttachmentBytes(feature);
+        if (file.Size > limit)
+        {
+            _refusal = $"{file.Name} is too large for this agent.";
+            return;
+        }
+
+        using var buffer = new MemoryStream();
+        await using (var stream = file.OpenReadStream(limit))
+        {
+            await stream.CopyToAsync(buffer);
+        }
+
+        _refusal = Tray.TryAdd(new MediaAttachment(file.Name, file.ContentType, buffer.ToArray()));
+        await OnTrayChanged.InvokeAsync();
+    }
+
+    private async Task RemoveAsync(MediaAttachment item)
+    {
+        Tray.Remove(item);
+        await OnTrayChanged.InvokeAsync();
+    }
+}

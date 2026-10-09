@@ -1,0 +1,100 @@
+@*
+    The work-order sheet: Beacon's shared state, rendered from the conversation's view and edited
+    through SheetEditor. Read-only facts come from the agent; status, checklist and notes are shared.
+*@
+@{
+    var view = Conversation.View;
+    var sheet = SheetDocument.Read(view.State.Document);
+    var sync = Editor.Sync;
+}
+<section class="ch12-sheet" aria-labelledby="sheet-title">
+    <header class="ch12-sheet__header">
+        <h1 id="sheet-title">Work-order sheet</h1>
+        <label class="ch12-board">
+            Board day
+            <input type="date" value="@Board.SelectedDate.ToString("yyyy-MM-dd")" @onchange="SetBoardDay" />
+        </label>
+    </header>
+
+    <p class="ch12-sync ch12-sync--@SyncClass(view, sync)" role="status" data-testid="sync">
+        <span class="ch12-sync__version">Version @sync.Version</span>
+        <span>Last change: @Who(sync.LastChangedBy)</span>
+        <span class="ch12-sync__state">@SyncText(view, sync)</span>
+    </p>
+
+    @if (Editor.Notices.Count > 0)
+    {
+        <div class="ch12-notices" aria-live="polite">
+            <ul data-testid="notices">
+                @foreach (var notice in Editor.Notices)
+                {
+                    <li>@notice</li>
+                }
+            </ul>
+            <button type="button" class="bd-button bd-button--quiet" @onclick="Editor.DismissNotices">Dismiss</button>
+        </div>
+    }
+
+    @if (sheet is null)
+    {
+        <div class="ch12-empty">
+            <p>No work order is on the sheet. Ask Beacon to open one, for example "Open WO-1001".</p>
+            <button type="button" class="bd-button" disabled="@(!RendererInfo.IsInteractive || view.IsBusy)"
+                    @onclick="OpenSampleAsync">Open WO-1001</button>
+        </div>
+    }
+    else
+    {
+        <dl class="ch12-facts">
+            <dt>Work order</dt><dd>@sheet.Id</dd>
+            <dt>Customer</dt><dd>@sheet.Customer</dd>
+            <dt>Equipment</dt><dd>@sheet.Equipment</dd>
+            <dt>Summary</dt><dd>@sheet.Summary</dd>
+            <dt>Priority</dt><dd>@sheet.Priority</dd>
+            <dt>Technician</dt><dd>@sheet.Technician</dd>
+        </dl>
+
+        <label class="ch12-field">
+            Status
+            <select value="@sheet.Status" @onchange="SetStatus" disabled="@(!RendererInfo.IsInteractive)">
+                @foreach (var status in Statuses)
+                {
+                    <option value="@status">@status</option>
+                }
+            </select>
+        </label>
+
+        <h2 class="ch12-heading">Checklist</h2>
+        <ul class="ch12-checklist" data-testid="checklist">
+            @foreach (var item in sheet.Checklist)
+            {
+                <li @key="item.Id" class="ch12-item @(item.Done ? "ch12-item--done" : null)" data-item="@item.Id">
+                    <input type="checkbox" id="item-@item.Id" checked="@item.Done" disabled="@(!RendererInfo.IsInteractive)"
+                           @onchange="e => Toggle(item.Id, e)" />
+                    <label for="item-@item.Id">@item.Text</label>
+                    <code class="ch12-item__id">@item.Id</code>
+                    <button type="button" class="bd-button bd-button--quiet ch12-item__remove" aria-label="Remove @item.Text"
+                            disabled="@(!RendererInfo.IsInteractive)" @onclick="() => Editor.Apply(new RemoveItem(item.Id))">Remove</button>
+                </li>
+            }
+        </ul>
+        <form class="ch12-add" @onsubmit="AddItem">
+            <label for="new-item" class="bd-visually-hidden">New checklist item</label>
+            <input id="new-item" placeholder="New checklist item" maxlength="200" @bind="_newItem" @bind:event="oninput" />
+            <button type="submit" class="bd-button" disabled="@(!RendererInfo.IsInteractive)">Add item</button>
+        </form>
+
+        <h2 class="ch12-heading">Notes</h2>
+        <ul class="ch12-notes" data-testid="notes">
+            @foreach (var note in sheet.Notes)
+            {
+                <li>@note</li>
+            }
+        </ul>
+        <form class="ch12-add" @onsubmit="AddNote">
+            <label for="new-note" class="bd-visually-hidden">New note</label>
+            <input id="new-note" placeholder="New note" maxlength="500" @bind="_newNote" @bind:event="oninput" />
+            <button type="submit" class="bd-button" disabled="@(!RendererInfo.IsInteractive)">Add note</button>
+        </form>
+    }
+</section>

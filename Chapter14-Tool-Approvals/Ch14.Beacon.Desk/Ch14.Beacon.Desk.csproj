@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <!--
+    Beacon Desk for Chapter 14: Chapter 7's chat over Beacon.Client.Core, plus the approval dialog a
+    dispatcher answers when Beacon wants to spend more than $500, and a log of the session's approvals.
+    Interactive Server.
+  -->
+  <PropertyGroup>
+    <RootNamespace>Ch14.Beacon.Desk</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Ch14.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AGUI.Client" />
+    <PackageReference Include="Microsoft.Extensions.AI" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Beacon.Desk.Ui\Beacon.Desk.Ui.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.Client.Core\Beacon.Client.Core.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,39 @@
+@using System.Text.Json.Nodes
+@*
+    The work order Beacon opened, from the shared state's activeWorkOrder. Purely presentational: it
+    takes the state document and renders it, so a test can drive it with any document it likes.
+*@
+<section class="bd-card ch26-workorder" aria-labelledby="@_headingId">
+    @if (WorkOrder is { } workOrder)
+    {
+        <p class="bd-card__meta">Work order opened by Beacon</p>
+        <h1 id="@_headingId">@Text(workOrder, "id")</h1>
+        <p class="ch26-workorder__summary">@Text(workOrder, "summary")</p>
+        <dl class="ch26-facts">
+            <div><dt>Status</dt><dd>@Text(workOrder, "status")</dd></div>
+            <div><dt>Priority</dt><dd>@Text(workOrder, "priority")</dd></div>
+            <div><dt>Customer</dt><dd>@Text(workOrder, "customer")</dd></div>
+            <div><dt>Equipment</dt><dd>@Text(workOrder, "equipment") (@Text(workOrder, "equipmentId"))</dd></div>
+            <div><dt>Technician</dt><dd>@(Text(workOrder, "technicianId") is { Length: > 0 } tech ? tech : "Unassigned")</dd></div>
+        </dl>
+    }
+    else
+    {
+        <h1 id="@_headingId">Dispatch</h1>
+        <p class="bd-card__meta">Monday, November 16, 2026 · Seacoast and Inland regions</p>
+        <p>The work order Beacon opens will appear here. Ask about one in the chat.</p>
+    }
+</section>
+
+@code {
+    private readonly string _headingId = $"ch26-workorder-{Guid.NewGuid():N}";
+
+    /// <summary>The shared state document, as the conversation's view holds it.</summary>
+    [Parameter] public JsonNode? State { get; set; }
+
+    private JsonObject? WorkOrder => State?["activeWorkOrder"] as JsonObject;
+
+    // State comes from the agent and is rendered as text, never as markup.
+    private static string Text(JsonObject workOrder, string name) =>
+        workOrder[name] is JsonValue value && value.TryGetValue<string>(out var text) ? text : string.Empty;
+}

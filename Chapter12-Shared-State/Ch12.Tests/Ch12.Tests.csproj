@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Chapter 12's proof: JSON Patch edge cases and resynchronization in Beacon.Client.Core, snapshots and
+    deltas on the wire from Ch12.Beacon.Agent, schema validation of client state, and the Desk's editor
+    converging with the agent while both edit the sheet. No model, no browser, no network.
+  -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Ch12.Tests</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="xunit.v3" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
+    <PackageReference Include="AGUI.Client" />
+    <PackageReference Include="AGUI.Server" />
+    <PackageReference Include="AGUI.Formatting" />
+    <PackageReference Include="Microsoft.Extensions.AI" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Beacon.Client.Core\Beacon.Client.Core.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.Testing\Beacon.Testing.csproj" />
+    <ProjectReference Include="..\Ch12.Beacon.Agent\Ch12.Beacon.Agent.csproj" />
+    <ProjectReference Include="..\Ch12.Beacon.Desk\Ch12.Beacon.Desk.csproj" />
+  </ItemGroup>
+
+</Project>

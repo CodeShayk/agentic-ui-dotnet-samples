@@ -1,0 +1,20 @@
+data: {"type":"RUN_STARTED","threadId":"t-1","runId":"r-1","protocolVersion":"1.0","timestamp":1790986554847}
+
+data: {"type":"TEXT_MESSAGE_START","messageId":"msg-r1-1","role":"assistant","metadata":{"contoso.model":"beacon-scripted"}}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-r1-1","delta":"I'm Beacon, Contoso "}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-r1-1","delta":"Climate's field-service assistant. "}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-r1-1","delta":"Ask me about "}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-r1-1","delta":"a work order, "}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-r1-1","delta":"a part or "}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-r1-1","delta":"today's schedule."}
+
+data: {"type":"TEXT_MESSAGE_END","messageId":"msg-r1-1","metadata":{"contoso.finishReason":"stop"}}
+
+data: {"type":"RUN_FINISHED","threadId":"t-1","runId":"r-1","timestamp":1790986555292}
+

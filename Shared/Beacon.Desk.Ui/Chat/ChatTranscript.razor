@@ -1,0 +1,142 @@
+@namespace Beacon.Desk.Ui
+@*
+    The conversation. Finished messages form an ordered list and the message being streamed renders
+    after them. The scroll container keeps the newest text in view without script (see the CSS).
+
+    Screen readers hear each assistant message once, when it is finished, through the polite live
+    region at the bottom. Announcing every streamed fragment would flood the speech queue, and the
+    streaming bubble's markup is replaced on every render, which some screen readers re-read whole.
+*@
+<div class="bd-transcript" role="region" aria-label="@Label" tabindex="0">
+    <div class="bd-transcript__content">
+        @if (Messages.Count == 0 && Streaming is null && !IsResponding && EmptyContent is not null)
+        {
+            <div class="bd-transcript__empty">@EmptyContent</div>
+        }
+
+        <ol class="bd-transcript__list">
+            @{ var keys = new HashSet<string>(StringComparer.Ordinal); }
+            @foreach (var message in Messages)
+            {
+                @* Message IDs come from the wire. A duplicate must not become a duplicate @key,
+                   which Blazor treats as a rendering error (and Blazor Server as a dead circuit). *@
+                <li @key="UniqueKey(keys, message.Id)" class="@MessageClass(message, streaming: false)">
+                    <span class="bd-message__author">@AuthorName(message.Author)</span>
+                    <div class="bd-message__body">@RenderBody(message)</div>
+                    @if (message.IsPartial)
+                    {
+                        <p class="bd-message__note">Stopped before @AssistantName finished.</p>
+                    }
+                </li>
+            }
+
+            @if (Streaming is not null)
+            {
+                @* A key of its own: when the message finishes it reappears in the loop above under its
+                   ID, and one key at two places in the markup confuses Blazor's diff. *@
+                <li @key="StreamingKey" class="@MessageClass(Streaming, streaming: true)" aria-busy="true">
+                    <span class="bd-message__author">@AuthorName(Streaming.Author)</span>
+                    <div class="bd-message__body">@RenderBody(Streaming)</div>
+                </li>
+            }
+            else if (IsResponding)
+            {
+                <li class="bd-message bd-message--assistant bd-message--pending">
+                    <span class="bd-message__author">@AssistantName</span>
+                    <div class="bd-message__body">
+                        <span class="bd-typing" aria-hidden="true"></span>
+                        <span class="bd-visually-hidden">@AssistantName is working</span>
+                    </div>
+                </li>
+            }
+        </ol>
+
+        @AfterMessages
+    </div>
+</div>
+<div class="bd-visually-hidden" aria-live="polite" aria-atomic="true" data-bd-announcer>
+    <span @key="_announcementKey">@_announcement</span>
+</div>
+
+@code {
+    private readonly HashSet<string> _announced = new(StringComparer.Ordinal);
+    private bool _initialized;
+    private string _announcement = string.Empty;
+    private int _announcementKey;
+
+    /// <summary>Finished messages, oldest first.</summary>
+    [Parameter, EditorRequired] public IReadOnlyList<TranscriptMessage> Messages { get; set; } = [];
+
+    /// <summary>The message being streamed, if any. It renders after <see cref="Messages"/>.</summary>
+    [Parameter] public TranscriptMessage? Streaming { get; set; }
+
+    /// <summary>True while a run is in progress but no text has arrived yet; shows a typing indicator.</summary>
+    [Parameter] public bool IsResponding { get; set; }
+
+    /// <summary>The accessible name of the transcript region.</summary>
+    [Parameter] public string Label { get; set; } = "Conversation";
+
+    [Parameter] public string AssistantName { get; set; } = "Beacon";
+
+    [Parameter] public string UserName { get; set; } = "You";
+
+    /// <summary>Shown when there are no messages yet.</summary>
+    [Parameter] public RenderFragment? EmptyContent { get; set; }
+
+    /// <summary>Replaces the default body of a message (plain text for the user, Markdown for the assistant).</summary>
+    [Parameter] public RenderFragment<TranscriptMessage>? MessageTemplate { get; set; }
+
+    /// <summary>Content rendered after the last message, such as cards or prompts added by later features.</summary>
+    [Parameter] public RenderFragment? AfterMessages { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        var fresh = new List<TranscriptMessage>();
+        foreach (var message in Messages)
+        {
+            if (message.Author == ChatAuthor.Assistant && _announced.Add(message.Id))
+            {
+                fresh.Add(message);
+            }
+        }
+
+        // Messages present on the first render (a restored conversation) are not announced.
+        if (_initialized && fresh.Count > 0)
+        {
+            _announcement = string.Join(" ", fresh.Select(Describe));
+            _announcementKey++;
+        }
+
+        _initialized = true;
+    }
+
+    private string StreamingKey => $"streaming:{Streaming?.Id}";
+
+    private static string UniqueKey(HashSet<string> keys, string id)
+    {
+        var key = id;
+        for (var n = 2; !keys.Add(key); n++)
+        {
+            key = $"{id}#{n}";
+        }
+
+        return key;
+    }
+
+    private string Describe(TranscriptMessage message) =>
+        $"{AssistantName}: {SafeMarkdown.ToPlainText(message.Text)}{(message.IsPartial ? " (stopped)" : string.Empty)}";
+
+    private RenderFragment RenderBody(TranscriptMessage message) =>
+        MessageTemplate is not null
+            ? MessageTemplate(message)
+            : message.Author == ChatAuthor.Assistant
+                ? @<MarkdownView Markdown="@message.Text" />
+                : @<p class="bd-message__text">@message.Text</p>;
+
+    private string AuthorName(ChatAuthor author) => author == ChatAuthor.Assistant ? AssistantName : UserName;
+
+    private static string MessageClass(TranscriptMessage message, bool streaming) =>
+        $"bd-message bd-message--{(message.Author == ChatAuthor.Assistant ? "assistant" : "user")}" +
+        (streaming ? " bd-message--streaming" : string.Empty) +
+        (message.IsPartial ? " bd-message--partial" : string.Empty);
+}

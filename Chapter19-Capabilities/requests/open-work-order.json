@@ -1,0 +1,1 @@
+{"threadId": "t-19", "runId": "r-open", "protocolVersion": "1.0", "messages": [{"id": "u-1", "role": "user", "content": "Open WO-1001 for me."}], "tools": [{"name": "open_work_order", "description": "Opens a work order on the dispatcher's screen.", "parameters": {"type": "object", "properties": {"workOrderId": {"type": "string"}}, "required": ["workOrderId"]}}]}

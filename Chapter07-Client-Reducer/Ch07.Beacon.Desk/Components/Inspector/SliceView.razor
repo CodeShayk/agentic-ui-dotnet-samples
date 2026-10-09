@@ -1,0 +1,36 @@
+@typeparam TSlice where TSlice : class?
+@*
+    Renders one slice of the view state, and only when that slice changed. The view is immutable and
+    the reducer shares every slice it didn't touch, so "did it change?" is a reference comparison.
+*@
+<section class="ch07-slice" aria-labelledby="@_headingId">
+    <h3 id="@_headingId" class="ch07-slice__title">@Title</h3>
+    @ChildContent(Slice)
+    <p class="ch07-slice__renders">Rendered @_renders @(_renders == 1 ? "time" : "times")</p>
+</section>
+
+@code {
+    private readonly string _headingId = $"ch07-slice-{Guid.NewGuid():N}";
+    private TSlice? _rendered;
+    private int _renders;
+
+    [Parameter, EditorRequired] public string Title { get; set; } = "";
+
+    [Parameter, EditorRequired] public TSlice Slice { get; set; } = default!;
+
+    [Parameter, EditorRequired] public RenderFragment<TSlice> ChildContent { get; set; } = default!;
+
+    protected override void OnInitialized() => (_rendered, _renders) = (Slice, 1);
+
+    // The parent re-renders on every change; this section re-renders only for changes to its slice.
+    protected override bool ShouldRender()
+    {
+        if (ReferenceEquals(_rendered, Slice))
+        {
+            return false;
+        }
+
+        (_rendered, _renders) = (Slice, _renders + 1);
+        return true;
+    }
+}

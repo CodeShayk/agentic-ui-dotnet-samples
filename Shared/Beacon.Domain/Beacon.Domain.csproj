@@ -1,0 +1,8 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Beacon's domain: records, seed data and an in-memory store. No AI or AG-UI dependencies. -->
+  <PropertyGroup>
+    <RootNamespace>Beacon.Domain</RootNamespace>
+  </PropertyGroup>
+
+</Project>

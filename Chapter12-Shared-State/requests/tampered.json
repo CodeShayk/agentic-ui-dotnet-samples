@@ -1,0 +1,48 @@
+{
+  "threadId": "t-12b",
+  "runId": "r-1",
+  "state": {
+    "schemaVersion": 2,
+    "workOrder": {
+      "id": "WO-1001",
+      "customer": "Harbor View Dental",
+      "equipment": "Contoso Air CA-36X",
+      "summary": "Air conditioner short-cycling and blowing warm air",
+      "priority": "Low",
+      "technician": "Priya Raman",
+      "status": "Scheduled",
+      "checklist": [
+        {
+          "id": "C1",
+          "text": "Check thermostat settings and wiring",
+          "done": false
+        },
+        {
+          "id": "C2",
+          "text": "Measure refrigerant pressures",
+          "done": false
+        },
+        {
+          "id": "C3",
+          "text": "Inspect run capacitor",
+          "done": false
+        },
+        {
+          "id": "C4",
+          "text": "Test compressor amperage",
+          "done": false
+        }
+      ],
+      "notes": [
+        "Customer reports the unit stops after a few minutes."
+      ]
+    }
+  },
+  "messages": [
+    {
+      "id": "m-1",
+      "role": "user",
+      "content": "What is the status of WO-1001?"
+    }
+  ]
+}

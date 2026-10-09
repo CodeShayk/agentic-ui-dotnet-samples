@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="Ch08.Beacon.Field.Hybrid.MainPage"
+             xmlns:components="clr-namespace:Ch08.Beacon.Field.Hybrid.Components">
+    <!-- One native control hosting the Desk's Razor components. -->
+    <BlazorWebView HostPage="wwwroot/index.html">
+        <BlazorWebView.RootComponents>
+            <RootComponent Selector="#app" ComponentType="{x:Type components:FieldChat}" />
+        </BlazorWebView.RootComponents>
+    </BlazorWebView>
+</ContentPage>

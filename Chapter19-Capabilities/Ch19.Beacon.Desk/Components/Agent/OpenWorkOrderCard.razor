@@ -1,0 +1,18 @@
+@using global::Beacon.Domain
+@*
+    The work order the agent opened on this screen with open_work_order.
+*@
+@if (SeedData.WorkOrders.FirstOrDefault(w => w.Id == WorkOrderId) is { } workOrder)
+{
+    var customer = SeedData.Customers.FirstOrDefault(c => c.Id == workOrder.CustomerId);
+    var equipment = SeedData.Equipment.FirstOrDefault(e => e.Id == workOrder.EquipmentId);
+    <section class="bd-card" aria-labelledby="ch19-wo-title" data-testid="open-work-order">
+        <h2 id="ch19-wo-title" class="ch19-panel__title">@workOrder.Id</h2>
+        <p>@workOrder.Summary</p>
+        <p class="ch19-muted">@customer?.Name · @equipment?.Manufacturer @equipment?.Model · @workOrder.Status, @workOrder.Priority priority</p>
+    </section>
+}
+
+@code {
+    [Parameter, EditorRequired] public string WorkOrderId { get; set; } = default!;
+}

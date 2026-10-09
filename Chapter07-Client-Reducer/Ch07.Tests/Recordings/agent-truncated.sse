@@ -1,0 +1,8 @@
+data: {"type":"RUN_STARTED","threadId":"t-2","runId":"r-1"}
+
+data: {"type":"TOOL_CALL_START","toolCallId":"call-0004-1","toolCallName":"get_schedule","parentMessageId":"msg-0004","rawEvent":{"authorName":null,"role":"assistant","contents":[{"$type":"functionCall","name":"get_schedule","arguments":{"technicianId":null},"informationalOnly":false,"callId":"call-0004-1","annotations":null,"additionalProperties":null}],"additionalProperties":null,"responseId":"resp-0004","messageId":"msg-0004","conversationId":null,"createdAt":null,"finishReason":null,"modelId":"beacon-scripted","continuationToken":null}}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call-0004-1","delta":"{\u0022technicianId\u0022:null}","rawEvent":{"authorName":null,"role":"assistant","contents":[{"$type":"functionCall","name":"get_schedule","arguments":{"technicianId":null},"informationalOnly":false,"callId":"call-0004-1","annotations":null,"additionalProperties":null}],"additionalProperties":null,"responseId":"resp-0004","messageId":"msg-0004","conversationId":null,"createdAt":null,"finishReason":null,"modelId":"beacon-scripted","continuationToken":null}}
+
+data: {"type":"TOOL_CALL_END","toolCallId":"call-0004-1","rawEvent":{"authorName":null,"role":"assistant","contents":[{"$type":"functionCall","name":"get_schedule","arguments":{"technicianId":null},"informationalOnly":false,"callId":"call-0004-1","annotations":null,"additionalProperties":null}],"additionalProperties":null,"responseId":"resp-0004","messageId":"msg-0004","conversationId":null,"createdAt":null,"finishReason":null,"modelId":"beacon-scripted","continuationToken":null}}
+

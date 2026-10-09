@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <!--
+    Beacon's agent for Chapter 22. It remembers conversations: every run's events go to an append-only log
+    and every run's messages to a run record, in plain files under Beacon:Conversations:Directory, keyed by
+    thread. The server's copy is the history; a client's copy only shows the server where the client is and
+    what's new. Branches follow parentRunId, MESSAGES_SNAPSHOT restates the branch whenever the client's
+    view may differ, and long conversations are compacted for the model at turn boundaries. GET
+    /agent/threads lists and restores conversations. No authentication yet: Chapter 23 adds the user.
+  -->
+  <PropertyGroup>
+    <RootNamespace>Ch22.Beacon.Agent</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AGUI.Server" />
+    <PackageReference Include="AGUI.Formatting" />
+    <PackageReference Include="Microsoft.Extensions.AI" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Beacon.Domain\Beacon.Domain.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.AI\Beacon.AI.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.AGUI.Hosting\Beacon.AGUI.Hosting.csproj" />
+    <!-- For JsonPatch.Apply only (RFC 6902, Chapter 7), to keep the state a run ends with. -->
+    <ProjectReference Include="..\..\Shared\Beacon.Client.Core\Beacon.Client.Core.csproj" />
+  </ItemGroup>
+
+</Project>

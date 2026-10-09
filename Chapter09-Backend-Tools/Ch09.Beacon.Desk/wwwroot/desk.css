@@ -1,0 +1,256 @@
+/* Chapter 9 additions to Beacon Desk: tool status chips, result cards and the lookups panel.
+   Colors come from Beacon.Desk.Ui's tokens, so light and dark themes both work. Status is always
+   stated in words; color and the mark only repeat it. */
+
+.ch09-tools {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.6rem;
+}
+
+.ch09-tool {
+    display: grid;
+    gap: 0.4rem;
+}
+
+.ch09-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: fit-content;
+    max-width: 100%;
+    padding: 0.2rem 0.65rem 0.2rem 0.5rem;
+    border: 1px solid var(--bd-border);
+    border-radius: 999px;
+    background: var(--bd-surface-alt);
+    font-size: 0.9rem;
+}
+
+.ch09-chip__text {
+    overflow-wrap: anywhere;
+}
+
+.ch09-chip__name {
+    white-space: nowrap;
+    font-family: var(--bd-mono);
+    font-size: 0.75rem;
+    color: var(--bd-muted);
+}
+
+.ch09-chip__mark {
+    width: 0.8rem;
+    height: 0.8rem;
+    border-radius: 50%;
+    border: 2px solid var(--bd-accent);
+    flex: none;
+}
+
+.ch09-tool--preparing .ch09-chip__mark {
+    border-style: dotted;
+    animation: ch09-spin 1.4s linear infinite;
+}
+
+.ch09-tool--running .ch09-chip__mark {
+    border-right-color: transparent;
+    animation: ch09-spin 0.9s linear infinite;
+}
+
+.ch09-tool--succeeded .ch09-chip__mark {
+    background: var(--bd-success);
+    border-color: var(--bd-success);
+}
+
+.ch09-tool--failed .ch09-chip {
+    border-color: var(--bd-danger);
+    background: var(--bd-danger-bg);
+}
+
+.ch09-tool--failed .ch09-chip__mark {
+    border-color: var(--bd-danger);
+    background: var(--bd-danger);
+}
+
+.ch09-tool--waiting .ch09-chip__mark {
+    border-color: var(--bd-warning);
+}
+
+.ch09-tool--stopped .ch09-chip__mark {
+    border-color: var(--bd-muted);
+    border-style: dashed;
+}
+
+@keyframes ch09-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ch09-tool--preparing .ch09-chip__mark,
+    .ch09-tool--running .ch09-chip__mark {
+        animation: none;
+    }
+}
+
+.ch09-tool__error,
+.ch09-tool__text,
+.ch09-checklist {
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+.ch09-tool__error {
+    color: var(--bd-danger);
+}
+
+.ch09-card {
+    border: 1px solid var(--bd-border);
+    border-radius: var(--bd-radius);
+    background: var(--bd-surface);
+    padding: 0.6rem 0.75rem;
+    font-size: 0.9rem;
+    overflow-x: auto;
+}
+
+.ch09-card__header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.ch09-card__title {
+    font-size: 1rem;
+}
+
+.ch09-card__summary {
+    margin: 0.35rem 0;
+}
+
+.ch09-pill {
+    font-size: 0.75rem;
+    padding: 0.05rem 0.5rem;
+    border-radius: 999px;
+    background: var(--bd-badge-bg);
+    color: var(--bd-badge-text);
+}
+
+.ch09-pill--high,
+.ch09-pill--emergency {
+    background: var(--bd-danger-bg);
+    color: var(--bd-danger);
+}
+
+.ch09-facts {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: 0.15rem 0.75rem;
+    margin: 0;
+}
+
+.ch09-facts dt {
+    color: var(--bd-muted);
+}
+
+.ch09-facts dd {
+    margin: 0;
+}
+
+.ch09-parts {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.ch09-parts caption {
+    text-align: left;
+    color: var(--bd-muted);
+    padding-bottom: 0.25rem;
+}
+
+.ch09-parts th,
+.ch09-parts td {
+    padding: 0.2rem 0.5rem 0.2rem 0;
+    border-bottom: 1px solid var(--bd-border);
+    text-align: left;
+    vertical-align: top;
+}
+
+.ch09-parts td:first-child,
+.ch09-parts .ch09-num {
+    white-space: nowrap;
+}
+
+.ch09-parts .ch09-num {
+    text-align: right;
+}
+
+.ch09-parts__row--out td {
+    color: var(--bd-danger);
+}
+
+.ch09-warranty {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.5rem;
+    margin: 0;
+    padding: 0.45rem 0.75rem;
+    border-radius: var(--bd-radius);
+    border: 1px solid var(--bd-border);
+    background: var(--bd-surface);
+    font-size: 0.9rem;
+}
+
+.ch09-warranty__status {
+    font-weight: 600;
+    padding: 0.05rem 0.5rem;
+    border-radius: 999px;
+}
+
+.ch09-warranty--covered .ch09-warranty__status {
+    color: var(--bd-success);
+    border: 1px solid var(--bd-success);
+}
+
+.ch09-warranty--not-covered .ch09-warranty__status {
+    color: var(--bd-danger);
+    border: 1px solid var(--bd-danger);
+}
+
+.ch09-warranty__unit {
+    font-family: var(--bd-mono);
+}
+
+.ch09-warranty__expiry {
+    color: var(--bd-muted);
+}
+
+.ch09-lookups h1 {
+    margin-bottom: 0.25rem;
+}
+
+.ch09-lookups__note {
+    color: var(--bd-muted);
+    font-size: 0.85rem;
+}
+
+.ch09-lookups__table {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 0.85rem;
+}
+
+.ch09-lookups__table th,
+.ch09-lookups__table td {
+    text-align: left;
+    vertical-align: top;
+    padding: 0.3rem 0.5rem 0.3rem 0;
+    border-bottom: 1px solid var(--bd-border);
+}
+
+.ch09-lookups__args {
+    font-family: var(--bd-mono);
+    overflow-wrap: anywhere;
+}

@@ -1,0 +1,57 @@
+@*
+    One A2UI surface in the transcript. It was validated when it arrived; a rejected surface is never drawn,
+    only reported. Everything else is drawn by SurfaceNode, inside a fieldset that turns read-only once the
+    form has been sent.
+*@
+@{
+    var tree = Surface.Tree();
+}
+@if (Surface.Verdict.Outcome == SurfaceOutcome.Rejected || tree is null)
+{
+    <div class="ch20-surface ch20-surface--rejected" role="note" data-outcome="rejected">
+        <p class="ch20-surface__title">Beacon sent a form this Desk won't show.</p>
+        <p class="ch20-surface__detail">@Reason</p>
+    </div>
+}
+else
+{
+    <section class="ch20-surface" aria-label="@Surface.Title" data-surface="@Surface.SurfaceId"
+             data-outcome="@Surface.Verdict.Outcome.ToString().ToLowerInvariant()" data-status="@Surface.Status.ToString().ToLowerInvariant()">
+        @if (Surface.Verdict.Outcome == SurfaceOutcome.Degraded)
+        {
+            <p class="ch20-surface__notice" role="note">Part of this form needs a newer Beacon Desk. It's shown as a summary; everything else works.</p>
+        }
+        <fieldset class="ch20-surface__body" disabled="@(Surface.Status != SurfaceStatus.Open)">
+            <legend class="bd-visually-hidden">@Surface.Title</legend>
+            <SurfaceNode Node="tree" Surface="Surface" Busy="Busy" OnChanged="ChangedAsync" OnAction="ActAsync" />
+        </fieldset>
+        @switch (Surface.Status)
+        {
+            case SurfaceStatus.Sending:
+                <p class="ch20-surface__status" role="status">Sending to Beacon…</p>
+                break;
+            case SurfaceStatus.Submitted:
+                <p class="ch20-surface__status" role="status">Submitted to Beacon.</p>
+                break;
+        }
+    </section>
+}
+
+@code {
+    [Parameter, EditorRequired] public SurfaceInstance Surface { get; set; } = default!;
+
+    [Parameter] public EventCallback<SurfaceActionRequest> OnAction { get; set; }
+
+    /// <summary>The conversation is running, so an action can't be sent yet.</summary>
+    [Parameter] public bool Busy { get; set; }
+
+    // The first error, in plain words. The details are in the inspector.
+    private string Reason => Surface.Verdict.Errors.FirstOrDefault() is { } problem
+        ? $"{problem.Message} ({problem.Code})"
+        : "It couldn't be read.";
+
+    // An input changed the data model: re-render the whole surface, because other components may bind the same value.
+    private Task ChangedAsync() => Task.CompletedTask;
+
+    private Task ActAsync(RenderNode button) => OnAction.InvokeAsync(new SurfaceActionRequest(Surface, button));
+}

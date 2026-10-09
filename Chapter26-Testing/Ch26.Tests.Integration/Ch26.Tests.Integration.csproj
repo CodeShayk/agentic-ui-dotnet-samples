@@ -1,0 +1,49 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    The middle of Chapter 26's pyramid: Beacon's agent hosted in memory with recorded model output in
+    place of the model. Replay, wire-level assertions, golden-file snapshots of event streams, protocol
+    conformance (Chapter 3's validator and the spec's RunAgentInput fixtures), the real client against
+    the real server, and evaluation of agent behavior: deterministic evaluators always, LLM-judged
+    quality evaluators only when RUN_MODEL_TESTS=true.
+  -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Ch26.Tests.Integration</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="xunit.v3" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
+    <PackageReference Include="AGUI.Client" />
+    <PackageReference Include="AGUI.Formatting" />
+    <PackageReference Include="AGUI.Server" />
+    <PackageReference Include="Microsoft.Extensions.AI" />
+    <PackageReference Include="Microsoft.Extensions.AI.Evaluation" />
+    <PackageReference Include="Microsoft.Extensions.AI.Evaluation.Quality" />
+    <PackageReference Include="Microsoft.Extensions.AI.Evaluation.Reporting" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Beacon.AI\Beacon.AI.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.Client.Core\Beacon.Client.Core.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.Testing\Beacon.Testing.csproj" />
+    <ProjectReference Include="..\Ch26.Beacon.Agent\Ch26.Beacon.Agent.csproj" />
+    <!--
+      The one reference to another chapter's project: Chapter 3's stream validator is a library that
+      depends on nothing but System.Text.Json, written to check any producer's streams.
+    -->
+    <ProjectReference Include="..\..\Chapter03-Event-Model\Ch03.StreamValidator\Ch03.StreamValidator.csproj" />
+  </ItemGroup>
+
+  <!-- Recorded model output, and the specification's RunAgentInput fixtures (MIT, see Conformance/NOTICE.md). -->
+  <ItemGroup>
+    <None Include="Recordings\**\*" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Conformance\**\*" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>

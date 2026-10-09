@@ -1,0 +1,45 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Chapter 11's proof: the prop validator and partial-JSON completion, the server's authority (schema,
+    facts, allow-list) on the in-process agent, the client's projection and registry, progressive
+    rendering and fallbacks in Beacon Desk with bUnit over streams captured with curl -N, and the round
+    trip from a button in a generated card back to the agent. No model, no browser, no network.
+  -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Ch11.Tests</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="xunit.v3" />
+    <PackageReference Include="bunit" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
+    <PackageReference Include="AGUI.Client" />
+    <PackageReference Include="AGUI.Formatting" />
+    <PackageReference Include="Microsoft.Extensions.AI" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <!-- Beacon Field's HTTP client has no .NET MAUI dependency, so it's compiled in and tested without the workload. -->
+  <ItemGroup>
+    <Compile Include="..\Ch11.Beacon.Field\AgentHttp.cs" Link="Linked\AgentHttp.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Beacon.Client.Core\Beacon.Client.Core.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.Testing\Beacon.Testing.csproj" />
+    <ProjectReference Include="..\Ch11.Beacon.Components\Ch11.Beacon.Components.csproj" />
+    <ProjectReference Include="..\Ch11.Beacon.ComponentViews\Ch11.Beacon.ComponentViews.csproj" />
+    <ProjectReference Include="..\Ch11.Beacon.Agent\Ch11.Beacon.Agent.csproj" />
+    <ProjectReference Include="..\Ch11.Beacon.Desk\Ch11.Beacon.Desk.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Recordings\*.sse" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>

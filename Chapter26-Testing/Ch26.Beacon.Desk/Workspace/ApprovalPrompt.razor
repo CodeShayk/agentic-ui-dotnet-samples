@@ -1,0 +1,65 @@
+@*
+    The approval prompt: what Beacon wants to do, then Approve or Deny. It never talks to the agent; it
+    raises OnDecided and the workspace sends the answer. Focus moves to the title when a request
+    arrives, so a keyboard or screen-reader user lands on it.
+*@
+<section class="ch26-approval" role="dialog" aria-modal="false" aria-labelledby="@_titleId" aria-describedby="@_factsId">
+    <h3 id="@_titleId" class="ch26-approval__title" tabindex="-1" @ref="_title">@Request.Title</h3>
+    @if (!string.IsNullOrEmpty(Request.Message))
+    {
+        <p class="ch26-approval__message">@Request.Message</p>
+    }
+    <dl id="@_factsId" class="ch26-facts">
+        @foreach (var fact in Request.Facts)
+        {
+            <div><dt>@fact.Label</dt><dd>@fact.Value</dd></div>
+        }
+    </dl>
+    <div class="ch26-approval__actions">
+        <button type="button" class="bd-button bd-button--primary" disabled="@_sending" @onclick="() => DecideAsync(true)">Approve</button>
+        <button type="button" class="bd-button bd-button--stop" disabled="@_sending" @onclick="() => DecideAsync(false)">Deny</button>
+    </div>
+</section>
+
+@code {
+    private readonly string _titleId = $"ch26-approval-title-{Guid.NewGuid():N}";
+    private readonly string _factsId = $"ch26-approval-facts-{Guid.NewGuid():N}";
+    private ElementReference _title;
+    private string? _shownId;
+    private bool _focusTitle;
+    private bool _sending;
+
+    /// <summary>The approval to show.</summary>
+    [Parameter, EditorRequired] public ApprovalRequest Request { get; set; } = default!;
+
+    /// <summary>Raised with true for Approve and false for Deny. The buttons stay disabled until the handler finishes.</summary>
+    [Parameter] public EventCallback<bool> OnDecided { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        if (Request.Id != _shownId)
+        {
+            (_shownId, _focusTitle, _sending) = (Request.Id, true, false);
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (_focusTitle)
+        {
+            _focusTitle = false;
+            await _title.FocusAsync();
+        }
+    }
+
+    private async Task DecideAsync(bool approved)
+    {
+        if (_sending)
+        {
+            return; // one answer per request, however fast the clicks
+        }
+
+        _sending = true;
+        await OnDecided.InvokeAsync(approved);
+    }
+}

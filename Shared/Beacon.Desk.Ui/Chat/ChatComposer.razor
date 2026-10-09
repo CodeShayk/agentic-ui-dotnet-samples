@@ -1,0 +1,76 @@
+@namespace Beacon.Desk.Ui
+@*
+    Where the user types. A single-line input inside a form gives Enter-to-send with no script, the
+    same way in every render mode, and the browser won't submit the form while the Send button is
+    disabled. Send is disabled only while busy, never for an empty draft: under Interactive Server the
+    browser decides whether Enter submits from the DOM it has, which lags the typing by a round trip,
+    so a "disabled until you type" button would swallow a quick Enter. Empty drafts are ignored here.
+*@
+<form class="bd-composer" @onsubmit="SubmitAsync">
+    <label class="bd-visually-hidden" for="@_inputId">@Label</label>
+    <input id="@_inputId"
+           @ref="_input"
+           class="bd-composer__input"
+           type="text"
+           autocomplete="off"
+           placeholder="@Placeholder"
+           maxlength="@MaxLength"
+           disabled="@Disabled"
+           aria-describedby="@_hintId"
+           @bind="_draft"
+           @bind:event="oninput" />
+    <div class="bd-composer__actions">
+        <button type="submit" class="bd-button bd-button--primary" disabled="@(Disabled || Busy)">Send</button>
+        @Actions
+    </div>
+    <p id="@_hintId" class="bd-composer__hint">@Hint</p>
+</form>
+
+@code {
+    private readonly string _inputId = $"bd-composer-{Guid.NewGuid():N}";
+    private readonly string _hintId = $"bd-composer-hint-{Guid.NewGuid():N}";
+    private ElementReference _input;
+    private string _draft = string.Empty;
+
+    /// <summary>Raised with the trimmed text when the user sends a message.</summary>
+    [Parameter] public EventCallback<string> OnSend { get; set; }
+
+    /// <summary>Disables typing and sending, for example before the component is interactive.</summary>
+    [Parameter] public bool Disabled { get; set; }
+
+    /// <summary>Allows typing but not sending, for example while a run is in progress.</summary>
+    [Parameter] public bool Busy { get; set; }
+
+    [Parameter] public string Label { get; set; } = "Message Beacon";
+
+    [Parameter] public string Placeholder { get; set; } = "Ask Beacon a question";
+
+    [Parameter] public string Hint { get; set; } = "Press Enter to send.";
+
+    [Parameter] public int MaxLength { get; set; } = 2000;
+
+    /// <summary>Buttons rendered after Send, such as the Stop button.</summary>
+    [Parameter] public RenderFragment? Actions { get; set; }
+
+    private bool CanSend => !Disabled && !Busy && !string.IsNullOrWhiteSpace(_draft);
+
+    /// <summary>Moves keyboard focus to the input.</summary>
+    public ValueTask FocusAsync() =>
+        _input.Context is null || Disabled ? ValueTask.CompletedTask : _input.FocusAsync();
+
+    private async Task SubmitAsync()
+    {
+        if (!CanSend)
+        {
+            return;
+        }
+
+        var text = _draft.Trim();
+        _draft = string.Empty;
+
+        // Keep focus in the input (it moves to the button when Send is clicked), then hand the text
+        // over. The handler may stream for a while; the composer doesn't wait on anything it needs.
+        await FocusAsync();
+        await OnSend.InvokeAsync(text);
+    }
+}

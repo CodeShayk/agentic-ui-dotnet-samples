@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Chapter 17's media rules, shared by the agent, Beacon Desk and Beacon Field: what Beacon accepts,
+    how big it may be and what a file really is (its first bytes, not its name or declared type).
+    No ASP.NET Core and no MAUI, so every client can run the same checks the server runs.
+  -->
+  <PropertyGroup>
+    <RootNamespace>Ch17.Media</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.AI.Abstractions" />
+  </ItemGroup>
+
+</Project>

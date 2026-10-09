@@ -1,0 +1,44 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <!--
+    The road not taken in Chapter 8: Beacon Field as a Blazor Hybrid app. A BlazorWebView hosts Beacon
+    Desk's ChatPanel (Chapter 6) over the same AgentConversation (Chapter 7). Windows only; it exists
+    to show the alternative, and Beacon Field (XAML) is the app the rest of the book builds on.
+  -->
+  <PropertyGroup>
+    <!-- Directory.Build.props defaults TargetFramework to net11.0, so the app sets its own. -->
+    <TargetFramework>net11.0-windows10.0.19041.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Ch08.Beacon.Field.Hybrid</RootNamespace>
+    <UseMaui>true</UseMaui>
+    <SingleProject>true</SingleProject>
+    <EnableDefaultCssItems>false</EnableDefaultCssItems>
+
+    <ApplicationTitle>Beacon Field (Blazor Hybrid)</ApplicationTitle>
+    <ApplicationId>com.contosoclimate.beaconfield.hybrid</ApplicationId>
+    <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+    <ApplicationVersion>1</ApplicationVersion>
+    <WindowsPackageType>None</WindowsPackageType>
+
+    <SupportedOSPlatformVersion>10.0.17763.0</SupportedOSPlatformVersion>
+    <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#0078D4" />
+    <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#0078D4" BaseSize="128,128" />
+    <MauiFont Include="Resources\Fonts\*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Maui.Controls" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Maui" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Beacon.Client.Core\Beacon.Client.Core.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.Desk.Ui\Beacon.Desk.Ui.csproj" />
+    <ProjectReference Include="..\Ch08.Field.Core\Ch08.Field.Core.csproj" />
+  </ItemGroup>
+
+</Project>

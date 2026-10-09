@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <!--
+    Beacon's agent for Chapter 17: Chapter 5's pipeline over the scripted model, with a media guard in
+    front of it. Images, recordings and PDFs arrive as AG-UI media parts; malformed or oversized requests
+    are refused before the run starts, and every part the model would see is checked first: its type, its
+    size and its bytes. URL sources are fetched only from allow-listed HTTPS hosts with public addresses.
+  -->
+  <PropertyGroup>
+    <RootNamespace>Ch17.Beacon.Agent</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AGUI.Server" />
+    <PackageReference Include="Microsoft.Extensions.AI" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Beacon.Domain\Beacon.Domain.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.AI\Beacon.AI.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.AGUI.Hosting\Beacon.AGUI.Hosting.csproj" />
+    <ProjectReference Include="..\Ch17.Media\Ch17.Media.csproj" />
+  </ItemGroup>
+
+</Project>

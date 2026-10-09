@@ -1,0 +1,47 @@
+@using System.Text.Json
+@*
+    What the Desk shows when a component can't be: the server or this Desk refused its props, the Desk
+    doesn't know it, it failed to draw or the turn stopped first. Everything here is plain text, and the
+    reasons come from the server or the Desk, never from the model's arguments directly.
+*@
+<section class="ch11-card ch11-fallback" aria-label="@Title">
+    <p class="ch11-fallback__title">@Title</p>
+    @if (Reason is not null)
+    {
+        <p class="ch11-fallback__reason">@Reason</p>
+    }
+    @if (Component.Problems.Count > 0)
+    {
+        <ul class="ch11-fallback__problems">
+            @foreach (var problem in Component.Problems.Take(3))
+            {
+                <li>@GeneratedComponent.Plain(problem)</li>
+            }
+        </ul>
+    }
+    @if (!Component.IsKnown && Component.Props is { ValueKind: JsonValueKind.Object } props)
+    {
+        @* A component this build doesn't have, which the server accepted: its simple props, as text. *@
+        <dl class="ch11-fallback__props">
+            @foreach (var property in props.EnumerateObject().Where(p => p.Value.ValueKind is JsonValueKind.String or JsonValueKind.Number).Take(6))
+            {
+                <dt>@property.Name</dt>
+                <dd>@property.Value.ToString()</dd>
+            }
+        </dl>
+    }
+</section>
+
+@code {
+    [Parameter, EditorRequired] public GeneratedComponent Component { get; set; } = default!;
+
+    /// <summary>A reason the Desk adds itself, for example when the component threw while rendering.</summary>
+    [Parameter] public string? Reason { get; set; }
+
+    private string Title => Component switch
+    {
+        { IsKnown: false } => $"Beacon tried to show a view this Desk doesn't have ({Component.ToolName}).",
+        { Phase: ComponentPhase.Abandoned } => $"The {Component.DisplayName} stopped before it was finished.",
+        _ => $"Beacon couldn't show this {Component.DisplayName}.",
+    };
+}

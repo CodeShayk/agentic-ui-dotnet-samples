@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Chapter 20's declarative UI library: the A2UI v0.9 message model Beacon uses, the component catalog,
+    the validator both ends run (catalog allow-list, structure, size and depth limits, no executable
+    content, a URL allow-list) and the data model that binds inputs to values. It depends on nothing but
+    the base class library, so the agent, Beacon Desk and a .NET MAUI client can all use it, and it has no
+    AG-UI dependency: AG-UI is only how the messages travel.
+  -->
+  <PropertyGroup>
+    <RootNamespace>Ch20.DeclarativeUi</RootNamespace>
+  </PropertyGroup>
+
+</Project>

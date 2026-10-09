@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <!--
+    Beacon Desk for Chapter 18: the coordinator's chat beside a board of specialist lanes. Each lane is
+    one subagent invocation from Beacon.Client.Core's Subagents slice, with its messages and tool calls,
+    its status (running, done, waiting for approval, failed) and, when it is suspended, the approval it
+    waits on. The coordinator's steps run across the top. Interactive Server.
+  -->
+  <PropertyGroup>
+    <RootNamespace>Ch18.Beacon.Desk</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AGUI.Client" />
+    <PackageReference Include="Microsoft.Extensions.AI" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Beacon.Desk.Ui\Beacon.Desk.Ui.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.Client.Core\Beacon.Client.Core.csproj" />
+  </ItemGroup>
+
+</Project>

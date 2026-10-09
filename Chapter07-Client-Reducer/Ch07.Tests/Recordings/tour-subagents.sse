@@ -1,0 +1,54 @@
+data: {"type":"RUN_STARTED","threadId":"t-1","runId":"r-7","protocolVersion":"1.0"}
+
+data: {"type":"TEXT_MESSAGE_START","messageId":"msg-r7-1","role":"assistant"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-r7-1","delta":"I'll ask the "}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-r7-1","delta":"parts and warranty "}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-r7-1","delta":"specialists about EQ-501."}
+
+data: {"type":"TEXT_MESSAGE_END","messageId":"msg-r7-1"}
+
+data: {"type":"SUBAGENT_STARTED","subagentRunId":"sub-parts-r7-1","name":"parts-specialist","description":"Finds compatible parts and stock"}
+
+data: {"type":"SUBAGENT_STARTED","subagentRunId":"sub-warranty-r7-1","name":"warranty-specialist","description":"Checks coverage"}
+
+data: {"type":"TEXT_MESSAGE_START","subagentRunId":"sub-parts-r7-1","messageId":"msg-r7-2","role":"assistant"}
+
+data: {"type":"TEXT_MESSAGE_START","subagentRunId":"sub-warranty-r7-1","messageId":"msg-r7-3","role":"assistant"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-r7-2","delta":"CAP-45-5 fits the CA-36X; "}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","subagentRunId":"sub-warranty-r7-1","messageId":"msg-r7-3","delta":"Parts are covered until 2029-05-14."}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-r7-2","delta":"24 are in stock in Portsmouth."}
+
+data: {"type":"TEXT_MESSAGE_END","messageId":"msg-r7-2"}
+
+data: {"type":"SUBAGENT_FINISHED","subagentRunId":"sub-parts-r7-1","result":{"sku":"CAP-45-5","inStock":24},"outcome":{"type":"success"}}
+
+data: {"type":"TEXT_MESSAGE_END","subagentRunId":"sub-warranty-r7-1","messageId":"msg-r7-3"}
+
+data: {"type":"SUBAGENT_ERROR","subagentRunId":"sub-warranty-r7-1","message":"The labor-warranty lookup timed out.","code":"warranty_timeout"}
+
+data: {"type":"TEXT_MESSAGE_START","messageId":"msg-r7-4","role":"assistant"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-r7-4","delta":"CAP-45-5 is in "}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-r7-4","delta":"stock and the "}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-r7-4","delta":"part is under "}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-r7-4","delta":"warranty. I couldn't "}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-r7-4","delta":"confirm labor coverage, "}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-r7-4","delta":"so check it "}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-r7-4","delta":"before quoting labor."}
+
+data: {"type":"TEXT_MESSAGE_END","messageId":"msg-r7-4"}
+
+data: {"type":"RUN_FINISHED","threadId":"t-1","runId":"r-7"}
+

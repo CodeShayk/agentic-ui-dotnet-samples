@@ -1,0 +1,53 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Beacon Field for Chapter 19: a .NET MAUI chat that reads the agent's capabilities when it opens and
+    fits its composer to them. Photo and Voice note are offered, marked unconfirmed, or replaced by text
+    templates ("Type nameplate", "Describe the noise") according to Ch19.Beacon.Adaptive's plan.
+    Device capture sits behind IMediaCapture: MAUI Essentials here, fakes in Ch19.Tests.
+    Windows by default; set BeaconMobileTargets=true to add Android and iOS.
+  -->
+  <PropertyGroup>
+    <!-- Directory.Build.props sets TargetFramework to net11.0; a MAUI app replaces it with platform targets. -->
+    <TargetFramework>net11.0-windows10.0.19041.0</TargetFramework>
+    <TargetFrameworks Condition="'$(BeaconMobileTargets)' == 'true'">net11.0-windows10.0.19041.0;net11.0-android;net11.0-ios</TargetFrameworks>
+    <TargetFramework Condition="'$(BeaconMobileTargets)' == 'true'"></TargetFramework>
+
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Ch19.Beacon.Field</RootNamespace>
+    <UseMaui>true</UseMaui>
+    <SingleProject>true</SingleProject>
+
+    <ApplicationTitle>Beacon Field</ApplicationTitle>
+    <ApplicationId>com.contoso.climate.beacon.field.ch19</ApplicationId>
+    <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+    <ApplicationVersion>1</ApplicationVersion>
+
+    <!-- Unpackaged on Windows, so it runs with dotnet run; Package.appxmanifest declares the camera for a packaged build. -->
+    <WindowsPackageType>None</WindowsPackageType>
+
+    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">15.0</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">24.0</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
+    <TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#0F2A47" />
+    <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#0F2A47" BaseSize="128,128" />
+    <MauiFont Include="Resources\Fonts\*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Maui.Controls" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" />
+    <PackageReference Include="AGUI.Client" />
+    <PackageReference Include="Microsoft.Extensions.AI" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Beacon.Client.Core\Beacon.Client.Core.csproj" />
+    <ProjectReference Include="..\Ch19.Beacon.Adaptive\Ch19.Beacon.Adaptive.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,17 @@
+# run <run-1> (resume: 0)
+RUN_STARTED {"threadId":"<thread-1>","runId":"<run-1>","protocolVersion":"1.0"}
+TOOL_CALL_START {"toolCallId":"<call-1>","toolCallName":"get_work_order","parentMessageId":"<message-1>","rawEvent":"…"}
+TOOL_CALL_ARGS {"toolCallId":"<call-1>","delta":"{\"workOrderId\":\"WO-1001\"}","rawEvent":"…"}
+TOOL_CALL_END {"toolCallId":"<call-1>","rawEvent":"…"}
+TOOL_CALL_RESULT {"messageId":"<call-1>","toolCallId":"<call-1>","content":{"workOrder":{"id":"WO-1001","customerId":"CUST-100","equipmentId":"EQ-501","summary":"Air conditioner short-cycling and blowing warm air","status":"Scheduled","priority":"High","assignedTechnicianId":"TECH-1","scheduledFor":"2026-11-16T09:00:00-05:00","checklist":[{"id":"C1","text":"Check thermostat settings and wiring","done":false},{"id":"C2","text":"Measure refrigerant pressures","done":false},{"id":"C3","text":"Inspect run capacitor","done":false},{"id":"C4","text":"Test compressor amperage","done":false}],"notes":["Customer reports the unit stops after a few minutes."]},"customer":{"id":"CUST-100","name":"Harbor View Dental","address":"12 Wharf Street, Portsmouth","phone":"555-0141","tier":"Priority","latitude":43.0718,"longitude":-70.7626},"equipment":{"id":"EQ-501","customerId":"CUST-100","kind":"AirConditioner","manufacturer":"Contoso Air","model":"CA-36X","serialNumber":"CA36X-2219-0441","installedOn":"2019-05-14"}},"rawEvent":"…"}
+TEXT_MESSAGE_START {"messageId":"<message-2>","role":"assistant","rawEvent":"…"}
+TEXT_MESSAGE_CONTENT {"messageId":"<message-2>","delta":"**WO-1001** is Scheduled ","rawEvent":"…"}
+TEXT_MESSAGE_CONTENT {"messageId":"<message-2>","delta":"(High priority): Air ","rawEvent":"…"}
+TEXT_MESSAGE_CONTENT {"messageId":"<message-2>","delta":"conditioner short-cycling and ","rawEvent":"…"}
+TEXT_MESSAGE_CONTENT {"messageId":"<message-2>","delta":"blowing warm air. ","rawEvent":"…"}
+TEXT_MESSAGE_CONTENT {"messageId":"<message-2>","delta":"Customer: Harbor View ","rawEvent":"…"}
+TEXT_MESSAGE_CONTENT {"messageId":"<message-2>","delta":"Dental; equipment: Contoso ","rawEvent":"…"}
+TEXT_MESSAGE_CONTENT {"messageId":"<message-2>","delta":"Air CA-36X.","rawEvent":"…"}
+TEXT_MESSAGE_END {"messageId":"<message-2>"}
+STATE_SNAPSHOT {"snapshot":{"activeWorkOrder":{"id":"WO-1001","status":"Scheduled","priority":"High","summary":"Air conditioner short-cycling and blowing warm air","customer":"Harbor View Dental","equipmentId":"EQ-501","equipment":"Contoso Air CA-36X","technicianId":"TECH-1"}}}
+RUN_FINISHED {"threadId":"<thread-1>","runId":"<run-1>","outcome":{"type":"success"}}

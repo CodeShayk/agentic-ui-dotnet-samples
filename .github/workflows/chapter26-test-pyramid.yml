@@ -1,0 +1,164 @@
+# Chapter 26: Beacon's test pyramid in CI.
+#
+# Three jobs, one per layer of cost:
+#   fast       every push to main, and pull requests that touch Beacon's code: unit tests, then the in-memory integration layer
+#              (recorded models, wire assertions, golden files, protocol conformance, offline evaluation)
+#   end-to-end pull requests to main and pushes to main: Playwright against the running agent and Desk
+#   evaluate   weeknights and on demand: the same evaluation cases against a live model and a judge
+#
+# This file assumes the companion code is the repository root (sample-code/ in the book's repository).
+# Nothing here needs a model or a secret except the evaluate job. The action versions were the latest
+# majors on 2026-10-04; Dependabot (package-ecosystem: github-actions) can keep them current.
+
+name: Chapter 26 - test pyramid
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    paths:
+      - "Chapter26-Testing/**"
+      - "Chapter03-Event-Model/Ch03.StreamValidator/**"
+      - "Shared/**"
+      - "Directory.*.props"
+      - "global.json"
+      - ".github/workflows/chapter26-test-pyramid.yml"
+  schedule:
+    - cron: "0 3 * * 1-5"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  DOTNET_NOLOGO: "true"
+  DOTNET_CLI_TELEMETRY_OPTOUT: "true"
+  CHAPTER: Chapter26-Testing
+
+jobs:
+  fast:
+    name: Unit and integration
+    if: github.event_name != 'schedule'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-dotnet@v6
+        with:
+          global-json-file: global.json
+
+      - name: Build
+        run: |
+          dotnet build "$CHAPTER/Ch26.Tests.Unit/Ch26.Tests.Unit.csproj"
+          dotnet build "$CHAPTER/Ch26.Tests.Integration/Ch26.Tests.Integration.csproj"
+
+      - name: Unit tests (reducer, components)
+        run: dotnet test --project "$CHAPTER/Ch26.Tests.Unit" --no-build --report-xunit-trx --results-directory TestResults/unit
+
+      - name: Integration tests (replay, wire, snapshots, conformance, offline evaluation)
+        run: dotnet test --project "$CHAPTER/Ch26.Tests.Integration" --no-build --report-xunit-trx --results-directory TestResults/integration
+
+      - name: Keep test results and changed snapshots
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: fast-results
+          path: |
+            TestResults/
+            ${{ env.CHAPTER }}/**/*.received.txt
+          if-no-files-found: ignore
+
+  end-to-end:
+    name: End to end (Playwright, Microsoft Edge)
+    needs: fast
+    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.base_ref == 'main')
+    # Windows runners have Microsoft Edge installed, so Channel = "msedge" needs no browser download.
+    runs-on: windows-latest
+    timeout-minutes: 20
+    env:
+      RUN_E2E_TESTS: "true"
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-dotnet@v6
+        with:
+          global-json-file: global.json
+
+      - name: Build the apps and the tests
+        shell: pwsh
+        run: |
+          dotnet build "$env:CHAPTER/Ch26.Beacon.Agent/Ch26.Beacon.Agent.csproj"
+          dotnet build "$env:CHAPTER/Ch26.Beacon.Desk/Ch26.Beacon.Desk.csproj"
+          dotnet build "$env:CHAPTER/Ch26.Tests.EndToEnd/Ch26.Tests.EndToEnd.csproj"
+
+      - name: Browser tests
+        run: dotnet test --project "${{ env.CHAPTER }}/Ch26.Tests.EndToEnd" --no-build --report-xunit-trx --results-directory TestResults/e2e
+
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: end-to-end-results
+          path: TestResults/
+          if-no-files-found: ignore
+
+  evaluate:
+    name: Evaluate against a live model
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    # Microsoft Entra ID through a federated credential: no API key is stored anywhere.
+    permissions:
+      contents: read
+      id-token: write
+    environment: model-evaluation
+    env:
+      RUN_MODEL_TESTS: "true"
+      AI__Provider: AzureOpenAI
+      AI__Endpoint: ${{ vars.BEACON_AI_ENDPOINT }}
+      AI__Model: ${{ vars.BEACON_AI_MODEL }}
+      Judge__Provider: AzureOpenAI
+      Judge__Endpoint: ${{ vars.BEACON_AI_ENDPOINT }}
+      Judge__Model: ${{ vars.BEACON_JUDGE_MODEL }}
+      BEACON_EVALUATION_RESULTS: ${{ github.workspace }}/evaluation-results
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-dotnet@v6
+        with:
+          global-json-file: global.json
+
+      - uses: azure/login@v3
+        with:
+          client-id: ${{ vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+
+      # Judge responses are cached between runs, so an unchanged answer is scored once.
+      - uses: actions/cache@v6
+        with:
+          path: evaluation-results/cache
+          key: evaluation-cache-${{ github.run_id }}
+          restore-keys: evaluation-cache-
+
+      - name: Live evaluation
+        run: |
+          dotnet build "$CHAPTER/Ch26.Tests.Integration/Ch26.Tests.Integration.csproj"
+          dotnet test --project "$CHAPTER/Ch26.Tests.Integration" --no-build --filter-namespace Ch26.Tests.Integration.Evaluation --report-xunit-trx --results-directory TestResults/evaluation
+
+      - name: Evaluation report
+        if: always()
+        env:
+          DOTNET_ROLL_FORWARD: Major # the tool targets net10.0; the runner has only the .NET 11 runtime
+        run: |
+          dotnet tool install --global Microsoft.Extensions.AI.Evaluation.Console --version 10.10.0
+          dotnet aieval report --path evaluation-results --output evaluation-report.html
+
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: evaluation
+          path: |
+            evaluation-report.html
+            TestResults/
+          if-no-files-found: ignore

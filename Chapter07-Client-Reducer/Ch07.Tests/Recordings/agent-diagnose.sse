@@ -1,0 +1,76 @@
+data: {"type":"RUN_STARTED","threadId":"t-1","runId":"r-2"}
+
+data: {"type":"REASONING_START","messageId":"msg_Z37qNvQDEXDPuCcwKpwmInSI"}
+
+data: {"type":"REASONING_MESSAGE_START","messageId":"msg_Z37qNvQDEXDPuCcwKpwmInSI","role":"reasoning"}
+
+data: {"type":"REASONING_MESSAGE_CONTENT","messageId":"msg_Z37qNvQDEXDPuCcwKpwmInSI","delta":"The unit short-cycles "}
+
+data: {"type":"REASONING_MESSAGE_CONTENT","messageId":"msg_Z37qNvQDEXDPuCcwKpwmInSI","delta":"and blows warm "}
+
+data: {"type":"REASONING_MESSAGE_CONTENT","messageId":"msg_Z37qNvQDEXDPuCcwKpwmInSI","delta":"air. Short-cycling with "}
+
+data: {"type":"REASONING_MESSAGE_CONTENT","messageId":"msg_Z37qNvQDEXDPuCcwKpwmInSI","delta":"warm air usually "}
+
+data: {"type":"REASONING_MESSAGE_CONTENT","messageId":"msg_Z37qNvQDEXDPuCcwKpwmInSI","delta":"points to the "}
+
+data: {"type":"REASONING_MESSAGE_CONTENT","messageId":"msg_Z37qNvQDEXDPuCcwKpwmInSI","delta":"compressor tripping on "}
+
+data: {"type":"REASONING_MESSAGE_CONTENT","messageId":"msg_Z37qNvQDEXDPuCcwKpwmInSI","delta":"overload. A weak "}
+
+data: {"type":"REASONING_MESSAGE_CONTENT","messageId":"msg_Z37qNvQDEXDPuCcwKpwmInSI","delta":"run capacitor is "}
+
+data: {"type":"REASONING_MESSAGE_CONTENT","messageId":"msg_Z37qNvQDEXDPuCcwKpwmInSI","delta":"the most common "}
+
+data: {"type":"REASONING_MESSAGE_CONTENT","messageId":"msg_Z37qNvQDEXDPuCcwKpwmInSI","delta":"cause and the "}
+
+data: {"type":"REASONING_MESSAGE_CONTENT","messageId":"msg_Z37qNvQDEXDPuCcwKpwmInSI","delta":"cheapest to rule "}
+
+data: {"type":"REASONING_MESSAGE_CONTENT","messageId":"msg_Z37qNvQDEXDPuCcwKpwmInSI","delta":"out, so check "}
+
+data: {"type":"REASONING_MESSAGE_CONTENT","messageId":"msg_Z37qNvQDEXDPuCcwKpwmInSI","delta":"it before condemning "}
+
+data: {"type":"REASONING_MESSAGE_CONTENT","messageId":"msg_Z37qNvQDEXDPuCcwKpwmInSI","delta":"the compressor."}
+
+data: {"type":"REASONING_MESSAGE_END","messageId":"msg_Z37qNvQDEXDPuCcwKpwmInSI"}
+
+data: {"type":"REASONING_END","messageId":"msg_Z37qNvQDEXDPuCcwKpwmInSI"}
+
+data: {"type":"TEXT_MESSAGE_START","messageId":"msg-0003","role":"assistant","rawEvent":{"authorName":null,"role":"assistant","contents":[{"$type":"text","text":"The most likely ","annotations":null,"additionalProperties":null}],"additionalProperties":null,"responseId":"resp-0003","messageId":"msg-0003","conversationId":null,"createdAt":null,"finishReason":null,"modelId":"beacon-scripted","continuationToken":null}}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-0003","delta":"The most likely ","rawEvent":{"authorName":null,"role":"assistant","contents":[{"$type":"text","text":"The most likely ","annotations":null,"additionalProperties":null}],"additionalProperties":null,"responseId":"resp-0003","messageId":"msg-0003","conversationId":null,"createdAt":null,"finishReason":null,"modelId":"beacon-scripted","continuationToken":null}}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-0003","delta":"cause is a ","rawEvent":{"authorName":null,"role":"assistant","contents":[{"$type":"text","text":"cause is a ","annotations":null,"additionalProperties":null}],"additionalProperties":null,"responseId":"resp-0003","messageId":"msg-0003","conversationId":null,"createdAt":null,"finishReason":null,"modelId":"beacon-scripted","continuationToken":null}}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-0003","delta":"failing run capacitor ","rawEvent":{"authorName":null,"role":"assistant","contents":[{"$type":"text","text":"failing run capacitor ","annotations":null,"additionalProperties":null}],"additionalProperties":null,"responseId":"resp-0003","messageId":"msg-0003","conversationId":null,"createdAt":null,"finishReason":null,"modelId":"beacon-scripted","continuationToken":null}}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-0003","delta":"making the compressor ","rawEvent":{"authorName":null,"role":"assistant","contents":[{"$type":"text","text":"making the compressor ","annotations":null,"additionalProperties":null}],"additionalProperties":null,"responseId":"resp-0003","messageId":"msg-0003","conversationId":null,"createdAt":null,"finishReason":null,"modelId":"beacon-scripted","continuationToken":null}}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-0003","delta":"trip on overload.\n\n1. ","rawEvent":{"authorName":null,"role":"assistant","contents":[{"$type":"text","text":"trip on overload.\n\n1. ","annotations":null,"additionalProperties":null}],"additionalProperties":null,"responseId":"resp-0003","messageId":"msg-0003","conversationId":null,"createdAt":null,"finishReason":null,"modelId":"beacon-scripted","continuationToken":null}}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-0003","delta":"Measure the capacitor ","rawEvent":{"authorName":null,"role":"assistant","contents":[{"$type":"text","text":"Measure the capacitor ","annotations":null,"additionalProperties":null}],"additionalProperties":null,"responseId":"resp-0003","messageId":"msg-0003","conversationId":null,"createdAt":null,"finishReason":null,"modelId":"beacon-scripted","continuationToken":null}}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-0003","delta":"(CAP-45-5 is rated ","rawEvent":{"authorName":null,"role":"assistant","contents":[{"$type":"text","text":"(CAP-45-5 is rated ","annotations":null,"additionalProperties":null}],"additionalProperties":null,"responseId":"resp-0003","messageId":"msg-0003","conversationId":null,"createdAt":null,"finishReason":null,"modelId":"beacon-scripted","continuationToken":null}}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-0003","delta":"45/5 uF).\n2. If ","rawEvent":{"authorName":null,"role":"assistant","contents":[{"$type":"text","text":"45/5 uF).\n2. If ","annotations":null,"additionalProperties":null}],"additionalProperties":null,"responseId":"resp-0003","messageId":"msg-0003","conversationId":null,"createdAt":null,"finishReason":null,"modelId":"beacon-scripted","continuationToken":null}}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-0003","delta":"it reads more ","rawEvent":{"authorName":null,"role":"assistant","contents":[{"$type":"text","text":"it reads more ","annotations":null,"additionalProperties":null}],"additionalProperties":null,"responseId":"resp-0003","messageId":"msg-0003","conversationId":null,"createdAt":null,"finishReason":null,"modelId":"beacon-scripted","continuationToken":null}}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-0003","delta":"than 6% low, ","rawEvent":{"authorName":null,"role":"assistant","contents":[{"$type":"text","text":"than 6% low, ","annotations":null,"additionalProperties":null}],"additionalProperties":null,"responseId":"resp-0003","messageId":"msg-0003","conversationId":null,"createdAt":null,"finishReason":null,"modelId":"beacon-scripted","continuationToken":null}}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-0003","delta":"replace it.\n3. If ","rawEvent":{"authorName":null,"role":"assistant","contents":[{"$type":"text","text":"replace it.\n3. If ","annotations":null,"additionalProperties":null}],"additionalProperties":null,"responseId":"resp-0003","messageId":"msg-0003","conversationId":null,"createdAt":null,"finishReason":null,"modelId":"beacon-scripted","continuationToken":null}}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-0003","delta":"it tests fine, ","rawEvent":{"authorName":null,"role":"assistant","contents":[{"$type":"text","text":"it tests fine, ","annotations":null,"additionalProperties":null}],"additionalProperties":null,"responseId":"resp-0003","messageId":"msg-0003","conversationId":null,"createdAt":null,"finishReason":null,"modelId":"beacon-scripted","continuationToken":null}}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-0003","delta":"measure compressor amperage ","rawEvent":{"authorName":null,"role":"assistant","contents":[{"$type":"text","text":"measure compressor amperage ","annotations":null,"additionalProperties":null}],"additionalProperties":null,"responseId":"resp-0003","messageId":"msg-0003","conversationId":null,"createdAt":null,"finishReason":null,"modelId":"beacon-scripted","continuationToken":null}}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-0003","delta":"before ordering a ","rawEvent":{"authorName":null,"role":"assistant","contents":[{"$type":"text","text":"before ordering a ","annotations":null,"additionalProperties":null}],"additionalProperties":null,"responseId":"resp-0003","messageId":"msg-0003","conversationId":null,"createdAt":null,"finishReason":null,"modelId":"beacon-scripted","continuationToken":null}}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-0003","delta":"compressor.","rawEvent":{"authorName":null,"role":"assistant","contents":[{"$type":"text","text":"compressor.","annotations":null,"additionalProperties":null}],"additionalProperties":null,"responseId":"resp-0003","messageId":"msg-0003","conversationId":null,"createdAt":null,"finishReason":null,"modelId":"beacon-scripted","continuationToken":null}}
+
+data: {"type":"MESSAGES_SNAPSHOT","messages":[{"id":"user-1","role":"user","content":"What is the status of WO-1001?"},{"role":"assistant","toolCalls":[{"id":"call-0001-1","type":"function","function":{"name":"get_work_order","arguments":"{\u0022workOrderId\u0022:\u0022WO-1001\u0022}"}}],"id":"msg-0001"},{"role":"tool","content":"{\r\n  \u0022workOrder\u0022: {\r\n    \u0022id\u0022: \u0022WO-1001\u0022,\r\n    \u0022customerId\u0022: \u0022CUST-100\u0022,\r\n    \u0022equipmentId\u0022: \u0022EQ-501\u0022,\r\n    \u0022summary\u0022: \u0022Air conditioner short-cycling and blowing warm air\u0022,\r\n    \u0022status\u0022: \u0022Scheduled\u0022,\r\n    \u0022priority\u0022: \u0022High\u0022,\r\n    \u0022assignedTechnicianId\u0022: \u0022TECH-1\u0022,\r\n    \u0022scheduledFor\u0022: \u00222026-11-16T09:00:00-05:00\u0022,\r\n    \u0022checklist\u0022: [\r\n      {\r\n        \u0022id\u0022: \u0022C1\u0022,\r\n        \u0022text\u0022: \u0022Check thermostat settings and wiring\u0022,\r\n        \u0022done\u0022: false\r\n      },\r\n      {\r\n        \u0022id\u0022: \u0022C2\u0022,\r\n        \u0022text\u0022: \u0022Measure refrigerant pressures\u0022,\r\n        \u0022done\u0022: false\r\n      },\r\n      {\r\n        \u0022id\u0022: \u0022C3\u0022,\r\n        \u0022text\u0022: \u0022Inspect run capacitor\u0022,\r\n        \u0022done\u0022: false\r\n      },\r\n      {\r\n        \u0022id\u0022: \u0022C4\u0022,\r\n        \u0022text\u0022: \u0022Test compressor amperage\u0022,\r\n        \u0022done\u0022: false\r\n      }\r\n    ],\r\n    \u0022notes\u0022: [\r\n      \u0022Customer reports the unit stops after a few minutes.\u0022\r\n    ]\r\n  },\r\n  \u0022customer\u0022: {\r\n    \u0022id\u0022: \u0022CUST-100\u0022,\r\n    \u0022name\u0022: \u0022Harbor View Dental\u0022,\r\n    \u0022address\u0022: \u002212 Wharf Street, Portsmouth\u0022,\r\n    \u0022phone\u0022: \u0022555-0141\u0022,\r\n    \u0022tier\u0022: \u0022Priority\u0022,\r\n    \u0022latitude\u0022: 43.0718,\r\n    \u0022longitude\u0022: -70.7626\r\n  },\r\n  \u0022equipment\u0022: {\r\n    \u0022id\u0022: \u0022EQ-501\u0022,\r\n    \u0022customerId\u0022: \u0022CUST-100\u0022,\r\n    \u0022kind\u0022: \u0022AirConditioner\u0022,\r\n    \u0022manufacturer\u0022: \u0022Contoso Air\u0022,\r\n    \u0022model\u0022: \u0022CA-36X\u0022,\r\n    \u0022serialNumber\u0022: \u0022CA36X-2219-0441\u0022,\r\n    \u0022installedOn\u0022: \u00222019-05-14\u0022\r\n  }\r\n}","toolCallId":"call-0001-1","id":"call-0001-1"},{"role":"assistant","content":"**WO-1001** is Scheduled (High priority): Air conditioner short-cycling and blowing warm air. Customer: Harbor View Dental; equipment: Contoso Air CA-36X.","id":"msg-0002"},{"id":"user-2","role":"user","content":"Why is it short-cycling?"},{"role":"assistant","content":"The most likely cause is a failing run capacitor making the compressor trip on overload.\n\n1. Measure the capacitor (CAP-45-5 is rated 45/5 uF).\n2. If it reads more than 6% low, replace it.\n3. If it tests fine, measure compressor amperage before ordering a compressor.","id":"msg-0003"}]}
+
+data: {"type":"TEXT_MESSAGE_END","messageId":"msg-0003"}
+
+data: {"type":"RUN_FINISHED","threadId":"t-1","runId":"r-2","outcome":{"type":"success"}}
+

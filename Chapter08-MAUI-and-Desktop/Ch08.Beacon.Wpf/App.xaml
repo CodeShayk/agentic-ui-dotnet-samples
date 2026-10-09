@@ -1,0 +1,14 @@
+<Application x:Class="Ch08.Beacon.Wpf.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:Ch08.Beacon.Wpf"
+             ShutdownMode="OnMainWindowClose">
+    <Application.Resources>
+        <BooleanToVisibilityConverter x:Key="Visible" />
+        <local:CollapsedWhenTrueConverter x:Key="Collapsed" />
+        <SolidColorBrush x:Key="Primary" Color="#0078D4" />
+        <SolidColorBrush x:Key="AmberSurface" Color="#FFF4CE" />
+        <SolidColorBrush x:Key="Amber" Color="#FFB900" />
+        <SolidColorBrush x:Key="Muted" Color="#4A4A4A" />
+    </Application.Resources>
+</Application>

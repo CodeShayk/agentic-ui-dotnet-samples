@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <!--
+    Beacon Desk for Chapter 22: the conversations about a work order, kept by the agent and listed here;
+    reopening one after either side restarts (the agent's stored branch, replayed through the reducer);
+    "Regenerate" on an answer, which branches from parentRunId, and a switch between the versions; an open
+    question answered after a restart; and a notice when the agent works from a summary of older turns.
+    Interactive Server.
+  -->
+  <PropertyGroup>
+    <RootNamespace>Ch22.Beacon.Desk</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AGUI.Client" />
+    <PackageReference Include="AGUI.Formatting" />
+    <PackageReference Include="Microsoft.Extensions.AI" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Ch22.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Beacon.Desk.Ui\Beacon.Desk.Ui.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.Client.Core\Beacon.Client.Core.csproj" />
+  </ItemGroup>
+
+</Project>

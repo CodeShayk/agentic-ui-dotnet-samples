@@ -1,0 +1,108 @@
+@implements IDisposable
+@inject DeskSession Session
+@*
+    Beacon Desk's workspace for Chapter 19. The left side says what the agent is and what it declared,
+    and shows the work order the agent opened and its reasoning when the plan allows; the right side is
+    the chat with a composer fitted to the plan.
+*@
+@{
+    var view = Session.Conversation?.View ?? ConversationView.Empty;
+    var transcript = DeskTranscript.From(view);
+    var reasoning = view.Messages.OfType<ReasoningMessageView>().ToList();
+    var plan = Session.Plan;
+}
+<DeskShell WorkAreaLabel="About this agent">
+    <WorkArea>
+        <div class="ch19-work">
+            <AgentCard Discovery="Session.Discovery"
+                       Plan="plan"
+                       ProducerVersion="@(view.CurrentRun is { } run ? ProducerVersionCheck.From(run.ProtocolVersion) : null)"
+                       ReasoningContradicts="plan.ReasoningContradictsDeclaration(reasoning.Count > 0)" />
+
+            @if (plan[BeaconFeature.ScreenTools] is { Presentation: Presentation.Explain, Note: { } screenNote })
+            {
+                <p class="bd-card ch19-muted" data-note="ScreenTools">@screenNote</p>
+            }
+
+            @if (Session.OpenWorkOrderId is { } workOrderId)
+            {
+                <OpenWorkOrderCard WorkOrderId="@workOrderId" />
+            }
+
+            @if (plan.ShowsReasoning(reasoning.Count > 0))
+            {
+                <ReasoningPanel Decision="plan[BeaconFeature.ReasoningPanel]" Messages="reasoning" />
+            }
+        </div>
+    </WorkArea>
+    <Chat>
+        <section class="bd-chat-panel" aria-labelledby="ch19-chat-title">
+            <header class="bd-chat-panel__header">
+                <div class="bd-chat-panel__heading">
+                    <h2 id="ch19-chat-title" class="bd-chat-panel__title">Beacon</h2>
+                    <button type="button" class="bd-button bd-button--quiet"
+                            disabled="@(!RendererInfo.IsInteractive || view.IsBusy)" @onclick="NewChatAsync">New chat</button>
+                </div>
+                <ChatStatusBar Status="StatusOf(view)" ThreadId="@view.ThreadId" RunId="@view.CurrentRun?.RunId" Error="@ErrorOf(view)" />
+            </header>
+
+            <ChatTranscript Messages="transcript.Messages"
+                            Streaming="transcript.Streaming"
+                            IsResponding="@(view.IsBusy && transcript.Streaming is null)">
+                <EmptyContent>
+                    <p>Try "Open WO-1001", "Why would EQ-501 short-cycle? Diagnose it." or attach a nameplate photo.</p>
+                </EmptyContent>
+            </ChatTranscript>
+
+            <AdaptiveComposer Tray="Session.Attachments"
+                              Busy="view.IsBusy"
+                              Disabled="@(!RendererInfo.IsInteractive || Session.Conversation is null)"
+                              OnSend="Session.SendAsync"
+                              OnStop="() => Session.Conversation?.Stop()"
+                              OnTrayChanged="Session.NotifyChanged" />
+        </section>
+    </Chat>
+</DeskShell>
+
+@code {
+    private RenderThrottle? _throttle;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _throttle = new RenderThrottle(() => InvokeAsync(StateHasChanged), TimeSpan.FromMilliseconds(50));
+        Session.Changed += OnSessionChanged;
+        if (Session.Discovery is null)
+        {
+            await Session.DiscoverAsync();
+        }
+    }
+
+    private void OnSessionChanged(object? sender, EventArgs e) => _ = _throttle?.RequestAsync();
+
+    // A new chat reads the capabilities again: the next natural point to notice a redeployed agent.
+    private Task NewChatAsync() => Session.DiscoverAsync();
+
+    private static ChatStatus StatusOf(ConversationView view) => view.Status switch
+    {
+        ConversationStatus.Starting or ConversationStatus.Running => ChatStatus.Streaming,
+        ConversationStatus.Stopped => ChatStatus.Stopped,
+        ConversationStatus.Failed => ChatStatus.Error,
+        _ => ChatStatus.Idle,
+    };
+
+    private static string? ErrorOf(ConversationView view) => view.Failure switch
+    {
+        null => null,
+        { Kind: FailureKind.AgentError or FailureKind.TimedOut } failure => failure.Message,
+        { Kind: FailureKind.Rejected, StatusCode: { } status } =>
+            $"Beacon's agent refused the request (HTTP {(int)status}), so nothing ran. If it was redeployed, start a new chat to see what it accepts now.",
+        { Kind: FailureKind.Unreachable } => "Beacon's agent can't be reached. Check that it's running, then try again.",
+        _ => "The answer stopped unexpectedly. Try again.",
+    };
+
+    public void Dispose()
+    {
+        Session.Changed -= OnSessionChanged;
+        _throttle?.Dispose();
+    }
+}

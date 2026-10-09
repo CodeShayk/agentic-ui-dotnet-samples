@@ -1,0 +1,197 @@
+/* Chapter 22 additions to Beacon Desk: the conversation list, branches, versions, the readings question and the
+   compaction notice. Colors come from Beacon.Desk.Ui's tokens, so light and dark themes both work. */
+
+.ch22-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.ch22-panel__picker {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.ch22-panel__heading {
+    margin: 8px 0 0;
+    font-size: 0.95rem;
+}
+
+.ch22-panel__empty,
+.ch22-panel__error {
+    margin: 0;
+    color: var(--bd-muted);
+}
+
+.ch22-panel__error {
+    color: var(--bd-danger);
+}
+
+.ch22-input {
+    padding: 6px 8px;
+    border: 1px solid var(--bd-border-strong);
+    border-radius: 6px;
+    background: var(--bd-surface);
+    color: var(--bd-text);
+    font: inherit;
+}
+
+.ch22-input:focus-visible,
+.ch22-threads__open:focus-visible {
+    outline: 2px solid var(--bd-focus);
+    outline-offset: 2px;
+}
+
+.ch22-threads,
+.ch22-branches,
+.ch22-tools {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.ch22-threads {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.ch22-threads__open {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--bd-border);
+    border-radius: var(--bd-radius);
+    background: var(--bd-surface);
+    color: var(--bd-text);
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+}
+
+.ch22-threads__item--open .ch22-threads__open {
+    border-color: var(--bd-accent);
+    cursor: default;
+}
+
+.ch22-threads__title {
+    font-weight: 600;
+}
+
+.ch22-threads__meta {
+    color: var(--bd-muted);
+    font-size: 0.85rem;
+}
+
+.ch22-threads__badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.ch22-badge--waiting {
+    color: var(--bd-warning);
+}
+
+.ch22-branches__item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--bd-border);
+    font-size: 0.85rem;
+}
+
+.ch22-branches__preview {
+    color: var(--bd-muted);
+}
+
+.ch22-compaction {
+    padding: 10px 12px;
+    border: 1px dashed var(--bd-border-strong);
+    border-radius: var(--bd-radius);
+    background: var(--bd-surface-alt);
+    font-size: 0.85rem;
+}
+
+.ch22-compaction__summary {
+    margin: 8px 0 0;
+    white-space: pre-wrap;
+    font-family: var(--bd-mono);
+    font-size: 0.8rem;
+}
+
+.ch22-tools {
+    margin-bottom: 6px;
+    color: var(--bd-muted);
+    font-family: var(--bd-mono);
+    font-size: 0.8rem;
+}
+
+.ch22-tools__done::before {
+    content: "\2713  ";
+    color: var(--bd-success);
+}
+
+.ch22-tools__running::before {
+    content: "\2026  ";
+}
+
+.ch22-answer-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 6px;
+    font-size: 0.85rem;
+}
+
+.ch22-versions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--bd-muted);
+}
+
+.ch22-question {
+    margin: 12px 0;
+    padding: 12px 14px;
+    border: 1px solid var(--bd-warning);
+    border-radius: var(--bd-radius);
+    background: var(--bd-surface);
+}
+
+.ch22-question__title {
+    margin: 0 0 6px;
+    font-size: 0.95rem;
+}
+
+.ch22-question__expired,
+.ch22-question__problem {
+    color: var(--bd-danger);
+}
+
+.ch22-readings {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 8px 0;
+}
+
+.ch22-readings__field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.ch22-readings__field .ch22-input {
+    width: 7rem;
+}
+
+.ch22-question__actions {
+    display: flex;
+    gap: 8px;
+}

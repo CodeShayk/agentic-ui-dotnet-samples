@@ -1,0 +1,50 @@
+@*
+    Beacon Desk's chat. The conversation lives in DeskChat.razor.cs; this file only maps it onto the
+    presentational ChatPanel from Beacon.Desk.Ui.
+*@
+<ChatPanel @ref="_panel"
+           Messages="_transcript"
+           Streaming="StreamingMessage"
+           Status="_status"
+           ThreadId="@_threadId"
+           RunId="@_runId"
+           Error="@_error"
+           Disabled="!RendererInfo.IsInteractive"
+           OnSend="SendAsync"
+           OnStop="Stop"
+           OnNewChat="NewChat">
+    <HeaderContent>
+        <span class="bd-badge">@WhereItRuns</span>
+    </HeaderContent>
+    <EmptyContent>
+        <p>Ask Beacon about a work order, a part or today's schedule. For example:</p>
+        <ul class="bd-suggestions">
+            @foreach (var prompt in Suggestions)
+            {
+                <li>
+                    <button type="button"
+                            class="bd-button bd-suggestion"
+                            disabled="@(!RendererInfo.IsInteractive)"
+                            @onclick="() => SendAsync(prompt)">@prompt</button>
+                </li>
+            }
+        </ul>
+    </EmptyContent>
+</ChatPanel>
+
+@code {
+    private static readonly string[] Suggestions =
+    [
+        "What's the status of WO-1001?",
+        "Write a handover note for WO-1001",
+        "Show today's schedule",
+        "Is EQ-501 under warranty?",
+    ];
+
+    private string WhereItRuns => RendererInfo.Name switch
+    {
+        "Server" => "Running on the server",
+        "WebAssembly" => "Running in the browser",
+        _ => "Loading",
+    };
+}

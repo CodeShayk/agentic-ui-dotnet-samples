@@ -1,0 +1,84 @@
+step: - | plan: - | report: - | checks: -
+step: planning | plan: - | report: - | checks: -
+step: planning | plan: . . . . | report: - | checks: -
+step: investigating | plan: . . . . | report: - | checks: -
+step: investigating | plan: > . . . | report: - | checks: -
+step: investigating | plan: > . . . | report: - | checks: running
+step: investigating | plan: > . . . | report: - | checks: done
+step: investigating | plan: x . . . | report: - | checks: done
+step: investigating | plan: x > . . | report: - | checks: done
+step: investigating | plan: x > . . | report: - | checks: done running
+step: investigating | plan: x > . . | report: - | checks: done done
+step: investigating | plan: x x . . | report: - | checks: done done
+step: investigating | plan: x x > . | report: - | checks: done done
+step: investigating | plan: x x > . | report: - | checks: done done running
+step: investigating | plan: x x > . | report: - | checks: done done running running
+step: investigating | plan: x x > . | report: - | checks: done done done running
+step: investigating | plan: x x > . | report: - | checks: done done done done
+step: investigating | plan: x x x . | report: - | checks: done done done done
+step: investigating | plan: x x x > | report: - | checks: done done done done
+step: reporting | plan: x x x > | report: - | checks: done done done done
+step: reporting | plan: x x x > | report: drafting 0/0/0 | checks: done done done done
+step: reporting | plan: x x x > | report: drafting 12/0/0 | checks: done done done done
+step: reporting | plan: x x x > | report: drafting 24/0/0 | checks: done done done done
+step: reporting | plan: x x x > | report: drafting 36/0/0 | checks: done done done done
+step: reporting | plan: x x x > | report: drafting 48/0/0 | checks: done done done done
+step: reporting | plan: x x x > | report: drafting 60/0/0 | checks: done done done done
+step: reporting | plan: x x x > | report: drafting 72/0/0 | checks: done done done done
+step: reporting | plan: x x x > | report: drafting 84/0/0 | checks: done done done done
+step: reporting | plan: x x x > | report: drafting 96/0/0 | checks: done done done done
+step: reporting | plan: x x x > | report: drafting 108/0/0 | checks: done done done done
+step: reporting | plan: x x x > | report: drafting 120/0/0 | checks: done done done done
+step: reporting | plan: x x x > | report: drafting 120/10/0 | checks: done done done done
+step: reporting | plan: x x x > | report: drafting 120/22/0 | checks: done done done done
+step: reporting | plan: x x x > | report: drafting 120/34/0 | checks: done done done done
+step: reporting | plan: x x x > | report: drafting 120/46/0 | checks: done done done done
+step: reporting | plan: x x x > | report: drafting 120/58/0 | checks: done done done done
+step: reporting | plan: x x x > | report: drafting 120/70/0 | checks: done done done done
+step: reporting | plan: x x x > | report: drafting 120/82/0 | checks: done done done done
+step: reporting | plan: x x x > | report: drafting 120/94/0 | checks: done done done done
+step: reporting | plan: x x x > | report: drafting 120/106/0 | checks: done done done done
+step: reporting | plan: x x x > | report: drafting 120/118/0 | checks: done done done done
+step: reporting | plan: x x x > | report: drafting 120/130/0 | checks: done done done done
+step: reporting | plan: x x x > | report: drafting 120/142/0 | checks: done done done done
+step: reporting | plan: x x x > | report: drafting 120/154/0 | checks: done done done done
+step: reporting | plan: x x x > | report: drafting 120/166/0 | checks: done done done done
+step: reporting | plan: x x x > | report: drafting 120/178/0 | checks: done done done done
+step: reporting | plan: x x x > | report: drafting 120/190/0 | checks: done done done done
+step: reporting | plan: x x x > | report: drafting 120/202/0 | checks: done done done done
+step: reporting | plan: x x x > | report: drafting 120/214/0 | checks: done done done done
+step: reporting | plan: x x x > | report: drafting 120/226/0 | checks: done done done done
+step: reporting | plan: x x x > | report: drafting 120/238/0 | checks: done done done done
+step: reporting | plan: x x x > | report: drafting 120/250/0 | checks: done done done done
+step: reporting | plan: x x x > | report: drafting 120/254/0 | checks: done done done done
+step: reporting | plan: x x x > | report: drafting 120/254/12 | checks: done done done done
+step: reporting | plan: x x x > | report: drafting 120/254/24 | checks: done done done done
+step: reporting | plan: x x x > | report: drafting 120/254/36 | checks: done done done done
+step: reporting | plan: x x x > | report: drafting 120/254/48 | checks: done done done done
+step: reporting | plan: x x x > | report: drafting 120/254/60 | checks: done done done done
+step: reporting | plan: x x x > | report: drafting 120/254/72 | checks: done done done done
+step: reporting | plan: x x x > | report: drafting 120/254/84 | checks: done done done done
+step: reporting | plan: x x x > | report: drafting 120/254/96 | checks: done done done done
+step: reporting | plan: x x x > | report: drafting 120/254/108 | checks: done done done done
+step: reporting | plan: x x x > | report: drafting 120/254/120 | checks: done done done done
+step: reporting | plan: x x x > | report: drafting 120/254/132 | checks: done done done done
+step: reporting | plan: x x x > | report: drafting 120/254/144 | checks: done done done done
+step: reporting | plan: x x x > | report: drafting 120/254/156 | checks: done done done done
+step: reporting | plan: x x x > | report: drafting 120/254/168 | checks: done done done done
+step: reporting | plan: x x x > | report: drafting 120/254/180 | checks: done done done done
+step: reporting | plan: x x x > | report: drafting 120/254/192 | checks: done done done done
+step: reporting | plan: x x x > | report: drafting 120/254/204 | checks: done done done done
+step: reporting | plan: x x x > | report: drafting 120/254/216 | checks: done done done done
+step: reporting | plan: x x x > | report: drafting 120/254/228 | checks: done done done done
+step: reporting | plan: x x x > | report: drafting 120/254/240 | checks: done done done done
+step: reporting | plan: x x x > | report: drafting 120/254/252 | checks: done done done done
+step: reporting | plan: x x x > | report: drafting 120/254/264 | checks: done done done done
+step: reporting | plan: x x x > | report: drafting 120/254/276 | checks: done done done done
+step: reporting | plan: x x x > | report: drafting 120/254/288 | checks: done done done done
+step: reporting | plan: x x x > | report: drafting 120/254/300 | checks: done done done done
+step: reporting | plan: x x x > | report: drafting 120/254/312 | checks: done done done done
+step: reporting | plan: x x x > | report: drafting 120/254/317 | checks: done done done done
+step: reporting | plan: x x x > | report: saving 120/254/317 | checks: done done done done
+step: reporting | plan: x x x > | report: saved 120/254/317 | checks: done done done done
+step: reporting | plan: x x x x | report: saved 120/254/317 | checks: done done done done
+step: - | plan: x x x x | report: saved 120/254/317 | checks: done done done done

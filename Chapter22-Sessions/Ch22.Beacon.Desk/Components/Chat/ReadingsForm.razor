@@ -1,0 +1,77 @@
+@*
+    The agent's open question for line voltages. It renders the same whether the question arrived a moment ago
+    or came back with a conversation reopened after a restart: either way it's an open interrupt in the view.
+*@
+@using System.Text.Json
+@inject TimeProvider Clock
+
+<section class="ch22-question" aria-labelledby="@_titleId">
+    <h3 id="@_titleId" class="ch22-question__title">Beacon is waiting for readings</h3>
+    <p>@Interrupt.Message</p>
+
+    @if (IsExpired)
+    {
+        <p class="ch22-question__expired">This question expired at @Interrupt.ExpiresAt. It can only be abandoned now.</p>
+    }
+
+    <form @onsubmit="SubmitAsync">
+        <div class="ch22-readings">
+            @foreach (var (key, label) in Legs)
+            {
+                <div class="ch22-readings__field">
+                    <label for="@FieldId(key)">@label</label>
+                    <input id="@FieldId(key)" class="ch22-input" inputmode="decimal" autocomplete="off"
+                           disabled="@IsExpired" @bind="_values[key]" />
+                </div>
+            }
+        </div>
+
+        @if (_problem is not null)
+        {
+            <p class="ch22-question__problem" role="alert">@_problem</p>
+        }
+
+        <div class="ch22-question__actions">
+            <button type="submit" class="bd-button bd-button--primary" disabled="@IsExpired">Send readings</button>
+            <button type="button" class="bd-button bd-button--quiet" @onclick="() => OnAbandon.InvokeAsync(Interrupt.Id)">Abandon question</button>
+        </div>
+    </form>
+</section>
+
+@code {
+    private static readonly (string Key, string Label)[] Legs = [("l1l2", "L1-L2 (V)"), ("l2l3", "L2-L3 (V)"), ("l1l3", "L1-L3 (V)")];
+
+    private readonly string _titleId = $"ch22-question-{Guid.NewGuid():N}";
+    private readonly Dictionary<string, string?> _values = new() { ["l1l2"] = null, ["l2l3"] = null, ["l1l3"] = null };
+    private string? _problem;
+
+    [Parameter, EditorRequired] public InterruptView Interrupt { get; set; } = default!;
+
+    [Parameter] public EventCallback<(string InterruptId, JsonElement Payload)> OnAnswer { get; set; }
+
+    [Parameter] public EventCallback<string> OnAbandon { get; set; }
+
+    private bool IsExpired =>
+        DateTimeOffset.TryParse(Interrupt.ExpiresAt, CultureInfo.InvariantCulture, DateTimeStyles.None, out var expiresAt)
+        && expiresAt <= Clock.GetUtcNow();
+
+    private string FieldId(string key) => $"{_titleId}-{key}";
+
+    private async Task SubmitAsync()
+    {
+        var readings = new Dictionary<string, decimal>();
+        foreach (var (key, label) in Legs)
+        {
+            if (!decimal.TryParse(_values[key], NumberStyles.Number, CultureInfo.InvariantCulture, out var volts) || volts is < 0 or > 700)
+            {
+                _problem = $"{label}: enter a number of volts from 0 to 700.";
+                return;
+            }
+
+            readings[key] = volts;
+        }
+
+        _problem = null;
+        await OnAnswer.InvokeAsync((Interrupt.Id, JsonSerializer.SerializeToElement(readings, ReadingsJsonContext.Default.DictionaryStringDecimal)));
+    }
+}

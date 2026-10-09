@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Validates an AG-UI stream from standard input or a file:
+      curl (with -N and -s) the agent, and pipe the output into: dotnet run (project Ch03.ValidateStream)
+  -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Ch03.ValidateStream</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Ch03.StreamValidator\Ch03.StreamValidator.csproj" />
+  </ItemGroup>
+
+</Project>

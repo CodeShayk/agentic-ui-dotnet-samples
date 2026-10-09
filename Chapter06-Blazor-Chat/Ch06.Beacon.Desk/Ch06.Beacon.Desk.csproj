@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <!--
+    Beacon Desk for Chapter 6: a Blazor Web App. The home page chats with Interactive Server rendering
+    (the Desk's server calls the agent); /browser hosts the same chat with Interactive WebAssembly.
+  -->
+  <PropertyGroup>
+    <RootNamespace>Ch06.Beacon.Desk</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" />
+    <PackageReference Include="AGUI.Client" />
+    <PackageReference Include="Microsoft.Extensions.AI" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Ch06.Beacon.Desk.Client\Ch06.Beacon.Desk.Client.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.Desk.Ui\Beacon.Desk.Ui.csproj" />
+  </ItemGroup>
+
+</Project>

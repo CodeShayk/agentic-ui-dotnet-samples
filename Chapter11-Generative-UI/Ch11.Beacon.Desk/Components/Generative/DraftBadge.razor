@@ -1,0 +1,13 @@
+@*
+    Says that a component is still a preview: "Drafting" while its props stream, "Checking" while the
+    server validates them. Hidden from screen readers; the streaming transcript entry is aria-busy, and
+    the finished component is announced once.
+*@
+@if (Phase is ComponentPhase.Drafting or ComponentPhase.Validating)
+{
+    <span class="bd-badge ch11-draft__badge" aria-hidden="true">@(Phase == ComponentPhase.Drafting ? "Drafting" : "Checking")</span>
+}
+
+@code {
+    [Parameter] public ComponentPhase Phase { get; set; }
+}

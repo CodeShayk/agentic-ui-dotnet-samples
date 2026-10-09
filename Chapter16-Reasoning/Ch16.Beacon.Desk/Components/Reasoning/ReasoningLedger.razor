@@ -1,0 +1,66 @@
+@implements IDisposable
+@*
+    The work area: what this conversation holds of Beacon's reasoning, and what goes back with the next
+    question. Sizes only; the sealed values are opaque, and the Desk never shows or reads them.
+*@
+@{
+    var reasoning = Conversation.View.Messages.OfType<ReasoningMessageView>().ToList();
+}
+<section class="bd-card ch16-ledger" aria-labelledby="ch16-ledger-title">
+    <h2 id="ch16-ledger-title" class="ch16-ledger__title">What this conversation keeps</h2>
+    <p class="ch16-ledger__intro">
+        Beacon's model provider seals its full reasoning. The Desk stores each sealed value with the reasoning it
+        came with and returns it, unchanged, with every question. Only the provider can open it.
+    </p>
+
+    @if (reasoning.Count == 0)
+    {
+        <p class="ch16-ledger__empty">No reasoning yet. Ask Beacon why WO-1001 is short-cycling.</p>
+    }
+    else
+    {
+        <table class="ch16-ledger__table">
+            <caption class="bd-visually-hidden">Reasoning held by this conversation</caption>
+            <thead>
+                <tr>
+                    <th scope="col">Reasoning</th>
+                    <th scope="col">Shown</th>
+                    <th scope="col">Sealed value</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (var i = 0; i < reasoning.Count; i++)
+                {
+                    var message = reasoning[i];
+                    <tr @key="message.Id">
+                        <th scope="row">Step @(i + 1)@(message.IsStreaming ? " (streaming)" : string.Empty)</th>
+                        <td>@(message.Text.Length > 0 ? $"{message.Text.Length:N0} characters" : "withheld")</td>
+                        <td>@(message.EncryptedValue is { } value ? $"{value.Length:N0} characters, sent back" : "none")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</section>
+
+@code {
+    private RenderThrottle _throttle = default!;
+
+    [Inject] private AgentConversation Conversation { get; set; } = default!;
+
+    [Inject] private TimeProvider Clock { get; set; } = default!;
+
+    protected override void OnInitialized()
+    {
+        _throttle = new RenderThrottle(() => InvokeAsync(StateHasChanged), TimeSpan.FromMilliseconds(100), Clock);
+        Conversation.Changed += OnChanged;
+    }
+
+    private void OnChanged(object? sender, ConversationChangedEventArgs e) => _ = _throttle.RequestAsync();
+
+    public void Dispose()
+    {
+        Conversation.Changed -= OnChanged;
+        _throttle.Dispose();
+    }
+}

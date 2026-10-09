@@ -1,0 +1,56 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 4 0 R /F2 5 0 R >> >> /Contents 6 0 R >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
+endobj
+6 0 obj
+<< /Length 1174 >>
+stream
+BT
+/F2 18 Tf 1 0 0 1 60 726 Tm (Contoso Air Service Bulletin SB-HP24S-07) Tj
+/F1 11 Tf 1 0 0 1 60 704 Tm (Applies to: HP-24S outdoor units manufactured 2021-01 through 2022-12) Tj
+/F1 11 Tf 1 0 0 1 60 682 Tm (Subject: Outdoor fan motor bearing wear) Tj
+/F2 12 Tf 1 0 0 1 60 648 Tm (Symptom) Tj
+/F1 11 Tf 1 0 0 1 60 626 Tm (A grinding or rasping noise from the outdoor unit that rises and falls with fan speed,) Tj
+/F1 11 Tf 1 0 0 1 60 604 Tm (often loudest after a defrost cycle. Fault code D07 may also be logged.) Tj
+/F2 12 Tf 1 0 0 1 60 570 Tm (Cause) Tj
+/F1 11 Tf 1 0 0 1 60 548 Tm (Early bearing wear on the 1/4 HP fan motor. The motor windings are normally unaffected.) Tj
+/F2 12 Tf 1 0 0 1 60 514 Tm (Action) Tj
+/F1 11 Tf 1 0 0 1 60 492 Tm (1. Isolate power and check the fan shaft for radial play.) Tj
+/F1 11 Tf 1 0 0 1 60 470 Tm (2. Play under 0.5 mm: replace the bearings with kit BRG-KIT-1.) Tj
+/F1 11 Tf 1 0 0 1 60 448 Tm (3. Play over 0.5 mm or a scored shaft: replace the motor \(FAN-HP24\).) Tj
+/F2 12 Tf 1 0 0 1 60 414 Tm (Warranty) Tj
+/F1 11 Tf 1 0 0 1 60 392 Tm (Covered under the standard parts and labor warranty. Quote this bulletin on the claim.) Tj
+ET
+endstream
+endobj
+7 0 obj
+<< /Title (Contoso Air SB-HP24S-07) /Producer (AG-UI in .NET samples) >>
+endobj
+xref
+0 8
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000121 00000 n 
+0000000257 00000 n 
+0000000327 00000 n 
+0000000402 00000 n 
+0000001628 00000 n 
+trailer
+<< /Size 8 /Root 1 0 R /Info 7 0 R >>
+startxref
+1716
+%%EOF

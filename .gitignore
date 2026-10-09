@@ -1,0 +1,17 @@
+# Repo-local .NET SDK (provisioned for building against the latest SDK)
+.dotnet/
+
+# Build output
+bin/
+obj/
+*.user
+.vs/
+TestResults/
+*.received.*
+
+# Secrets
+appsettings.*.local.json
+
+# Local agent memory and Python caches
+.claude/
+__pycache__/

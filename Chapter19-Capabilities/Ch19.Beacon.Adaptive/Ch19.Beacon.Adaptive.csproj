@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Chapter 19's platform-independent half: reading and validating an agent's AgentCapabilities
+    document, turning it into a per-feature plan that keeps "unknown" apart from "unsupported", the
+    attachment tray both clients share, and the AG-UI protocol-version judgment both ends use.
+    No ASP.NET Core, no Blazor, no MAUI, so Beacon Desk, Beacon Field and the tests share one copy.
+  -->
+  <PropertyGroup>
+    <RootNamespace>Ch19.Beacon.Adaptive</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AGUI.Abstractions" />
+    <PackageReference Include="Microsoft.Extensions.AI.Abstractions" />
+  </ItemGroup>
+
+</Project>

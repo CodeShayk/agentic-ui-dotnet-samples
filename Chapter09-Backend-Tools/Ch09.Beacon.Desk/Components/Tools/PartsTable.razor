@@ -1,0 +1,34 @@
+@using System.Globalization
+@* The result of search_parts: a real table, so a screen reader can move by row and column. *@
+<div class="ch09-card ch09-card--parts">
+    <table class="ch09-parts">
+        <caption>
+            @Parts.TotalCount @(Parts.TotalCount == 1 ? "part" : "parts")@(Parts.TotalCount > Parts.Parts.Count ? $", first {Parts.Parts.Count} shown" : "")
+        </caption>
+        <thead>
+            <tr>
+                <th scope="col">SKU</th>
+                <th scope="col">Part</th>
+                <th scope="col" class="ch09-num">Price</th>
+                <th scope="col" class="ch09-num">In stock</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var part in Parts.Parts)
+            {
+                <tr @key="part.Sku" class="@(part.InStock == 0 ? "ch09-parts__row--out" : null)">
+                    <td><code>@part.Sku</code></td>
+                    <td>@part.Name</td>
+                    <td class="ch09-num">@part.UnitPrice.ToString("C2", UsDollars)</td>
+                    <td class="ch09-num" title="@part.Warehouse">@(part.InStock == 0 ? "None" : part.InStock.ToString(CultureInfo.InvariantCulture))</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@code {
+    private static readonly CultureInfo UsDollars = CultureInfo.GetCultureInfo("en-US");
+
+    [Parameter, EditorRequired] public PartsBody Parts { get; set; } = default!;
+}

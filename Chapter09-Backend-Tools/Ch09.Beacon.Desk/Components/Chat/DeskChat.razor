@@ -1,0 +1,60 @@
+@*
+    Beacon Desk's chat, driven by the conversation's view state. Text renders as Chapter 7's chat did;
+    each assistant message's tool calls render after it as chips and cards (ToolCallList), through the
+    panel's MessageTemplate slot. Beacon.Desk.Ui doesn't change.
+*@
+@{
+    var view = Conversation.View;
+    var transcript = Project(view);
+}
+<ChatPanel @ref="_panel"
+           Messages="transcript.Messages"
+           Streaming="transcript.Streaming"
+           Status="StatusOf(view)"
+           ThreadId="@view.ThreadId"
+           RunId="@view.CurrentRun?.RunId"
+           Error="@ErrorOf(view)"
+           Disabled="!RendererInfo.IsInteractive"
+           OnSend="SendAsync"
+           OnStop="Conversation.Stop"
+           OnNewChat="NewChat">
+    <EmptyContent>
+        <p>Ask Beacon about a work order, a part or today's schedule. For example:</p>
+        <ul class="bd-suggestions">
+            @foreach (var prompt in Suggestions)
+            {
+                <li>
+                    <button type="button"
+                            class="bd-button bd-suggestion"
+                            disabled="@(!RendererInfo.IsInteractive)"
+                            @onclick="() => SendAsync(prompt)">@prompt</button>
+                </li>
+            }
+        </ul>
+    </EmptyContent>
+    <MessageTemplate Context="message">
+        @if (message.Id.StartsWith(DeskTranscript.ToolsPrefix, StringComparison.Ordinal)
+             && view.FindMessage(message.Id[DeskTranscript.ToolsPrefix.Length..]) is AssistantMessageView caller)
+        {
+            <ToolCallList Cards="[.. view.ToolCallsOf(caller).Select(ToolCards.From)]" />
+        }
+        else if (message.Author == ChatAuthor.Assistant)
+        {
+            <MarkdownView Markdown="@message.Text" />
+        }
+        else
+        {
+            <p class="bd-message__text">@message.Text</p>
+        }
+    </MessageTemplate>
+</ChatPanel>
+
+@code {
+    private static readonly string[] Suggestions =
+    [
+        "Prepare WO-1001 for Priya",
+        "Prepare WO-1005 for Elena",
+        "What's the status of WO-1001?",
+        "Mark C3 done on WO-1001",
+    ];
+}

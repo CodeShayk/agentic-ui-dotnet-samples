@@ -1,0 +1,45 @@
+@*
+    A sent message's attachments, each with its type and size, and Beacon's reason when it set one aside.
+    The wire part index is the attachment's position after the text part, which is how
+    Beacon.Client.Core rebuilds the message for every run.
+*@
+@if (Message.Attachments.Count > 0)
+{
+    <ul class="ch17-sent" aria-label="Attachments">
+        @for (var i = 0; i < Message.Attachments.Count; i++)
+        {
+            var part = (Message.Text.Length > 0 ? 1 : 0) + i;
+            var attachment = Message.Attachments[i];
+            var refused = Refusals.TryGetValue((Message.Id, part), out var reason) ? reason : null;
+            <li class="ch17-sent__item @(refused is null ? null : "ch17-sent__item--refused")">
+                <span class="ch17-sent__name">@NameOf(attachment)</span>
+                <span class="ch17-sent__meta">@MetaOf(attachment)</span>
+                @if (refused is not null)
+                {
+                    <span class="ch17-sent__refused">Not sent to Beacon: @refused.</span>
+                }
+            </li>
+        }
+    </ul>
+}
+
+@code {
+    [Parameter, EditorRequired] public UserMessageView Message { get; set; } = default!;
+
+    [Parameter] public IReadOnlyDictionary<(string MessageId, int Part), string> Refusals { get; set; } =
+        new Dictionary<(string, int), string>();
+
+    private static string NameOf(AIContent content) => content switch
+    {
+        DataContent { Name: { } name } => name,
+        UriContent uri => uri.Uri.Host,
+        _ => "attachment",
+    };
+
+    private static string MetaOf(AIContent content) => content switch
+    {
+        DataContent data => $"{data.MediaType}, {ByteSize.Format(data.Data.Length)}",
+        UriContent uri => $"{uri.MediaType}, link",
+        _ => string.Empty,
+    };
+}

@@ -1,0 +1,62 @@
+@inherits ProgressPanel<DeskChat.Screen>
+@*
+    Beacon Desk's chat, driven by the conversation's view state (Chapter 7). Activity messages render as
+    cards in the place they arrived, through the panel's MessageTemplate slot.
+*@
+@{
+    var view = Conversation.View;
+    var screen = Gate.Current;
+    var transcript = screen.Transcript;
+}
+<div class="ch13-chat" data-renders="@CountRender()">
+    <ChatPanel @ref="_panel"
+               Messages="transcript.Messages"
+               Streaming="transcript.Streaming"
+               Status="screen.Status"
+               ThreadId="@screen.ThreadId"
+               RunId="@screen.RunId"
+               Error="@screen.Error"
+               Disabled="!RendererInfo.IsInteractive"
+               OnSend="SendAsync"
+               OnStop="Conversation.Stop"
+               OnNewChat="NewChat">
+        <EmptyContent>
+            <p>Ask Beacon to diagnose a job and write it up. For example:</p>
+            <ul class="bd-suggestions">
+                @foreach (var prompt in Suggestions)
+                {
+                    <li>
+                        <button type="button"
+                                class="bd-button bd-suggestion"
+                                disabled="@(!RendererInfo.IsInteractive)"
+                                @onclick="() => SendAsync(prompt)">@prompt</button>
+                    </li>
+                }
+            </ul>
+        </EmptyContent>
+        <MessageTemplate Context="message">
+            @if (message.Id.StartsWith(DeskTranscript.ActivityPrefix, StringComparison.Ordinal)
+                 && view.FindMessage(message.Id[DeskTranscript.ActivityPrefix.Length..]) is ActivityMessageView activity
+                 && ChecksView.From(activity) is { } checks)
+            {
+                <ActivityCard Checks="checks" />
+            }
+            else if (message.Author == ChatAuthor.Assistant)
+            {
+                <MarkdownView Markdown="@message.Text" />
+            }
+            else
+            {
+                <p class="bd-message__text">@message.Text</p>
+            }
+        </MessageTemplate>
+    </ChatPanel>
+</div>
+
+@code {
+    private static readonly string[] Suggestions =
+    [
+        "Diagnose WO-1001 and draft the service report.",
+        "What's the status of WO-1001?",
+    ];
+}

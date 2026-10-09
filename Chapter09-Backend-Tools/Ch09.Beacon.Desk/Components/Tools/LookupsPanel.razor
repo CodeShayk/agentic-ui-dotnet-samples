@@ -1,0 +1,59 @@
+@implements IDisposable
+@*
+    The work area's view of the same ToolCalls slice the chat's cards come from, as raw as the view
+    holds it: every call this conversation made, its status and its argument text exactly as the
+    TOOL_CALL_ARGS deltas built it. Useful for watching arguments stream; not something a dispatcher needs.
+*@
+@{ var calls = Conversation.View.ToolCalls; }
+<div class="ch09-lookups">
+    <h1>Lookups</h1>
+    <p class="ch09-lookups__note">Every tool call in this conversation, from the conversation's <code>ToolCalls</code> slice.</p>
+    @if (calls.IsEmpty)
+    {
+        <p class="ch09-lookups__note">None yet.</p>
+    }
+    else
+    {
+        <table class="ch09-lookups__table">
+            <thead>
+                <tr>
+                    <th scope="col">Call</th>
+                    <th scope="col">Tool</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Arguments (as received)</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var call in calls)
+                {
+                    <tr @key="call.Id">
+                        <td><code>@call.Id</code></td>
+                        <td><code>@call.Name</code></td>
+                        <td>@call.Status</td>
+                        <td><code class="ch09-lookups__args">@call.ArgumentsText</code></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
+
+@code {
+    private RenderThrottle _throttle = default!;
+
+    [Inject] private AgentConversation Conversation { get; set; } = default!;
+
+    protected override void OnInitialized()
+    {
+        _throttle = new RenderThrottle(() => InvokeAsync(StateHasChanged), TimeSpan.FromMilliseconds(50));
+        Conversation.Changed += OnChanged;
+    }
+
+    private void OnChanged(object? sender, ConversationChangedEventArgs e) => _ = _throttle.RequestAsync();
+
+    public void Dispose()
+    {
+        Conversation.Changed -= OnChanged;
+        _throttle.Dispose();
+    }
+}

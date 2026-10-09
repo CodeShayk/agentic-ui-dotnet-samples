@@ -1,0 +1,40 @@
+data: {"type":"RUN_STARTED","threadId":"thread-11","runId":"run-2"}
+
+data: {"type":"TOOL_CALL_START","toolCallId":"call-0005-1","toolCallName":"show_part_card","parentMessageId":"msg-0005","rawEvent":{"authorName":null,"role":"assistant","contents":[],"additionalProperties":null,"responseId":"resp-0005","messageId":"msg-0005","conversationId":null,"createdAt":null,"finishReason":null,"modelId":"beacon-scripted","continuationToken":null}}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call-0005-1","delta":"{\u0022sku\u0022:\u0022CAP-99\u0022,\u0022name\u0022:\u0022","rawEvent":{"authorName":null,"role":"assistant","contents":[],"additionalProperties":null,"responseId":"resp-0005","messageId":"msg-0005","conversationId":null,"createdAt":null,"finishReason":null,"modelId":"beacon-scripted","continuationToken":null}}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call-0005-1","delta":"Run capacitor 99 uF\u0022,\u0022un","rawEvent":{"authorName":null,"role":"assistant","contents":[],"additionalProperties":null,"responseId":"resp-0005","messageId":"msg-0005","conversationId":null,"createdAt":null,"finishReason":null,"modelId":"beacon-scripted","continuationToken":null}}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call-0005-1","delta":"itPrice\u0022:24.00,\u0022inStock\u0022","rawEvent":{"authorName":null,"role":"assistant","contents":[],"additionalProperties":null,"responseId":"resp-0005","messageId":"msg-0005","conversationId":null,"createdAt":null,"finishReason":null,"modelId":"beacon-scripted","continuationToken":null}}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call-0005-1","delta":":6}","rawEvent":{"authorName":null,"role":"assistant","contents":[],"additionalProperties":null,"responseId":"resp-0005","messageId":"msg-0005","conversationId":null,"createdAt":null,"finishReason":null,"modelId":"beacon-scripted","continuationToken":null}}
+
+data: {"type":"TOOL_CALL_END","toolCallId":"call-0005-1","rawEvent":{"authorName":null,"role":"assistant","contents":[{"$type":"functionCall","name":"show_part_card","arguments":{"sku":"CAP-99","name":"Run capacitor 99 uF","unitPrice":24.00,"inStock":6},"informationalOnly":false,"callId":"call-0005-1","annotations":null,"additionalProperties":null}],"additionalProperties":null,"responseId":"resp-0005","messageId":"msg-0005","conversationId":null,"createdAt":null,"finishReason":null,"modelId":"beacon-scripted","continuationToken":null}}
+
+data: {"type":"TOOL_CALL_RESULT","messageId":"call-0005-1","toolCallId":"call-0005-1","content":"{\u0022status\u0022:\u0022rejected\u0022,\u0022component\u0022:\u0022PartCard\u0022,\u0022errors\u0022:[\u0022$.sku: CAP-99 isn\\u0027t a stocked part. Use a SKU from search_parts.\u0022]}","rawEvent":{"authorName":null,"role":"tool","contents":[{"$type":"functionResult","result":{"status":"rejected","component":"PartCard","errors":["$.sku: CAP-99 isn\u0027t a stocked part. Use a SKU from search_parts."]},"callId":"call-0005-1","annotations":null,"additionalProperties":null}],"additionalProperties":null,"responseId":"ba443a3bea834473b584ef1171d7c7f5","messageId":"ba443a3bea834473b584ef1171d7c7f5","conversationId":null,"createdAt":"2026-10-03T03:47:20.0433534\u002B00:00","finishReason":null,"modelId":null,"continuationToken":null}}
+
+data: {"type":"TEXT_MESSAGE_START","messageId":"msg-0006","role":"assistant","rawEvent":{"authorName":null,"role":"assistant","contents":[{"$type":"text","text":"I couldn\u0027t show ","annotations":null,"additionalProperties":null}],"additionalProperties":null,"responseId":"resp-0006","messageId":"msg-0006","conversationId":null,"createdAt":null,"finishReason":null,"modelId":"beacon-scripted","continuationToken":null}}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-0006","delta":"I couldn\u0027t show ","rawEvent":{"authorName":null,"role":"assistant","contents":[{"$type":"text","text":"I couldn\u0027t show ","annotations":null,"additionalProperties":null}],"additionalProperties":null,"responseId":"resp-0006","messageId":"msg-0006","conversationId":null,"createdAt":null,"finishReason":null,"modelId":"beacon-scripted","continuationToken":null}}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-0006","delta":"that as a ","rawEvent":{"authorName":null,"role":"assistant","contents":[{"$type":"text","text":"that as a ","annotations":null,"additionalProperties":null}],"additionalProperties":null,"responseId":"resp-0006","messageId":"msg-0006","conversationId":null,"createdAt":null,"finishReason":null,"modelId":"beacon-scripted","continuationToken":null}}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-0006","delta":"part card: CAP-99 ","rawEvent":{"authorName":null,"role":"assistant","contents":[{"$type":"text","text":"part card: CAP-99 ","annotations":null,"additionalProperties":null}],"additionalProperties":null,"responseId":"resp-0006","messageId":"msg-0006","conversationId":null,"createdAt":null,"finishReason":null,"modelId":"beacon-scripted","continuationToken":null}}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-0006","delta":"isn\u0027t a stocked ","rawEvent":{"authorName":null,"role":"assistant","contents":[{"$type":"text","text":"isn\u0027t a stocked ","annotations":null,"additionalProperties":null}],"additionalProperties":null,"responseId":"resp-0006","messageId":"msg-0006","conversationId":null,"createdAt":null,"finishReason":null,"modelId":"beacon-scripted","continuationToken":null}}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-0006","delta":"part. Ask me ","rawEvent":{"authorName":null,"role":"assistant","contents":[{"$type":"text","text":"part. Ask me ","annotations":null,"additionalProperties":null}],"additionalProperties":null,"responseId":"resp-0006","messageId":"msg-0006","conversationId":null,"createdAt":null,"finishReason":null,"modelId":"beacon-scripted","continuationToken":null}}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-0006","delta":"to search for ","rawEvent":{"authorName":null,"role":"assistant","contents":[{"$type":"text","text":"to search for ","annotations":null,"additionalProperties":null}],"additionalProperties":null,"responseId":"resp-0006","messageId":"msg-0006","conversationId":null,"createdAt":null,"finishReason":null,"modelId":"beacon-scripted","continuationToken":null}}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-0006","delta":"the part and ","rawEvent":{"authorName":null,"role":"assistant","contents":[{"$type":"text","text":"the part and ","annotations":null,"additionalProperties":null}],"additionalProperties":null,"responseId":"resp-0006","messageId":"msg-0006","conversationId":null,"createdAt":null,"finishReason":null,"modelId":"beacon-scripted","continuationToken":null}}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-0006","delta":"I\u0027ll show one ","rawEvent":{"authorName":null,"role":"assistant","contents":[{"$type":"text","text":"I\u0027ll show one ","annotations":null,"additionalProperties":null}],"additionalProperties":null,"responseId":"resp-0006","messageId":"msg-0006","conversationId":null,"createdAt":null,"finishReason":null,"modelId":"beacon-scripted","continuationToken":null}}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-0006","delta":"Beacon stocks.","rawEvent":{"authorName":null,"role":"assistant","contents":[{"$type":"text","text":"Beacon stocks.","annotations":null,"additionalProperties":null}],"additionalProperties":null,"responseId":"resp-0006","messageId":"msg-0006","conversationId":null,"createdAt":null,"finishReason":null,"modelId":"beacon-scripted","continuationToken":null}}
+
+data: {"type":"TEXT_MESSAGE_END","messageId":"msg-0006"}
+
+data: {"type":"RUN_FINISHED","threadId":"thread-11","runId":"run-2","outcome":{"type":"success"}}
+

@@ -1,0 +1,7 @@
+@page "/"
+
+<PageTitle>Beacon Desk</PageTitle>
+
+@* A static page around one interactive island: the chat and the surface inspector share a circuit,
+   and so share the circuit's one AgentConversation and SurfaceBoard. *@
+<DeskWorkspace @rendermode="InteractiveServer" />

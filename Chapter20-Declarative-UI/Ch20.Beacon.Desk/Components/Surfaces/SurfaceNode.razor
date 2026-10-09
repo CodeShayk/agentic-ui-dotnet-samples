@@ -1,0 +1,133 @@
+@*
+    One node of a surface, and through ChildNodes, everything below it. The switch is the Desk's catalog:
+    a component with no case here was already marked unknown by the validator and draws as a placeholder.
+    Every value is rendered by Blazor as text or an attribute; nothing from the agent becomes markup.
+*@
+@if (!Node.IsKnown)
+{
+    <div class="ch20-degraded" role="note" data-component="@Node.Type">
+        <span class="ch20-degraded__label">@Text("label", fallback: Text("text"))</span>
+        @if (Text("value") is { Length: > 0 } current)
+        {
+            <span class="ch20-degraded__value">Current value: @current</span>
+        }
+        <span class="ch20-degraded__why">This Desk can't show this control (@Node.Type) yet.</span>
+    </div>
+}
+else
+{
+    switch (Node.Type)
+    {
+        case "Column":
+        case "Row":
+            <div class="ch20-@Node.Type.ToLowerInvariant() @Layout()">@ChildNodes</div>
+            break;
+
+        case "Card":
+            <div class="ch20-card">@ChildNodes</div>
+            break;
+
+        case "Text":
+            switch (Choice("variant"))
+            {
+                case "h1" or "h2":
+                    <h3 class="ch20-text ch20-text--title">@Text("text")</h3>
+                    break;
+                case "h3":
+                    <h4 class="ch20-text ch20-text--heading">@Text("text")</h4>
+                    break;
+                case "h4" or "h5":
+                    <h5 class="ch20-text ch20-text--subheading">@Text("text")</h5>
+                    break;
+                case "caption":
+                    <p class="ch20-text ch20-text--caption">@Text("text")</p>
+                    break;
+                default:
+                    <span class="ch20-text">@Text("text")</span>
+                    break;
+            }
+
+            break;
+
+        case "Divider":
+            <hr class="ch20-divider" />
+            break;
+
+        case "Image":
+            @* The validator allowed only a literal https URL from an allowed origin. *@
+            <img class="ch20-image" src="@Literal("url")" alt="@Text("description")" loading="lazy" />
+            break;
+
+        case "CheckBox":
+            <div class="ch20-field">
+                <label class="ch20-check" for="@Id">
+                    <input id="@Id" type="checkbox" checked="@Data.Boolean(Node["value"], Node.Scope)"
+                           aria-invalid="@Invalid" aria-describedby="@Described"
+                           @onchange="e => WriteAsync(JsonValue.Create(e.Value is true))" />
+                    <span>@Text("label")</span>
+                </label>
+                @Problems
+            </div>
+            break;
+
+        case "TextField":
+            <div class="ch20-field">
+                <label class="ch20-label" for="@Id">@Text("label")</label>
+                @if (Choice("variant") == "longText")
+                {
+                    <textarea id="@Id" class="ch20-input ch20-input--long" rows="3" value="@Text("value")"
+                              aria-invalid="@Invalid" aria-describedby="@Described"
+                              @oninput="e => WriteAsync(JsonValue.Create(e.Value as string ?? string.Empty))"></textarea>
+                }
+                else
+                {
+                    <input id="@Id" class="ch20-input" type="text" value="@Text("value")"
+                           inputmode="@(Choice("variant") == "number" ? "decimal" : "text")"
+                           aria-invalid="@Invalid" aria-describedby="@Described"
+                           @oninput="e => WriteAsync(JsonValue.Create(e.Value as string ?? string.Empty))" />
+                }
+                @Problems
+            </div>
+            break;
+
+        case "ChoicePicker":
+            var selected = Data.StringList(Node["value"], Node.Scope);
+            var single = Choice("variant") != "multipleSelection";
+            <fieldset class="ch20-choices" aria-describedby="@Described">
+                <legend class="ch20-label">@Text("label")</legend>
+                @foreach (var option in Options())
+                {
+                    var optionId = $"{Id}-{option.Value}";
+                    <label class="ch20-check" for="@optionId">
+                        <input id="@optionId" type="@(single ? "radio" : "checkbox")" name="@Id"
+                               checked="@(selected.Contains(option.Value))"
+                               @onchange="() => WriteAsync(Toggle(selected, option.Value, single))" />
+                        <span>@option.Label</span>
+                    </label>
+                }
+                @Problems
+            </fieldset>
+            break;
+
+        case "Button":
+            @* A disabled button always says why: a check that fails, or a run that is still streaming. *@
+            var failed = Surface.FailedChecks(Node);
+            var why = failed.Count > 0 ? failed[0] : Busy ? "Wait until Beacon finishes answering." : null;
+            <div class="ch20-actions">
+                <button type="button" id="@Id"
+                        class="bd-button @(Choice("variant") == "primary" ? "bd-button--primary" : string.Empty)"
+                        disabled="@(why is not null || Surface.Status != SurfaceStatus.Open)"
+                        aria-describedby="@(why is not null ? $"{Id}-why" : null)"
+                        @onclick="() => OnAction.InvokeAsync(Node)">@ChildNodes</button>
+                @if (why is not null)
+                {
+                    <p id="@($"{Id}-why")" class="ch20-hint">@why</p>
+                }
+            </div>
+            break;
+
+        default:
+            <div class="ch20-degraded" role="note">This Desk can't show this control (@Node.Type) yet.</div>
+            break;
+    }
+}

@@ -1,0 +1,22 @@
+@*
+    The activity line for one assistant message's tool calls: a status mark, a sentence and who ran it.
+    The mark is decorative; the sentence carries the status for screen readers.
+*@
+<ul class="ch10-tools" aria-label="Tool activity">
+    @foreach (var call in Calls)
+    {
+        <li class="ch10-tools__call ch10-tools__call--@call.Status.ToString().ToLowerInvariant()">
+            <span class="ch10-tools__mark" aria-hidden="true"></span>
+            <span>@ToolLine.Describe(call)</span>
+            <code class="ch10-tools__name">@call.Name</code>
+            @if (ToolLine.Where(call) is { Length: > 0 } where)
+            {
+                <span class="ch10-tools__where">@where</span>
+            }
+        </li>
+    }
+</ul>
+
+@code {
+    [Parameter, EditorRequired] public IReadOnlyList<ToolCallView> Calls { get; set; } = [];
+}

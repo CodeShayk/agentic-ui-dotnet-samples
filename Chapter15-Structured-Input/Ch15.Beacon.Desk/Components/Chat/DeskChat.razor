@@ -1,0 +1,75 @@
+@*
+    Beacon Desk's chat, driven by the conversation's view state. While Beacon waits for answers, the question
+    panel sits under the transcript and the composer is disabled: the thread can't move on until every
+    question is answered or skipped.
+*@
+@{
+    var view = Conversation.View;
+    var transcript = Project(view);
+    List<InterruptView> open = [.. view.OpenInterrupts.Where(i => i.Kind == InterruptKind.Input)];
+    var waiting = open.Count > 0;
+}
+<ChatPanel @ref="_panel"
+           Messages="transcript.Messages"
+           Streaming="transcript.Streaming"
+           Status="StatusOf(view)"
+           ThreadId="@view.ThreadId"
+           RunId="@view.CurrentRun?.RunId"
+           Error="@ErrorOf(view)"
+           Disabled="@(!RendererInfo.IsInteractive || waiting)"
+           Placeholder="@(waiting ? "Answer Beacon's questions first" : "Ask Beacon a question")"
+           OnSend="SendAsync"
+           OnStop="Conversation.Stop"
+           OnNewChat="NewChat">
+    <HeaderContent>
+        @if (waiting)
+        {
+            <span class="bd-badge ch15-badge--waiting">Waiting for your answers</span>
+        }
+    </HeaderContent>
+    <EmptyContent>
+        <p>Ask Beacon about WO-1003, or try one of these:</p>
+        <ul class="bd-suggestions">
+            @foreach (var prompt in Suggestions)
+            {
+                <li>
+                    <button type="button"
+                            class="bd-button bd-suggestion"
+                            disabled="@(!RendererInfo.IsInteractive)"
+                            @onclick="() => SendAsync(prompt)">@prompt</button>
+                </li>
+            }
+        </ul>
+    </EmptyContent>
+    <AfterMessages>
+        @* The panel stays while answers are on their way: a question is answered only once its run starts. *@
+        @if (open.Count > 0)
+        {
+            <InterruptPanel Interrupts="open" OnSubmit="AnswerAsync" OnNewChat="StartOverAsync" />
+        }
+    </AfterMessages>
+    <MessageTemplate Context="message">
+        @if (message.Id.StartsWith(DeskTranscript.ToolLinePrefix, StringComparison.Ordinal)
+             && view.FindMessage(message.Id[DeskTranscript.ToolLinePrefix.Length..]) is AssistantMessageView caller)
+        {
+            <ToolActivityLine Calls="[.. view.ToolCallsOf(caller)]" />
+        }
+        else if (message.Author == ChatAuthor.Assistant)
+        {
+            <MarkdownView Markdown="@message.Text" />
+        }
+        else
+        {
+            <p class="bd-message__text">@message.Text</p>
+        }
+    </MessageTemplate>
+</ChatPanel>
+
+@code {
+    private static readonly string[] Suggestions =
+    [
+        "Is the heat pump on WO-1003 still under warranty? Its outdoor fan is grinding, and Sam needs to know whether to replace the motor or just the bearings.",
+        "What's the serial number of the heat pump on WO-1003?",
+        "Check the warranty on WO-1001's air conditioner.",
+    ];
+}

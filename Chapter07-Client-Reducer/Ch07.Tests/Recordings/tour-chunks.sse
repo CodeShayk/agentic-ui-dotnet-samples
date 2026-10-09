@@ -1,0 +1,18 @@
+data: {"type":"RUN_STARTED","threadId":"t-1","runId":"r-9","protocolVersion":"1.0"}
+
+data: {"type":"REASONING_MESSAGE_CHUNK","messageId":"reasoning-r9-1","delta":"The dispatcher wants a summary, "}
+
+data: {"type":"REASONING_MESSAGE_CHUNK","delta":"then the work order on screen."}
+
+data: {"type":"TEXT_MESSAGE_CHUNK","messageId":"msg-r9-1","role":"assistant","delta":"WO-1001: Harbor View Dental, "}
+
+data: {"type":"TEXT_MESSAGE_CHUNK","delta":"EQ-501 short-cycling, "}
+
+data: {"type":"TEXT_MESSAGE_CHUNK","delta":"Priya at 9:00."}
+
+data: {"type":"TOOL_CALL_CHUNK","toolCallId":"call-r9-1","toolCallName":"show_work_order","parentMessageId":"msg-r9-1","delta":"{\"workOrderId\":"}
+
+data: {"type":"TOOL_CALL_CHUNK","delta":"\"WO-1001\"}"}
+
+data: {"type":"RUN_FINISHED","threadId":"t-1","runId":"r-9","outcome":{"type":"success","pendingToolCallIds":["call-r9-1"]}}
+

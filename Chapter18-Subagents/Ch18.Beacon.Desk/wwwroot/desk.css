@@ -1,0 +1,186 @@
+/* Chapter 18 additions to Beacon Desk: the specialist board (steps, lanes, activity) and the attribution
+   badges. Each specialist keeps one color everywhere; color is never the only cue, because every badge
+   and status chip also says what it means in words. Light and dark tokens follow Beacon.Desk.Ui's. */
+
+:root {
+    --ch18-parts: #8a4b00;
+    --ch18-scheduling: #0b6a0b;
+    --ch18-warranty: #0067b8;
+    --ch18-other: #595959;
+    --ch18-on-badge: #ffffff;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --ch18-parts: #f2b04c;
+        --ch18-scheduling: #6ccb5f;
+        --ch18-warranty: #7cbcf5;
+        --ch18-other: #b4b6bb;
+        --ch18-on-badge: #0b1a2a;
+    }
+}
+
+.ch18-board { display: grid; gap: 0.75rem; }
+
+.ch18-board__header { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1rem; }
+
+.ch18-board__title { margin: 0; font-size: 1.1rem; }
+
+.ch18-board__empty { color: var(--bd-muted); margin: 0; }
+
+/* The coordinator's steps: a row of chips, the active one outlined and pulsing. */
+.ch18-steps { list-style: none; display: flex; flex-wrap: wrap; gap: 0.35rem; margin: 0; padding: 0; }
+
+.ch18-step {
+    font-size: 0.8rem;
+    padding: 0.1rem 0.6rem;
+    border-radius: 999px;
+    border: 1px solid var(--bd-border-strong);
+    color: var(--bd-muted);
+}
+
+.ch18-step--done::before { content: "✓ "; }
+
+.ch18-step--active { color: var(--bd-text); border-color: var(--bd-accent); font-weight: 600; }
+
+.ch18-run { border-top: 1px solid var(--bd-border); padding-top: 0.5rem; }
+
+.ch18-run__summary { cursor: pointer; font-weight: 600; font-size: 0.9rem; color: var(--bd-muted); }
+
+/* Lanes sit side by side when there's room and stack when there isn't. */
+.ch18-lanes {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+    align-items: start;
+}
+
+.ch18-lane {
+    display: grid;
+    gap: 0.4rem;
+    padding: 0.6rem 0.75rem;
+    border: 1px solid var(--bd-border);
+    border-top: 4px solid var(--ch18-other);
+    border-radius: var(--bd-radius);
+    background: var(--bd-surface);
+    min-width: 0;
+}
+
+.ch18-lane--parts { border-top-color: var(--ch18-parts); }
+.ch18-lane--scheduling { border-top-color: var(--ch18-scheduling); }
+.ch18-lane--warranty { border-top-color: var(--ch18-warranty); }
+
+.ch18-lane__header { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.35rem; }
+
+.ch18-lane__title { margin: 0; font-size: 0.95rem; }
+
+.ch18-lane__description,
+.ch18-lane__origin,
+.ch18-lane__quiet { margin: 0; color: var(--bd-muted); font-size: 0.85rem; }
+
+.ch18-lane__error {
+    margin: 0;
+    padding: 0.4rem 0.6rem;
+    border-radius: 6px;
+    color: var(--bd-danger);
+    background: var(--bd-danger-bg);
+    font-size: 0.9rem;
+}
+
+.ch18-lane__activity > summary { cursor: pointer; font-size: 0.85rem; font-weight: 600; }
+
+.ch18-lane__children { display: grid; gap: 0.5rem; padding-left: 0.75rem; border-left: 2px dashed var(--bd-border-strong); }
+
+/* Attribution badges: the specialist's name on its lane, and on every message and tool card. */
+.ch18-badge {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 999px;
+    color: var(--ch18-on-badge);
+    background: var(--ch18-other);
+}
+
+.ch18-badge--parts { background: var(--ch18-parts); }
+.ch18-badge--scheduling { background: var(--ch18-scheduling); }
+.ch18-badge--warranty { background: var(--ch18-warranty); }
+.ch18-badge--waiting { background: var(--bd-warning); color: var(--bd-surface); }
+
+.ch18-by {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: var(--bd-muted);
+}
+
+.ch18-by--coordinator { margin-bottom: 0.15rem; }
+
+/* Status chips: words first, color second. */
+.ch18-status { font-size: 0.8rem; font-weight: 600; }
+.ch18-status--running, .ch18-status--resuming { color: var(--bd-accent); }
+.ch18-status--done { color: var(--bd-success); }
+.ch18-status--waitingforapproval, .ch18-status--suspended { color: var(--bd-warning); }
+.ch18-status--failed { color: var(--bd-danger); }
+.ch18-status--unannounced { color: var(--bd-muted); }
+
+.ch18-entries { list-style: none; margin: 0.35rem 0 0; padding: 0; display: grid; gap: 0.4rem; }
+
+.ch18-entry { display: grid; gap: 0.1rem; font-size: 0.9rem; overflow-wrap: anywhere; }
+
+.ch18-entry__text > :first-child { margin-top: 0; }
+.ch18-entry__text > :last-child { margin-bottom: 0; }
+
+.ch18-tool > summary { cursor: pointer; display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.35rem; }
+
+.ch18-tool__name {
+    font-family: var(--bd-mono);
+    font-size: 0.8rem;
+    background: var(--bd-code-bg);
+    border-radius: 4px;
+    padding: 0 0.3rem;
+}
+
+.ch18-tool__status { font-size: 0.8rem; color: var(--bd-muted); }
+.ch18-tool--awaitingapproval .ch18-tool__status { color: var(--bd-warning); font-weight: 600; }
+
+.ch18-tool__details { margin: 0.3rem 0 0; display: grid; gap: 0.15rem; font-size: 0.8rem; }
+.ch18-tool__details dt { color: var(--bd-muted); }
+.ch18-tool__details dd { margin: 0 0 0.3rem; }
+.ch18-tool__details code { font-family: var(--bd-mono); white-space: pre-wrap; word-break: break-word; }
+
+/* An approval inside a lane: amber edge, like every interrupt in the book's figures. */
+.ch18-approval {
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--bd-border-strong);
+    border-left: 4px solid var(--bd-warning);
+    border-radius: var(--bd-radius);
+    background: var(--bd-surface-alt);
+    display: grid;
+    gap: 0.5rem;
+}
+
+.ch18-approval__title { margin: 0; font-size: 0.95rem; }
+
+/* Focus arrives here from the chat's "Go to … approval" button, so it must always show. */
+.ch18-approval__title:focus { outline: 2px solid var(--bd-focus); outline-offset: 2px; }
+
+.ch18-approval__message { margin: 0; font-size: 0.9rem; }
+
+/* Above the disabled composer while an approval waits on the board. */
+.ch18-goto { margin: 0.5rem 0 0; }
+
+.ch18-approval__actions { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+
+.ch18-approval :focus-visible,
+.ch18-run__summary:focus-visible,
+.ch18-lane summary:focus-visible { outline: 2px solid var(--bd-focus); outline-offset: 2px; }
+
+@media (prefers-reduced-motion: no-preference) {
+    .ch18-step--active { animation: ch18-pulse 1.6s ease-in-out infinite; }
+}
+
+@keyframes ch18-pulse { 50% { opacity: 0.6; } }

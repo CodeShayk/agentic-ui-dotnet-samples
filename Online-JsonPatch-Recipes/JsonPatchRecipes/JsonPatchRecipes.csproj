@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    The online JSON Patch Recipes: recipes for the JSON Patch documents that STATE_DELTA carries. The server-side recipes build
+    patches (from intent, from a before/after diff, or typed with Microsoft.AspNetCore.JsonPatch.SystemTextJson)
+    and choose between a snapshot and a delta. The client-side recipes apply patches with Beacon.Client.Core's
+    JsonPatch and keep a replica of the state, telling a malformed patch from one that merely doesn't apply.
+  -->
+  <PropertyGroup>
+    <RootNamespace>JsonPatchRecipes</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AGUI.Abstractions" />
+    <!-- Server-side only: it declares a framework reference to ASP.NET Core (section 4 of the recipes). -->
+    <PackageReference Include="Microsoft.AspNetCore.JsonPatch.SystemTextJson" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Beacon.Client.Core\Beacon.Client.Core.csproj" />
+  </ItemGroup>
+
+</Project>

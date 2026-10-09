@@ -1,0 +1,31 @@
+<Project>
+
+  <!--
+    Shared build settings for every project in the companion code.
+    The book targets .NET 11 (C# 15). Every AG-UI and Agent Framework package also targets net10.0,
+    so readers on .NET 10 LTS can follow along after the changes listed in Appendix C
+    (BeaconTargetFramework, global.json, the release-candidate package pins and the MAUI/WPF targets).
+  -->
+  <PropertyGroup>
+    <BeaconTargetFramework>net11.0</BeaconTargetFramework>
+    <TargetFramework Condition="'$(TargetFramework)' == '' and '$(TargetFrameworks)' == ''">$(BeaconTargetFramework)</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <IsPackable>false</IsPackable>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+
+    <!--
+      Experimental APIs the book uses deliberately. Each chapter that relies on one says so in the text.
+        MEAI001  Microsoft.Extensions.AI members still marked experimental in 10.10 (speech, realtime,
+                 image generation, hosted files, chat reducers, failover clients and single members such as
+                 ToolApprovalRequestContent.RequiresConfirmation). Tool approvals themselves are stable.
+        MAAI001  Microsoft Agent Framework experimental APIs
+        OPENAI001 OpenAI SDK experimental APIs
+      NU5104 is suppressed because the Agent Framework AG-UI hosting package is a preview release.
+    -->
+    <NoWarn>$(NoWarn);MEAI001;MAAI001;OPENAI001;NU5104</NoWarn>
+  </PropertyGroup>
+
+</Project>

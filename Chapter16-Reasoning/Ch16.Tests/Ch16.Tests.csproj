@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Chapter 16's proof: the REASONING_* sequence on the wire for each disclosure setting, the policy layer's
+    redaction and anchoring, the encrypted value returned byte for byte through the Desk's client stack and
+    restored for the model, the SDK gaps that make that work necessary, and bUnit tests of the "How I got
+    here" panel and its announcements. No model, no browser, no network.
+  -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Ch16.Tests</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="xunit.v3" />
+    <PackageReference Include="bunit" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
+    <PackageReference Include="AGUI.Client" />
+    <PackageReference Include="AGUI.Formatting" />
+    <PackageReference Include="AGUI.Server" />
+    <PackageReference Include="Microsoft.Extensions.AI" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Beacon.Testing\Beacon.Testing.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.Client.Core\Beacon.Client.Core.csproj" />
+    <ProjectReference Include="..\Ch16.Beacon.Agent\Ch16.Beacon.Agent.csproj" />
+    <ProjectReference Include="..\Ch16.Beacon.Desk\Ch16.Beacon.Desk.csproj" />
+  </ItemGroup>
+
+</Project>

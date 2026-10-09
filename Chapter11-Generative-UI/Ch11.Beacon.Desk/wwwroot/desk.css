@@ -1,0 +1,143 @@
+/* Chapter 11 additions to Beacon Desk: the tool-activity line (from Chapter 7), generated components
+   and the component inspector. Colors come from Beacon.Desk.Ui's tokens, so light and dark themes both
+   work; nothing here encodes meaning by color alone. */
+
+/* ---------- Activity line (Chapter 7) ---------- */
+
+.ch11-tools { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.25rem; font-size: 0.9rem; color: var(--bd-muted); }
+.ch11-tools__call { display: flex; align-items: center; gap: 0.5rem; }
+.ch11-tools__name { font-family: var(--bd-mono); font-size: 0.8rem; background: var(--bd-code-bg); border-radius: 4px; padding: 0 0.3rem; }
+.ch11-tools__mark { width: 0.75rem; height: 0.75rem; border-radius: 50%; border: 2px solid var(--bd-accent); flex: none; }
+.ch11-tools__call--streaming .ch11-tools__mark,
+.ch11-tools__call--inprogress .ch11-tools__mark { border-right-color: transparent; animation: ch11-spin 0.9s linear infinite; }
+.ch11-tools__call--completed .ch11-tools__mark { background: var(--bd-success); border-color: var(--bd-success); }
+.ch11-tools__call--abandoned .ch11-tools__mark { border-color: var(--bd-danger); border-style: dashed; }
+
+@keyframes ch11-spin { to { transform: rotate(360deg); } }
+
+/* ---------- Generated components in the transcript ---------- */
+
+/* A component is its own card: drop the message bubble around it and let it use the column's width. */
+.bd-message:has(.ch11-generated) { max-width: 100%; width: 100%; }
+.bd-message__body:has(> .ch11-generated) { padding: 0; background: transparent; border: none; }
+
+.ch11-card {
+    background: var(--bd-surface);
+    border: 1px solid var(--bd-border);
+    border-radius: var(--bd-radius);
+    padding: 12px 14px;
+}
+
+.ch11-card__header { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 6px; }
+.ch11-card__title { margin: 0; font-size: 15px; }
+.ch11-card__meta { color: var(--bd-muted); font-size: 13px; }
+.ch11-card__corrected { margin: 6px 0 0; font-size: 12px; color: var(--bd-muted); }
+
+/* A preview: dashed edge, a badge, placeholders where fields haven't arrived. */
+.ch11-draft { border-style: dashed; }
+.ch11-draft__badge { margin-left: auto; }
+
+.ch11-skeleton {
+    display: inline-block;
+    width: 5rem;
+    height: 0.9em;
+    border-radius: 4px;
+    background: var(--bd-surface-alt);
+    border: 1px solid var(--bd-border);
+    vertical-align: middle;
+}
+
+.ch11-skeleton--wide { width: 12rem; }
+.ch11-placeholder { display: flex; align-items: center; gap: 10px; border-style: dashed; color: var(--bd-muted); }
+
+/* Part card */
+
+.ch11-part__sku { font-family: var(--bd-mono); font-weight: 600; }
+.ch11-part__name { margin: 2px 0 4px; font-size: 16px; }
+.ch11-part__price { margin: 0; font-size: 22px; font-weight: 600; }
+.ch11-part__unit { font-size: 13px; font-weight: 400; color: var(--bd-muted); }
+.ch11-part__stock { margin: 2px 0 0; color: var(--bd-muted); }
+.ch11-part__stock--out { color: var(--bd-danger); font-weight: 600; }
+.ch11-part__note { margin: 6px 0 0; }
+
+.ch11-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
+.ch11-actions__reason { font-size: 13px; color: var(--bd-muted); }
+
+/* Schedule timeline */
+
+.ch11-timeline__body { --ch11-name-width: 6.5rem; }
+
+.ch11-timeline__axis {
+    position: relative;
+    height: 1.2rem;
+    margin-left: var(--ch11-name-width);
+    font-size: 11px;
+    color: var(--bd-muted);
+    font-variant-numeric: tabular-nums;
+}
+
+.ch11-timeline__tick { position: absolute; transform: translateX(-50%); white-space: nowrap; }
+.ch11-timeline__lanes { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.ch11-lane { display: flex; align-items: center; }
+.ch11-lane__name { flex: none; width: var(--ch11-name-width); font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.ch11-lane__track {
+    position: relative;
+    flex: 1;
+    height: 26px;
+    border-radius: 4px;
+    background: var(--bd-surface-alt);
+    border: 1px solid var(--bd-border);
+}
+
+.ch11-block {
+    position: absolute;
+    top: 2px;
+    bottom: 2px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    padding: 0 4px;
+    border-radius: 4px;
+    font-size: 10.5px;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.ch11-block--job { background: var(--bd-accent); color: var(--bd-on-accent); border: 1px solid var(--bd-surface); }
+.ch11-block--free { background: transparent; color: var(--bd-muted); border: 1px solid var(--bd-border-strong); }
+
+/* Fault history chart: thin marks, hairline grid, one color; identity from the row labels. */
+
+.ch11-chart__plot { display: block; width: 100%; height: auto; }
+.ch11-chart__grid { stroke: var(--bd-border); stroke-width: 1; }
+.ch11-chart__tick, .ch11-chart__row, .ch11-chart__label { fill: var(--bd-muted); font-size: 11px; font-family: var(--bd-font); }
+.ch11-chart__row { fill: var(--bd-text); font-family: var(--bd-mono); }
+.ch11-chart__label { fill: var(--bd-text); font-weight: 600; }
+.ch11-chart__dot { fill: var(--bd-accent); stroke: var(--bd-surface); stroke-width: 2; }
+.ch11-chart__table { margin-top: 6px; font-size: 13px; }
+.ch11-chart__table table { border-collapse: collapse; margin-top: 4px; }
+.ch11-chart__table th, .ch11-chart__table td { text-align: left; padding: 2px 10px 2px 0; border-bottom: 1px solid var(--bd-border); }
+
+/* Fallback */
+
+.ch11-fallback { border-left: 4px solid var(--bd-warning); }
+.ch11-fallback__title { margin: 0; font-weight: 600; }
+.ch11-fallback__reason { margin: 4px 0 0; }
+.ch11-fallback__problems { margin: 6px 0 0; padding-left: 1.2rem; color: var(--bd-muted); font-size: 13px; }
+.ch11-fallback__props { display: grid; grid-template-columns: auto 1fr; gap: 2px 12px; margin: 6px 0 0; font-size: 13px; }
+.ch11-fallback__props dt { color: var(--bd-muted); }
+.ch11-fallback__props dd { margin: 0; }
+
+/* ---------- Component inspector ---------- */
+
+.ch11-inspector h1 { margin-bottom: 0.25rem; }
+.ch11-inspector h2 { font-size: 1rem; margin: 1.25rem 0 0.4rem; }
+.ch11-inspector__table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.ch11-inspector__table th, .ch11-inspector__table td { text-align: left; padding: 4px 8px 4px 0; border-bottom: 1px solid var(--bd-border); vertical-align: top; }
+.ch11-inspector__registry { padding-left: 1.2rem; font-size: 13px; }
+
+@media (prefers-reduced-motion: reduce) {
+    .ch11-tools__call--streaming .ch11-tools__mark,
+    .ch11-tools__call--inprogress .ch11-tools__mark { animation: none; }
+}

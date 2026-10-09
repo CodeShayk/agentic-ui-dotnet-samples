@@ -1,0 +1,58 @@
+@*
+    Beacon Desk's chat, driven by the conversation's view state (Chapter 7). Assistant text renders as
+    Markdown; an a2ui-surface activity renders as a form where it arrived.
+*@
+@{
+    var view = Conversation.View;
+    var transcript = Project(view);
+}
+<ChatPanel @ref="_panel"
+           Messages="transcript.Messages"
+           Streaming="transcript.Streaming"
+           Status="StatusOf(view)"
+           ThreadId="@view.ThreadId"
+           RunId="@view.CurrentRun?.RunId"
+           Error="@(_formError ?? ErrorOf(view))"
+           Disabled="!RendererInfo.IsInteractive"
+           OnSend="SendAsync"
+           OnStop="Conversation.Stop"
+           OnNewChat="NewChat">
+    <EmptyContent>
+        <p>Ask Beacon for an inspection checklist. For example:</p>
+        <ul class="bd-suggestions">
+            @foreach (var prompt in Suggestions)
+            {
+                <li>
+                    <button type="button"
+                            class="bd-button bd-suggestion"
+                            disabled="@(!RendererInfo.IsInteractive)"
+                            @onclick="() => SendAsync(prompt)">@prompt</button>
+                </li>
+            }
+        </ul>
+    </EmptyContent>
+    <MessageTemplate Context="message">
+        @if (message.Id.StartsWith(DeskTranscript.SurfacePrefix, StringComparison.Ordinal)
+             && Board.Find(message.Id[DeskTranscript.SurfacePrefix.Length..]) is { } surface)
+        {
+            <SurfaceView Surface="surface" Busy="Conversation.View.IsBusy" OnAction="OnSurfaceActionAsync" />
+        }
+        else if (message.Author == ChatAuthor.Assistant)
+        {
+            <MarkdownView Markdown="@message.Text" />
+        }
+        else
+        {
+            <p class="bd-message__text">@message.Text</p>
+        }
+    </MessageTemplate>
+</ChatPanel>
+
+@code {
+    private static readonly string[] Suggestions =
+    [
+        "Start the inspection checklist for WO-1003.",
+        "Start the inspection checklist for WO-1001.",
+        "Start the inspection checklist for WO-1005.",
+    ];
+}

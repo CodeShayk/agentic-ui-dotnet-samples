@@ -1,0 +1,76 @@
+@implements IDisposable
+@*
+    The work area: every component the agent asked for on this thread and how far each one got, plus the
+    components this Desk has registered. A developer's view of the registry and the projector at work.
+*@
+<div class="bd-card ch11-inspector">
+    <h1>Components</h1>
+    <p class="bd-card__meta">What Beacon chose to show on this thread, and how far each component got.</p>
+
+    @{
+        var components = Conversation.View.ToolCalls.Select(Projector.Project).OfType<GeneratedComponent>().ToList();
+    }
+    @if (components.Count == 0)
+    {
+        <p>Nothing yet. Ask for a part, today's schedule or a unit's fault history.</p>
+    }
+    else
+    {
+        <table class="ch11-inspector__table">
+            <thead>
+                <tr><th scope="col">Tool</th><th scope="col">Phase</th><th scope="col">Arguments</th><th scope="col">Notes</th></tr>
+            </thead>
+            <tbody>
+                @foreach (var component in components)
+                {
+                    <tr @key="component.CallId">
+                        <td><code>@component.ToolName</code></td>
+                        <td>@component.Phase</td>
+                        <td>@component.ArgumentsLength chars</td>
+                        <td>@Notes(component)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+
+    <h2>Registered on this Desk</h2>
+    <ul class="ch11-inspector__registry">
+        @foreach (var registration in Registry.Registrations)
+        {
+            <li><code>@registration.Kind.Contract.ToolName</code> → <code>@registration.ComponentType.Name</code> (view model <code>@registration.Kind.ViewType.Name</code>)</li>
+        }
+    </ul>
+</div>
+
+@code {
+    private RenderThrottle _throttle = default!;
+
+    [Inject] private AgentConversation Conversation { get; set; } = default!;
+
+    [Inject] private ComponentProjector Projector { get; set; } = default!;
+
+    [Inject] private ComponentRegistry Registry { get; set; } = default!;
+
+    protected override void OnInitialized()
+    {
+        _throttle = new RenderThrottle(() => InvokeAsync(StateHasChanged), TimeSpan.FromMilliseconds(100));
+        Conversation.Changed += OnChanged;
+    }
+
+    private void OnChanged(object? sender, ConversationChangedEventArgs e) => _ = _throttle.RequestAsync();
+
+    private static string Notes(GeneratedComponent component) => component switch
+    {
+        { Problems.Count: > 0 } => GeneratedComponent.Plain(component.Problems[0]),
+        { Corrections.Count: > 0 } => $"{component.Corrections.Count} correction(s) by the server",
+        { Phase: ComponentPhase.Ready } => $"{component.Actions.Count(a => a.Enabled)} action(s) granted",
+        _ => string.Empty,
+    };
+
+    public void Dispose()
+    {
+        Conversation.Changed -= OnChanged;
+        _throttle.Dispose();
+    }
+}

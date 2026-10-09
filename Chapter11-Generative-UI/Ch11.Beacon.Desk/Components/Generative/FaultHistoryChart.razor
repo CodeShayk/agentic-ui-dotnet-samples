@@ -1,0 +1,92 @@
+@using System.Globalization
+@inherits GeneratedComponentBase<FaultHistoryChartView>
+@*
+    A dot plot in SVG, no chart library: one row per fault code, time across. The view model has already
+    placed every dot and tick as a fraction of the plot; this template scales them to the viewBox. Codes
+    label the rows, so one color serves; each dot has a tooltip, the latest is labeled, and a table holds
+    the same data for anyone who'd rather read it.
+*@
+<article class="ch11-card ch11-chart@(IsDraft ? " ch11-draft" : null)">
+    <header class="ch11-card__header">
+        <h3 class="ch11-card__title">@View.Title</h3>
+        <DraftBadge Phase="Component.Phase" />
+    </header>
+
+    <svg class="ch11-chart__plot" viewBox="0 0 @Width @Num(Height)" role="img" aria-labelledby="@_titleId">
+        <title id="@_titleId">@View.Summary</title>
+
+        @* Each group wraps its <text>: inside a code block, Razor reads a bare <text> tag as its own. *@
+        @foreach (var tick in View.Ticks)
+        {
+            <g>
+                <line class="ch11-chart__grid" x1="@X(tick.X)" y1="@Top" x2="@X(tick.X)" y2="@Num(PlotBottom)" />
+                <text class="ch11-chart__tick" x="@X(tick.X)" y="@Num(Height - 8)" text-anchor="@Anchor(tick.X)">@tick.Label</text>
+            </g>
+        }
+
+        @for (var row = 0; row < View.Rows.Count; row++)
+        {
+            <g>
+                <line class="ch11-chart__grid" x1="@Left" y1="@Y(row)" x2="@(Width - Right)" y2="@Y(row)" />
+                <text class="ch11-chart__row" x="@(Left - 8)" y="@Y(row)" dy="0.35em" text-anchor="end">@View.Rows[row]</text>
+            </g>
+        }
+
+        @foreach (var marker in View.Markers)
+        {
+            <circle class="ch11-chart__dot" cx="@X(marker.X)" cy="@Y(marker.Row)" r="5">
+                <title>@marker.Tooltip</title>
+            </circle>
+        }
+
+        @if (View.Latest is { } latest)
+        {
+            <g>
+                <text class="ch11-chart__label" x="@X(latest.X)" y="@Num(RowCenter(latest.Row) - 11)"
+                      text-anchor="@Anchor(latest.X)">@latest.Date.ToString("MMM d", CultureInfo.GetCultureInfo("en-US"))</text>
+            </g>
+        }
+    </svg>
+
+    @if (!IsDraft && View.Markers.Count > 0)
+    {
+        <details class="ch11-chart__table">
+            <summary>Show as a table</summary>
+            <table>
+                <thead><tr><th scope="col">Date</th><th scope="col">Code</th><th scope="col">Description</th></tr></thead>
+                <tbody>
+                    @foreach (var marker in View.Markers)
+                    {
+                        <tr><td>@marker.DateLabel</td><td>@marker.Code</td><td>@marker.Description</td></tr>
+                    }
+                </tbody>
+            </table>
+        </details>
+    }
+</article>
+
+@code {
+    private const int Width = 400;
+    private const int Left = 44;
+    private const int Right = 16;
+    private const int Top = 22;
+    private const int RowHeight = 32;
+    private const int Bottom = 28;
+
+    private readonly string _titleId = $"ch11-chart-{Guid.NewGuid():N}";
+
+    private double PlotBottom => Top + Math.Max(View.Rows.Count, 1) * RowHeight;
+
+    private double Height => PlotBottom + Bottom;
+
+    private static string X(double fraction) => Num(Left + fraction * (Width - Left - Right));
+
+    private static double RowCenter(int row) => Top + row * RowHeight + RowHeight / 2.0;
+
+    private static string Y(int row) => Num(RowCenter(row));
+
+    // Labels near either edge grow inward, so none runs off the plot.
+    private static string Anchor(double fraction) => fraction > 0.9 ? "end" : fraction < 0.1 ? "start" : "middle";
+
+    private static string Num(double value) => value.ToString("0.##", CultureInfo.InvariantCulture);
+}

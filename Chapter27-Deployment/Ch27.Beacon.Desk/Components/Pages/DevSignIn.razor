@@ -1,0 +1,54 @@
+@page "/dev/sign-in"
+@attribute [AllowAnonymous]
+@using System.Security.Claims
+@using Ch27.Beacon.Desk.Identity
+@using Microsoft.AspNetCore.Authentication
+@using Microsoft.AspNetCore.Authentication.Cookies
+@using Microsoft.AspNetCore.Components.Forms
+@inject IHostEnvironment Environment
+@inject NavigationManager Navigation
+
+@*
+    Development only. Deployed, the Desk signs dispatchers in with Microsoft Entra ID and this page has no
+    cookie scheme to sign in with. A static server-rendered form, so the sign-in happens on the request.
+*@
+<PageTitle>Sign in (development)</PageTitle>
+
+<div class="bd-card">
+    <h1>Sign in for development</h1>
+    @if (Environment.IsDevelopment())
+    {
+        <p>Deployed, Beacon Desk signs in with Microsoft Entra ID. On your machine, choose who you are.</p>
+        <form method="post" @formname="dev-sign-in" @onsubmit="SignInAsync">
+            <AntiforgeryToken />
+            <button type="submit" name="Who" value="dana" class="bd-button">Dana Kim, dispatcher</button>
+            <button type="submit" name="Who" value="priya" class="bd-button">Priya Raman, technician</button>
+        </form>
+    }
+    else
+    {
+        <p>This page is only available in Development.</p>
+    }
+</div>
+
+@code {
+    [CascadingParameter] private HttpContext HttpContext { get; set; } = default!;
+
+    [SupplyParameterFromForm] private string? Who { get; set; }
+
+    [SupplyParameterFromQuery] private string? ReturnUrl { get; set; }
+
+    private async Task SignInAsync()
+    {
+        if (!Environment.IsDevelopment() || DevelopmentUsers.Find(Who) is not { } user)
+        {
+            return;
+        }
+
+        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, user);
+
+        // Only a path on this site: an absolute or protocol-relative ReturnUrl would be an open redirect.
+        var target = ReturnUrl is { Length: > 0 } url && url.StartsWith('/') && !url.StartsWith("//", StringComparison.Ordinal) ? url : "/";
+        Navigation.NavigateTo(target, forceLoad: true);
+    }
+}

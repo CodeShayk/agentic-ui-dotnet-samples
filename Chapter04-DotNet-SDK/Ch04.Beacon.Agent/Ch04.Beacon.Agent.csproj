@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <!--
+    Chapter 4: Beacon's agent on the official AG-UI .NET SDK. AGUI.Server adapts the request and the
+    response; Shared/Beacon.AGUI.Hosting maps the ASP.NET Core endpoint around it.
+  -->
+  <PropertyGroup>
+    <RootNamespace>Ch04.Beacon.Agent</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Beacon.AI\Beacon.AI.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.AGUI.Hosting\Beacon.AGUI.Hosting.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <!--
+    Chapter 23: Beacon's AG-UI endpoint, hardened. JWT bearer authentication with roles, an
+    authorization policy on the endpoint, a server-side transcript keyed by user and thread, approvals
+    bound to the user and the exact call, caller-scoped tools, CORS for Beacon Desk only, per-user
+    rate limiting, a request size limit, a run timeout and redacted logs.
+    Development tokens: dotnet user-jwts create (see the chapter, section 23.3).
+  -->
+  <PropertyGroup>
+    <RootNamespace>Ch23.Beacon.Agent</RootNamespace>
+    <UserSecretsId>beacon-ch23-agent</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Beacon.AI\Beacon.AI.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.AGUI.Hosting\Beacon.AGUI.Hosting.csproj" />
+    <ProjectReference Include="..\Ch23.Beacon.Security\Ch23.Beacon.Security.csproj" />
+  </ItemGroup>
+
+</Project>

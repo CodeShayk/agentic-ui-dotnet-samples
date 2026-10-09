@@ -1,0 +1,228 @@
+/* Chapter 12 additions to Beacon Desk: the work-order sheet, plus Chapter 7's tool-activity line.
+   Colors come from Beacon.Desk.Ui's tokens, so light and dark themes both work. */
+
+.ch12-tools {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.25rem;
+    font-size: 0.9rem;
+    color: var(--bd-muted);
+}
+
+.ch12-tools__call {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.ch12-tools__name {
+    font-family: var(--bd-mono);
+    font-size: 0.8rem;
+    background: var(--bd-code-bg);
+    border-radius: 4px;
+    padding: 0 0.3rem;
+}
+
+.ch12-tools__mark {
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 50%;
+    border: 2px solid var(--bd-accent);
+    flex: none;
+}
+
+.ch12-tools__call--streaming .ch12-tools__mark,
+.ch12-tools__call--inprogress .ch12-tools__mark {
+    border-right-color: transparent;
+    animation: ch12-spin 0.9s linear infinite;
+}
+
+.ch12-tools__call--completed .ch12-tools__mark {
+    background: var(--bd-success);
+    border-color: var(--bd-success);
+}
+
+.ch12-tools__call--awaitingapproval .ch12-tools__mark,
+.ch12-tools__call--awaitingclient .ch12-tools__mark {
+    border-color: var(--bd-warning);
+}
+
+.ch12-tools__call--abandoned .ch12-tools__mark {
+    border-color: var(--bd-danger);
+    border-style: dashed;
+}
+
+@keyframes ch12-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ch12-tools__call--streaming .ch12-tools__mark,
+    .ch12-tools__call--inprogress .ch12-tools__mark {
+        animation: none;
+    }
+}
+
+.ch12-waiting {
+    margin: 0.5rem 0;
+    padding: 0.5rem 0.75rem;
+    border-left: 3px solid var(--bd-warning);
+    background: var(--bd-surface-alt);
+    font-size: 0.9rem;
+}
+
+/* The work-order sheet. */
+.ch12-sheet {
+    display: grid;
+    gap: 0.75rem;
+}
+
+.ch12-sheet__header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem;
+}
+
+.ch12-sheet__header h1 {
+    margin: 0;
+}
+
+.ch12-board,
+.ch12-field {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.ch12-sync {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1rem;
+    margin: 0;
+    padding: 0.5rem 0.75rem;
+    border-left: 4px solid var(--bd-success);
+    background: var(--bd-surface-alt);
+    font-size: 0.85rem;
+}
+
+.ch12-sync--busy {
+    border-left-color: var(--bd-accent);
+}
+
+.ch12-sync--unsent {
+    border-left-color: var(--bd-border-strong);
+}
+
+.ch12-sync--resync {
+    border-left-color: var(--bd-warning);
+}
+
+.ch12-sync__version {
+    font-family: var(--bd-mono);
+}
+
+.ch12-sync__state {
+    flex-basis: 100%;
+}
+
+.ch12-notices {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--bd-warning);
+    border-radius: var(--bd-radius);
+    font-size: 0.85rem;
+}
+
+.ch12-notices ul {
+    margin: 0;
+    padding-left: 1rem;
+}
+
+.ch12-facts {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: 0.2rem 1rem;
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+.ch12-facts dt {
+    color: var(--bd-muted);
+}
+
+.ch12-facts dd {
+    margin: 0;
+}
+
+.ch12-heading {
+    font-size: 1rem;
+    margin: 0.5rem 0 0;
+}
+
+.ch12-checklist,
+.ch12-notes {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 0.35rem;
+}
+
+.ch12-notes {
+    padding-left: 1.25rem;
+    list-style: disc;
+    font-size: 0.9rem;
+}
+
+.ch12-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.ch12-item--done label {
+    text-decoration: line-through;
+    color: var(--bd-muted);
+}
+
+.ch12-item__id {
+    font-family: var(--bd-mono);
+    font-size: 0.75rem;
+    background: var(--bd-code-bg);
+    border-radius: 4px;
+    padding: 0 0.3rem;
+}
+
+.ch12-item__remove {
+    margin-left: auto;
+}
+
+.ch12-add {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.ch12-add input {
+    flex: 1;
+    min-width: 0;
+    font: inherit;
+    padding: 0.35rem 0.5rem;
+    border: 1px solid var(--bd-border-strong);
+    border-radius: 6px;
+    background: var(--bd-surface);
+    color: var(--bd-text);
+}
+
+.ch12-empty {
+    color: var(--bd-muted);
+}

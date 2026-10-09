@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    The client side of Chapter 11's components, with no UI dependencies: it projects the conversation's
+    tool calls (Beacon.Client.Core's ToolCalls slice) into generated components, completes half-streamed
+    arguments into drafts, and builds the view models both Beacon Desk (Blazor) and Beacon Field
+    (.NET MAUI) render. Tested without either UI framework.
+  -->
+  <PropertyGroup>
+    <RootNamespace>Ch11.Beacon.ComponentViews</RootNamespace>
+    <IsAotCompatible>true</IsAotCompatible>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Beacon.Client.Core\Beacon.Client.Core.csproj" />
+    <ProjectReference Include="..\Ch11.Beacon.Components\Ch11.Beacon.Components.csproj" />
+  </ItemGroup>
+
+</Project>

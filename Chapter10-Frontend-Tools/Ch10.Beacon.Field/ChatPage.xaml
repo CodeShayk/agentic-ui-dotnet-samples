@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="Ch10.Beacon.Field.ChatPage"
+             xmlns:local="clr-namespace:Ch10.Beacon.Field"
+             Title="Beacon Field">
+
+    <Grid RowDefinitions="Auto,*,Auto,Auto" Padding="12" RowSpacing="8">
+
+        <Label x:Name="StatusLabel"
+               Grid.Row="0"
+               Text="Ready"
+               FontSize="13"
+               SemanticProperties.Description="Conversation status" />
+
+        <CollectionView x:Name="Transcript" Grid.Row="1" ItemsUpdatingScrollMode="KeepLastItemInView">
+            <CollectionView.EmptyView>
+                <Label Text="Ask Beacon about a job, or to use this phone: your location, the camera or a part label."
+                       Margin="0,24" HorizontalTextAlignment="Center" />
+            </CollectionView.EmptyView>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="local:FieldLine">
+                    <VerticalStackLayout Padding="4,6" Spacing="2">
+                        <Label Text="{Binding Author}" FontAttributes="Bold" FontSize="12" />
+                        <Label Text="{Binding Text}" LineBreakMode="WordWrap" />
+                    </VerticalStackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <FlexLayout x:Name="Suggestions" Grid.Row="2" Wrap="Wrap" JustifyContent="Start" />
+
+        <Grid Grid.Row="3" ColumnDefinitions="*,Auto,Auto" ColumnSpacing="8">
+            <Entry x:Name="Composer"
+                   Placeholder="Ask Beacon"
+                   ReturnType="Send"
+                   Completed="OnSendClicked"
+                   SemanticProperties.Description="Message to Beacon" />
+            <Button x:Name="SendButton" Grid.Column="1" Text="Send" Clicked="OnSendClicked" />
+            <Button x:Name="StopButton" Grid.Column="2" Text="Stop" Clicked="OnStopClicked" IsEnabled="False" />
+        </Grid>
+    </Grid>
+
+</ContentPage>

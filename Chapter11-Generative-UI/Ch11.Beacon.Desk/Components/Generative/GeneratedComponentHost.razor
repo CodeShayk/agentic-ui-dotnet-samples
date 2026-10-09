@@ -1,0 +1,40 @@
+@*
+    Renders one generated component. A registered component with something to draw goes through
+    DynamicComponent, inside an ErrorBoundary so a component that throws costs one card, not the page.
+    A known component with nothing renderable yet gets a placeholder; everything else gets the fallback.
+*@
+<div class="ch11-generated" data-tool="@Component.ToolName" data-phase="@Component.Phase.ToString().ToLowerInvariant()">
+    @if (Component.IsKnown
+         && Component.View is not null
+         && Component.Phase is ComponentPhase.Drafting or ComponentPhase.Validating or ComponentPhase.Ready
+         && Registry.TryResolve(Component.ToolName, out var registration))
+    {
+        <ErrorBoundary>
+            <ChildContent>
+                <DynamicComponent Type="registration.ComponentType" Parameters="registration.ParametersFor(Component, OnAction)" />
+            </ChildContent>
+            <ErrorContent>
+                <ComponentFallback Component="Component" Reason="This view failed to draw. The rest of the conversation is unaffected." />
+            </ErrorContent>
+        </ErrorBoundary>
+    }
+    else if (Component.IsKnown && Component.IsDraft)
+    {
+        <div class="ch11-card ch11-placeholder">
+            <span class="ch11-skeleton ch11-skeleton--wide" aria-hidden="true"></span>
+            <span class="ch11-placeholder__text">Preparing a @Component.DisplayName…</span>
+        </div>
+    }
+    else
+    {
+        <ComponentFallback Component="Component" />
+    }
+</div>
+
+@code {
+    [Inject] private ComponentRegistry Registry { get; set; } = default!;
+
+    [Parameter, EditorRequired] public GeneratedComponent Component { get; set; } = default!;
+
+    [Parameter] public EventCallback<ComponentActionRequest> OnAction { get; set; }
+}

@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Chapter 27: where Beacon Field finds its agent. A .NET MAUI app has no hosting environment to read at
+    startup, so the environment is a build decision: one settings file per environment, chosen by the
+    BeaconEnvironment property and embedded under one name, so a staging build can't point at production.
+      dotnet build -p:BeaconEnvironment=Staging      (or Production; Development is the default)
+    A plain class library, so it is testable without the MAUI workload, for Beacon Field's app project to reference.
+  -->
+  <PropertyGroup>
+    <RootNamespace>Ch27.Beacon.Field.Core</RootNamespace>
+    <BeaconEnvironment Condition="'$(BeaconEnvironment)' == ''">Development</BeaconEnvironment>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="appsettings.$(BeaconEnvironment).json" LogicalName="appsettings.json" />
+    <None Remove="appsettings.*.json" />
+  </ItemGroup>
+
+  <!-- A misspelled environment would otherwise build an app with no settings at all. -->
+  <Target Name="CheckBeaconEnvironment" BeforeTargets="BeforeBuild">
+    <Error Condition="!Exists('appsettings.$(BeaconEnvironment).json')"
+           Text="No appsettings.$(BeaconEnvironment).json for BeaconEnvironment=$(BeaconEnvironment)." />
+  </Target>
+
+</Project>

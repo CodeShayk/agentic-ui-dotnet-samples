@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    What a tool call looks like to a person, decided once for every Beacon client: a status headline
+    (with a preview while the arguments stream) and a typed result card. No UI framework: Beacon Desk
+    renders these models as Razor components, and Beacon Field can bind the same models in XAML.
+  -->
+  <PropertyGroup>
+    <RootNamespace>Ch09.Beacon.ToolCards</RootNamespace>
+    <!-- .NET MAUI and Blazor WebAssembly trim; the analyzers keep this library safe for both. -->
+    <IsAotCompatible>true</IsAotCompatible>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Beacon.Client.Core\Beacon.Client.Core.csproj" />
+  </ItemGroup>
+
+</Project>

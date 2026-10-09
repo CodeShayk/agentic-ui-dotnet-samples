@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <!--
+    Chapter 27: Part V's Beacon in one agent, ready for a container. It combines
+      - Chapter 22's durable store (Conversations/), holding Chapter 23's per-user transcript,
+      - Chapter 23's identity and hardening (Security/, Runs/): bearer tokens, validation, approvals and grants,
+        caller-scoped tools, per-user rate limits and redacted logs,
+      - Chapter 24's transports (Streaming/, Pipeline/): SSE or protobuf, an early RUN_STARTED, heartbeats,
+        a per-user run ledger and a per-replica concurrency limit,
+      - Chapter 25's telemetry (Telemetry/): the content gate, the enforced log cap, ErrorDetailRedactor and run cost,
+    with this chapter's run budget, drain and probes (Hosting/). Build an image without a Dockerfile:
+      dotnet publish -c Release -t:PublishContainer
+    Development tokens: dotnet user-jwts create (Chapter 23, section 23.3).
+  -->
+  <PropertyGroup>
+    <RootNamespace>Ch27.Beacon.Agent</RootNamespace>
+    <UserSecretsId>beacon-ch27-agent</UserSecretsId>
+  </PropertyGroup>
+
+  <!-- The .NET SDK's container support: the image is built from these settings, no Dockerfile. -->
+  <PropertyGroup>
+    <ContainerRepository>contoso/beacon-agent</ContainerRepository>
+    <!-- Ubuntu 26.04 chiseled: no shell, no package manager, non-root by default. "extra" keeps ICU and time zones. -->
+    <ContainerFamily>resolute-chiseled-extra</ContainerFamily>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
+    <PackageReference Include="Microsoft.Extensions.Compliance.Redaction" />
+    <PackageReference Include="Microsoft.Extensions.Telemetry" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Ch27.ServiceDefaults\Ch27.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.Domain\Beacon.Domain.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.AI\Beacon.AI.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.AGUI.Hosting\Beacon.AGUI.Hosting.csproj" />
+  </ItemGroup>
+
+</Project>

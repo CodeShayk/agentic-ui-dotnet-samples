@@ -1,0 +1,21 @@
+@*
+    The work area: what Beacon accepts and why the limits look the way they do. The numbers come from
+    the same MediaPolicy the agent enforces, so the page can't drift from the server.
+*@
+@inject MediaPolicy Policy
+
+<div class="bd-card">
+    <h1>Attachments</h1>
+    <p class="bd-card__meta">Send Beacon a photo of a nameplate, a recording of a noise or a manufacturer's PDF.</p>
+    <ul class="ch17-guide">
+        @foreach (var rule in Policy.Accepted)
+        {
+            <li><strong>@rule.Label</strong> <span class="ch17-guide__type">@rule.MediaType</span>, up to @ByteSize.Format(rule.MaxBytes)</li>
+        }
+    </ul>
+    <p>
+        Up to @Policy.MaxPartsPerMessage attachments per message, and @ByteSize.Format(Policy.MaxBytesPerRequest) per
+        conversation: Beacon has no memory between messages, so every earlier attachment travels again with each new one.
+    </p>
+    <p>Large photos are resized to 2048 pixels before they're sent. Video isn't accepted.</p>
+</div>

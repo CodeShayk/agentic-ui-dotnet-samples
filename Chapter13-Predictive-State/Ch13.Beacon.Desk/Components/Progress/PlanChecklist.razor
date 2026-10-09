@@ -1,0 +1,54 @@
+@inherits ProgressPanel<PlanView?>
+@*
+    The agent's diagnostic plan, from state.plan. The agent writes the steps and checks them off; the
+    panel only shows them. Status is carried by text as well as by the mark, for screen readers and
+    for anyone who doesn't see the colors.
+*@
+<section class="bd-card ch13-panel ch13-plan" aria-labelledby="ch13-plan-title" data-renders="@CountRender()">
+    <h2 id="ch13-plan-title" class="ch13-panel__title">Diagnostic plan</h2>
+    @if (Gate.Current is not { } plan)
+    {
+        <p class="ch13-empty">When Beacon starts a diagnosis, its plan appears here and checks itself off.</p>
+    }
+    else
+    {
+        <p class="ch13-panel__meta">@plan.WorkOrderId · @plan.DoneCount of @plan.Steps.Count steps done</p>
+        <progress class="ch13-plan__progress" max="@plan.Steps.Count" value="@plan.DoneCount"
+                  aria-label="Plan progress">@plan.DoneCount of @plan.Steps.Count</progress>
+        <ol class="ch13-plan__steps">
+            @for (var i = 0; i < plan.Steps.Count; i++)
+            {
+                var step = plan.Steps[i];
+                <li @key="i" class="ch13-step ch13-step--@Css(step.Status, plan.IsRunning)">
+                    <span class="ch13-step__mark" aria-hidden="true"></span>
+                    <span class="ch13-step__body">
+                        <span class="ch13-step__title">@step.Title<span class="bd-visually-hidden">, @Label(step.Status, plan.IsRunning)</span></span>
+                        @if (step.Note is { } note)
+                        {
+                            <span class="ch13-step__note">@note</span>
+                        }
+                    </span>
+                </li>
+            }
+        </ol>
+    }
+</section>
+
+@code {
+    protected override PlanView? Project(ConversationView view) => PlanView.From(view);
+
+    // A step still in progress when the turn has ended was cut off (Stop, an error): it stops spinning.
+    private static string Css(PlanStepStatus status, bool running) => status switch
+    {
+        PlanStepStatus.Done => "done",
+        PlanStepStatus.InProgress => running ? "active" : "stopped",
+        _ => "pending",
+    };
+
+    private static string Label(PlanStepStatus status, bool running) => status switch
+    {
+        PlanStepStatus.Done => "done",
+        PlanStepStatus.InProgress => running ? "in progress" : "stopped before it finished",
+        _ => "not started",
+    };
+}

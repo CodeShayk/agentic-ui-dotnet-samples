@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Chapter 23: the security policy both of the chapter's hosts share. Identity from the authenticated
+    principal, validation of RunAgentInput, a server-side transcript keyed by user and thread, approvals
+    bound to the user, the thread and the exact arguments, caller-scoped tools, output filtering and
+    classified (redacted) logging.
+  -->
+  <PropertyGroup>
+    <RootNamespace>Ch23.Beacon.Security</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AGUI.Abstractions" />
+    <PackageReference Include="AGUI.Server" />
+    <PackageReference Include="Microsoft.Extensions.AI" />
+    <PackageReference Include="Microsoft.Extensions.Compliance.Redaction" />
+    <PackageReference Include="Microsoft.Extensions.Telemetry" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Beacon.AI\Beacon.AI.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.Domain\Beacon.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

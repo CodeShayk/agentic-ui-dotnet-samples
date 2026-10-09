@@ -1,0 +1,42 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Chapter 20's proof: the validator on both ends (an unknown element degrades, a malformed, oversized or
+    executable tree is rejected), the data model and its bindings, the Blazor renderer with bUnit, the
+    surface's wire shape on the in-process agent and in streams captured with curl -N, and the round trip
+    from a submitted form back to the agent and its refusals. No model, no browser, no network, except
+    Browser/, which runs the agent and the Desk in headless Edge (Chapter 6's setup) when RUN_E2E_TESTS=true.
+  -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Ch20.Tests</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="xunit.v3" />
+    <PackageReference Include="bunit" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
+    <PackageReference Include="Microsoft.Extensions.TimeProvider.Testing" />
+    <PackageReference Include="AGUI.Client" />
+    <PackageReference Include="AGUI.Formatting" />
+    <PackageReference Include="Microsoft.Extensions.AI" />
+    <PackageReference Include="Microsoft.Playwright" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Beacon.Client.Core\Beacon.Client.Core.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.Testing\Beacon.Testing.csproj" />
+    <ProjectReference Include="..\Ch20.DeclarativeUi\Ch20.DeclarativeUi.csproj" />
+    <ProjectReference Include="..\Ch20.Beacon.Agent\Ch20.Beacon.Agent.csproj" />
+    <ProjectReference Include="..\Ch20.Beacon.Desk\Ch20.Beacon.Desk.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Recordings\*" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>

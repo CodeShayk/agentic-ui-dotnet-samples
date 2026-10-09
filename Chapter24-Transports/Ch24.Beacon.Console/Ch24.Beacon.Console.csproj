@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Chapter 24: a console client that negotiates protobuf with AGUIEventStreamHandler the way Beacon
+    Field does, shows what a 406 looks like and how to read it, measures time to headers, RUN_STARTED,
+    first text and completion plus bytes per run, compares Chapter 4's glue with this chapter's
+    endpoint and runs a small concurrent load test against a first-token budget. No third-party
+    load-testing tools: HttpClient, Stopwatch and Task.WhenAll.
+  -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Ch24.Beacon.Console</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AGUI.Client" />
+    <PackageReference Include="AGUI.Formatting" />
+    <PackageReference Include="AGUI.Protobuf" />
+    <PackageReference Include="Microsoft.Extensions.AI" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    The online AGUIStreamOptions Cookbook: one recipe per AGUIStreamOptions hook, plus the RawRepresentation pass-through.
+    Each recipe is a static class with an Apply(AGUIStreamOptions) method, so the same mappers work behind
+    the book's MapAGUIEndpoint (a fresh instance per request) and behind Agent Framework's MapAGUIServer
+    (services.Configure<AGUIStreamOptions>(...) or endpoint metadata). No ASP.NET Core dependency: the
+    hooks belong to AGUI.Server, which converts streams and knows nothing about HTTP.
+  -->
+  <PropertyGroup>
+    <RootNamespace>StreamOptionsCookbook</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AGUI.Abstractions" />
+    <PackageReference Include="AGUI.Server" />
+    <PackageReference Include="Microsoft.Extensions.AI" />
+    <!-- Only for the argument-streaming recipe, which reads the OpenAI SDK's raw chunks. -->
+    <PackageReference Include="OpenAI" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <!--
+    Beacon Desk for Chapter 9: Chapter 7's chat, with each tool call rendered as a status chip and,
+    once its result arrives, a card (work order, parts table, warranty badge). The cards come from
+    Ch09.Beacon.ToolCards; in-progress calls are visible through Beacon.Client.Core's WireEventTap.
+    Interactive Server.
+  -->
+  <PropertyGroup>
+    <RootNamespace>Ch09.Beacon.Desk</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Ch09.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AGUI.Client" />
+    <PackageReference Include="Microsoft.Extensions.AI" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Beacon.Desk.Ui\Beacon.Desk.Ui.csproj" />
+    <ProjectReference Include="..\..\Shared\Beacon.Client.Core\Beacon.Client.Core.csproj" />
+    <ProjectReference Include="..\Ch09.Beacon.ToolCards\Ch09.Beacon.ToolCards.csproj" />
+  </ItemGroup>
+
+</Project>

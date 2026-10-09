@@ -1,0 +1,50 @@
+@*
+    The specialist board: the coordinator's steps across the top, then one lane per subagent invocation,
+    grouped by the run it started in (newest first, older runs collapsed). A polite live region says when a
+    lane finishes, fails or starts waiting, so a screen reader user hears it without watching the board.
+*@
+@{
+    var board = Project(Conversation.View);
+}
+<section class="ch18-board" aria-labelledby="ch18-board-title">
+    <header class="ch18-board__header">
+        <h2 id="ch18-board-title" class="ch18-board__title">Specialists</h2>
+        @if (board.Steps.Count > 0)
+        {
+            <ol class="ch18-steps" aria-label="What the coordinator is doing">
+                @foreach (var step in board.Steps)
+                {
+                    <li class="ch18-step @(step.IsActive ? "ch18-step--active" : "ch18-step--done")">
+                        @step.Label<span class="bd-visually-hidden">@(step.IsActive ? ", in progress" : ", done")</span>
+                    </li>
+                }
+            </ol>
+        }
+    </header>
+
+    @if (board.IsEmpty)
+    {
+        <p class="ch18-board__empty">When Beacon hands work to its specialists, each one gets a lane here.</p>
+    }
+
+    @for (var i = board.Runs.Count - 1; i >= 0; i--)
+    {
+        var run = board.Runs[i];
+        var latest = i == board.Runs.Count - 1;
+        <details @key="run.RunId" class="ch18-run" open="@latest">
+            <summary class="ch18-run__summary">@RunTitle(run, latest)</summary>
+            <div class="ch18-lanes">
+                @foreach (var lane in run.Lanes)
+                {
+                    <SpecialistLaneView @key="lane.SubagentRunId"
+                                        Lane="lane"
+                                        Busy="@(Conversation.View.IsBusy || !RendererInfo.IsInteractive)"
+                                        OnApprove="ApproveAsync"
+                                        OnDecline="DeclineAsync" />
+                }
+            </div>
+        </details>
+    }
+
+    <div class="bd-visually-hidden" aria-live="polite" aria-atomic="true">@_announcement</div>
+</section>

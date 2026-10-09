@@ -1,0 +1,77 @@
+@*
+    Beacon Desk's chat with the coordinator. The specialists work on the board beside it; the header says
+    how many are busy. While one waits for an approval the composer is disabled, because the thread can't
+    move on until the approval is answered, and a button above it takes keyboard focus to the approval.
+*@
+@{
+    var view = Conversation.View;
+    var transcript = Project(view);
+    var working = view.Subagents.Count(s => s.Status == SubagentStatus.Running);
+    var pending = view.OpenInterrupts.FirstOrDefault();
+    var waiting = pending is not null;
+}
+<ChatPanel @ref="_panel"
+           Messages="transcript.Messages"
+           Streaming="transcript.Streaming"
+           Status="StatusOf(view)"
+           ThreadId="@view.ThreadId"
+           RunId="@view.CurrentRun?.RunId"
+           Error="@ErrorOf(view)"
+           Disabled="@(!RendererInfo.IsInteractive || waiting)"
+           Placeholder="@(waiting ? "Answer the approval on the board first" : "Ask Beacon a question")"
+           OnSend="SendAsync"
+           OnStop="Conversation.Stop"
+           OnNewChat="NewChat">
+    <HeaderContent>
+        @if (waiting)
+        {
+            <span class="bd-badge ch18-badge--waiting">Waiting for your approval</span>
+        }
+        else if (working > 0)
+        {
+            <span class="bd-badge">@(working == 1 ? "1 specialist working" : $"{working} specialists working")</span>
+        }
+    </HeaderContent>
+    <EmptyContent>
+        <p>Ask Beacon to line up a job, or try one of these:</p>
+        <ul class="bd-suggestions">
+            @foreach (var prompt in Suggestions)
+            {
+                <li>
+                    <button type="button"
+                            class="bd-button bd-suggestion"
+                            disabled="@(!RendererInfo.IsInteractive)"
+                            @onclick="() => SendAsync(prompt)">@prompt</button>
+                </li>
+            }
+        </ul>
+    </EmptyContent>
+    <MessageTemplate Context="message">
+        @if (message.Author == ChatAuthor.Assistant)
+        {
+            <span class="ch18-by ch18-by--coordinator">Coordinator</span>
+            <MarkdownView Markdown="@message.Text" />
+        }
+        else
+        {
+            <p class="bd-message__text">@message.Text</p>
+        }
+    </MessageTemplate>
+    <AfterMessages>
+        @if (pending is not null)
+        {
+            <p class="ch18-goto">
+                <button type="button" class="bd-button" @onclick="() => GoToApprovalAsync(pending)">@GoToLabel(view, pending)</button>
+            </p>
+        }
+    </AfterMessages>
+</ChatPanel>
+
+@code {
+    private static readonly string[] Suggestions =
+    [
+        "Line up everything for WO-1001's capacitor swap: parts, a slot and the warranty.",
+        "Priya says the compressor on WO-1001 is seized. Order a replacement compressor, find her a slot and check the warranty.",
+        "Line up everything for WO-1005's compressor: parts, a slot and the warranty.",
+    ];
+}

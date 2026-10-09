@@ -1,0 +1,26 @@
+data: {"type":"RUN_STARTED","threadId":"t-1","runId":"r-5","protocolVersion":"1.0"}
+
+data: {"type":"ACTIVITY_SNAPSHOT","messageId":"activity-r5-1","activityType":"parts-search","content":{"query":"run capacitor","model":"CA-36X","found":0,"status":"searching"}}
+
+data: {"type":"ACTIVITY_DELTA","messageId":"activity-r5-1","activityType":"parts-search","patch":[{"op":"replace","path":"/found","value":1},{"op":"replace","path":"/status","value":"done"}]}
+
+data: {"type":"TEXT_MESSAGE_START","messageId":"msg-r5-1","role":"assistant"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-r5-1","delta":"CAP-45-5, a 45/5 "}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-r5-1","delta":"uF dual run "}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-r5-1","delta":"capacitor, fits the "}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-r5-1","delta":"CA-36X. It costs "}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-r5-1","delta":"$38.50 and 24 "}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-r5-1","delta":"are in stock "}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"msg-r5-1","delta":"in Portsmouth."}
+
+data: {"type":"TEXT_MESSAGE_END","messageId":"msg-r5-1"}
+
+data: {"type":"RUN_FINISHED","threadId":"t-1","runId":"r-5"}
+

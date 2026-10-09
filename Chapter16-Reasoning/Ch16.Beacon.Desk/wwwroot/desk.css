@@ -1,0 +1,113 @@
+/* Chapter 16 additions to Beacon Desk: the "How I got here" panel and the reasoning ledger. Colors come from
+   Beacon.Desk.Ui's tokens, so light and dark themes both work. */
+
+.ch16-reasoning {
+    margin: 0 0 8px;
+    border: 1px solid var(--bd-border);
+    border-radius: var(--bd-radius);
+    background: var(--bd-surface-alt);
+}
+
+.ch16-reasoning__toggle {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    width: 100%;
+    padding: 6px 10px;
+    border: 0;
+    border-radius: var(--bd-radius);
+    background: transparent;
+    color: var(--bd-text);
+    font: inherit;
+    font-size: 0.85rem;
+    text-align: left;
+    cursor: pointer;
+}
+
+.ch16-reasoning__toggle:focus-visible {
+    outline: 2px solid var(--bd-focus);
+    outline-offset: 2px;
+}
+
+.ch16-reasoning__chevron::before {
+    content: "\25B8";
+    display: inline-block;
+    color: var(--bd-muted);
+    transition: transform 120ms ease-out;
+}
+
+.ch16-reasoning--open .ch16-reasoning__chevron::before {
+    transform: rotate(90deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ch16-reasoning__chevron::before {
+        transition: none;
+    }
+}
+
+.ch16-reasoning__label {
+    font-weight: 600;
+}
+
+.ch16-reasoning__status {
+    color: var(--bd-muted);
+}
+
+.ch16-reasoning__body {
+    padding: 0 12px 10px 28px;
+    font-size: 0.85rem;
+    color: var(--bd-muted);
+}
+
+.ch16-reasoning__steps {
+    display: grid;
+    gap: 6px;
+    margin: 0;
+    padding-left: 18px;
+}
+
+.ch16-step--lookup {
+    font-style: italic;
+}
+
+.ch16-step__withheld {
+    font-style: italic;
+}
+
+.ch16-reasoning__sealed {
+    margin: 8px 0 0;
+    padding-top: 8px;
+    border-top: 1px dashed var(--bd-border);
+    font-size: 0.8rem;
+}
+
+.ch16-ledger {
+    display: grid;
+    gap: 10px;
+}
+
+.ch16-ledger__title {
+    margin: 0;
+    font-size: 1rem;
+}
+
+.ch16-ledger__intro,
+.ch16-ledger__empty {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--bd-muted);
+}
+
+.ch16-ledger__table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+}
+
+.ch16-ledger__table th,
+.ch16-ledger__table td {
+    padding: 4px 6px;
+    border-bottom: 1px solid var(--bd-border);
+    text-align: left;
+}
