@@ -4,7 +4,7 @@ The runnable code for every chapter of *AG-UI in .NET*. One solution, `AGUI-in-D
 
 ## Requirements
 
-- **.NET 11 SDK** (the book targets `net11.0`). Until .NET 11 reaches general availability, use 11.0 RC1 (`11.0.100-rc.1.26425.128`), which has a go-live license. `global.json` pins it and rolls forward to newer feature bands.
+- **.NET 11 SDK** (the book targets `net11.0`). Use SDK 11.0.1xx (`11.0.100` or later). `global.json` pins `11.0.100` and rolls forward to newer feature bands.
 - **.NET MAUI workload** for the Beacon Field chapters: `dotnet workload install maui-windows` (add `maui-android` or `maui-ios` for mobile targets).
 - No model or API key is needed to run anything. Every agent defaults to Beacon's scripted model; Chapter 5 shows how to switch to Ollama, Azure OpenAI or OpenAI.
 
