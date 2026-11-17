@@ -39,10 +39,19 @@ props.write_text(text.replace('<BeaconTargetFramework>net11.0</BeaconTargetFrame
 # 3. The nine release-candidate pins.
 packages = dst / 'Directory.Packages.props'
 text = packages.read_text(encoding='utf-8')
-n_aspnet = text.count('Version="11.0.0-rc.1.26425.128"')
-n_maui = text.count('Version="11.0.0-rc.1.26451.6"')
-text = text.replace('Version="11.0.0-rc.1.26425.128"', 'Version="10.0.12"')
-text = text.replace('Version="11.0.0-rc.1.26451.6"', 'Version="10.0.110"')
+maui_ids = ('Microsoft.Maui.Controls', 'Microsoft.AspNetCore.Components.WebView.Maui')
+pin = re.compile(r'(<PackageVersion Include="(Microsoft\.AspNetCore\.[^"]*|Microsoft\.Maui\.Controls|Microsoft\.Extensions\.Logging\.Debug)" Version=")11\.0\.\d+[^"]*(")')
+counts = {'aspnet': 0, 'maui': 0}
+
+
+def repin(m):
+    is_maui = m.group(2) in maui_ids
+    counts['maui' if is_maui else 'aspnet'] += 1
+    return m.group(1) + ('10.0.110' if is_maui else '10.0.12') + m.group(3)
+
+
+text = pin.sub(repin, text)
+n_aspnet, n_maui = counts['aspnet'], counts['maui']
 packages.write_text(text, encoding='utf-8')
 print('pins replaced:', n_aspnet, '+', n_maui)
 
